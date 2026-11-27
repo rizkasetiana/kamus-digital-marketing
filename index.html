@@ -396,7 +396,7 @@
                         </div>
                         <div>
                             <h2 class="text-xl font-bold text-slate-900">Kalkulator Simulasi Metrik Digital Marketing</h2>
-                            <p class="text-xs sm:text-sm text-slate-600">Masukkan angka performa kampanye untuk langsung melihat hasil hitung rumus utama.</p>
+                            <p class="text-xs sm:text-sm text-slate-600">Pilih menu rumus di bawah atau isi angka kampanye untuk menghitung semua metrik sekaligus.</p>
                         </div>
                     </div>
                     <button onclick="fillSampleCalculator()" class="px-4 py-2 rounded-xl bg-amber-300 hover:bg-amber-400 text-slate-900 text-xs font-bold cartoon-btn self-start sm:self-auto flex items-center gap-1.5">
@@ -404,37 +404,62 @@
                     </button>
                 </div>
 
+                <!-- Formula Quick Menu Selector (Keeps All Calculators Accessible) -->
+                <div class="mt-4 space-y-2">
+                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                            <i class="fa-solid fa-list-check text-indigo-600"></i> Menu Rumus Kalkulator:
+                        </span>
+                        <span id="activeCalcFormulaHint" class="text-xs font-mono font-bold text-indigo-800 bg-indigo-50 border border-slate-900 px-2.5 py-0.5 rounded-lg">
+                            Menampilkan Semua Rumus
+                        </span>
+                    </div>
+                    <div id="calcMenuPills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <button type="button" data-calc-menu="all" onclick="selectCalcFormulaMenu('all')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">Semua Rumus</button>
+                        <button type="button" data-calc-menu="roas" onclick="selectCalcFormulaMenu('roas')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-emerald-50 border-2 border-slate-900">ROAS</button>
+                        <button type="button" data-calc-menu="ctr" onclick="selectCalcFormulaMenu('ctr')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900">CTR</button>
+                        <button type="button" data-calc-menu="cpc" onclick="selectCalcFormulaMenu('cpc')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900">CPC</button>
+                        <button type="button" data-calc-menu="cpm" onclick="selectCalcFormulaMenu('cpm')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900">CPM</button>
+                        <button type="button" data-calc-menu="cvr" onclick="selectCalcFormulaMenu('cvr')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-emerald-50 border-2 border-slate-900">CVR</button>
+                        <button type="button" data-calc-menu="cpa" onclick="selectCalcFormulaMenu('cpa')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-sky-50 border-2 border-slate-900">CPA / CAC</button>
+                        <button type="button" data-calc-menu="aov" onclick="selectCalcFormulaMenu('aov')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900">AOV</button>
+                        <button type="button" data-calc-menu="cir" onclick="selectCalcFormulaMenu('cir')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border-2 border-slate-900">CIR</button>
+                        <button type="button" data-calc-menu="bounce" onclick="selectCalcFormulaMenu('bounce')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-rose-50 border-2 border-slate-900">Bounce Rate</button>
+                        <button type="button" data-calc-menu="ltvcac" onclick="selectCalcFormulaMenu('ltvcac')" class="calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-indigo-50 border-2 border-slate-900">CLTV / CAC</button>
+                    </div>
+                </div>
+
                 <!-- Input Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
-                    <div>
+                    <div id="calcInputWrapSpend" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Ad Spend / Biaya Iklan (Rp)</label>
                         <input type="number" id="calcSpend" oninput="calculateMetrics()" placeholder="Contoh: 5000000" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapImpressions" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Impressions (Tayangan)</label>
                         <input type="number" id="calcImpressions" oninput="calculateMetrics()" placeholder="Contoh: 250000" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapClicks" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Clicks / Views (Klik / Tonton)</label>
                         <input type="number" id="calcClicks" oninput="calculateMetrics()" placeholder="Contoh: 5000" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapConversions" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Conversions / Orders (Transaksi)</label>
                         <input type="number" id="calcConversions" oninput="calculateMetrics()" placeholder="Contoh: 125" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapRevenue" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Gross Revenue / Omzet (Rp)</label>
                         <input type="number" id="calcRevenue" oninput="calculateMetrics()" placeholder="Contoh: 25000000" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapSessions" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Total Sessions (Sesi Website)</label>
                         <input type="number" id="calcSessions" oninput="calculateMetrics()" placeholder="Contoh: 4500" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapBounces" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Bounced Sessions (Keluar 1 Hal.)</label>
                         <input type="number" id="calcBounces" oninput="calculateMetrics()" placeholder="Contoh: 1800" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
-                    <div>
+                    <div id="calcInputWrapCltv" class="calc-input-wrap transition">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">CLTV / Profit Pelanggan (Rp)</label>
                         <input type="number" id="calcCltv" oninput="calculateMetrics()" placeholder="Contoh: 150000" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                     </div>
@@ -442,52 +467,52 @@
 
                 <!-- Results Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t-2 border-slate-200">
-                    <div class="bg-amber-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCtr" class="calc-res-card bg-amber-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CTR (Click-Through Rate)</div>
                         <div id="resCtr" class="text-2xl font-extrabold text-amber-700 mt-1">0.00%</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">(Clicks ÷ Impressions) × 100%</div>
                     </div>
-                    <div class="bg-amber-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCpc" class="calc-res-card bg-amber-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CPC (Cost Per Click)</div>
                         <div id="resCpc" class="text-2xl font-extrabold text-amber-700 mt-1">Rp 0</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">Ad Spend ÷ Clicks</div>
                     </div>
-                    <div class="bg-amber-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCpm" class="calc-res-card bg-amber-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CPM (Cost Per Mille)</div>
                         <div id="resCpm" class="text-2xl font-extrabold text-amber-700 mt-1">Rp 0</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">(Ad Spend ÷ Impressions) × 1.000</div>
                     </div>
-                    <div class="bg-emerald-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCvr" class="calc-res-card bg-emerald-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CVR (Conversion Rate)</div>
                         <div id="resCvr" class="text-2xl font-extrabold text-emerald-700 mt-1">0.00%</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">(Conversions ÷ Clicks) × 100%</div>
                     </div>
-                    <div class="bg-sky-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCpa" class="calc-res-card bg-sky-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CPA / CPO / CAC</div>
                         <div id="resCpa" class="text-2xl font-extrabold text-sky-700 mt-1">Rp 0</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">Ad Spend ÷ Conversions</div>
                     </div>
-                    <div class="bg-emerald-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardRoas" class="calc-res-card bg-emerald-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">ROAS (Return on Ad Spend)</div>
                         <div id="resRoas" class="text-2xl font-extrabold text-emerald-700 mt-1">0.00x (0%)</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">Gross Revenue ÷ Ad Spend</div>
                     </div>
-                    <div class="bg-amber-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardAov" class="calc-res-card bg-amber-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">AOV (Average Order Value)</div>
                         <div id="resAov" class="text-2xl font-extrabold text-amber-700 mt-1">Rp 0</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">Gross Revenue ÷ Orders</div>
                     </div>
-                    <div class="bg-slate-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardCir" class="calc-res-card bg-slate-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CIR (Cost Income Ratio)</div>
                         <div id="resCir" class="text-2xl font-extrabold text-slate-800 mt-1">0.00%</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">(Ad Spend ÷ Revenue) × 100%</div>
                     </div>
-                    <div class="bg-rose-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardBounce" class="calc-res-card bg-rose-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">Bounce Rate</div>
                         <div id="resBounce" class="text-2xl font-extrabold text-rose-700 mt-1">0.00%</div>
                         <div class="text-[11px] font-mono text-slate-500 mt-1">(Bounces ÷ Sessions) × 100%</div>
                     </div>
-                    <div class="bg-indigo-50 rounded-xl p-4 border-2 border-slate-900">
+                    <div id="resCardLtvcac" class="calc-res-card bg-indigo-50 rounded-xl p-4 border-2 border-slate-900 transition">
                         <div class="text-xs font-bold text-slate-600 uppercase">CLTV / CAC Ratio</div>
                         <div id="resLtvCac" class="text-2xl font-extrabold text-indigo-700 mt-1">0.00x</div>
                         <div id="resLtvCacNote" class="text-[11px] text-slate-500 mt-1">Ideal sehat: ≥ 3.0x</div>
@@ -967,6 +992,7 @@
         let onlyWithFormula = false;
         let searchQuery = '';
         let forceShowAll = false;
+        let activeCalcMenu = 'all';
 
         let cloudConfig = {
             sheetUrl: DEFAULT_SHEET_URL,
@@ -1018,6 +1044,64 @@
             'bg-purple-400',
             'bg-orange-400'
         ];
+
+        const CALC_FORMULA_CONFIG = {
+            all: {
+                hint: 'Menampilkan Semua Rumus',
+                inputs: ['Spend', 'Impressions', 'Clicks', 'Conversions', 'Revenue', 'Sessions', 'Bounces', 'Cltv'],
+                cards: ['Ctr', 'Cpc', 'Cpm', 'Cvr', 'Cpa', 'Roas', 'Aov', 'Cir', 'Bounce', 'Ltvcac']
+            },
+            roas: {
+                hint: 'ROAS = Gross Revenue ÷ Ad Spend',
+                inputs: ['Revenue', 'Spend'],
+                cards: ['Roas']
+            },
+            ctr: {
+                hint: 'CTR = (Clicks ÷ Impressions) × 100%',
+                inputs: ['Clicks', 'Impressions'],
+                cards: ['Ctr']
+            },
+            cpc: {
+                hint: 'CPC = Ad Spend ÷ Clicks',
+                inputs: ['Spend', 'Clicks'],
+                cards: ['Cpc']
+            },
+            cpm: {
+                hint: 'CPM = (Ad Spend ÷ Impressions) × 1.000',
+                inputs: ['Spend', 'Impressions'],
+                cards: ['Cpm']
+            },
+            cvr: {
+                hint: 'CVR = (Conversions ÷ Clicks) × 100%',
+                inputs: ['Conversions', 'Clicks'],
+                cards: ['Cvr']
+            },
+            cpa: {
+                hint: 'CPA / CAC = Ad Spend ÷ Conversions',
+                inputs: ['Spend', 'Conversions'],
+                cards: ['Cpa']
+            },
+            aov: {
+                hint: 'AOV = Gross Revenue ÷ Orders',
+                inputs: ['Revenue', 'Conversions'],
+                cards: ['Aov']
+            },
+            cir: {
+                hint: 'CIR = (Ad Spend ÷ Revenue) × 100%',
+                inputs: ['Spend', 'Revenue'],
+                cards: ['Cir']
+            },
+            bounce: {
+                hint: 'Bounce Rate = (Bounces ÷ Sessions) × 100%',
+                inputs: ['Bounces', 'Sessions'],
+                cards: ['Bounce']
+            },
+            ltvcac: {
+                hint: 'CLTV / CAC Ratio = CLTV ÷ CAC (CPA)',
+                inputs: ['Cltv', 'Spend', 'Conversions'],
+                cards: ['Ltvcac', 'Cpa']
+            }
+        };
 
         // --- 3. INITIALIZATION & STORAGE ---
         function loadCloudConfig() {
@@ -1490,7 +1574,6 @@
             const welcomeCountEl = document.getElementById('welcomeTotalCount');
             if (welcomeCountEl) welcomeCountEl.textContent = termsData.length;
 
-            // Cek apakah pengguna belum melakukan pencarian, filter, atau klik "Lihat Semua"
             const isIdleState = !forceShowAll &&
                                 searchQuery.length === 0 &&
                                 selectedCategory === 'Semua' &&
@@ -1573,11 +1656,9 @@
 
                 return `
                     <div class="cartoon-card notebook-lines rounded-2xl overflow-hidden flex flex-col justify-between group animate-fade-in relative">
-                        <!-- Top Colorful Book Spine Header -->
                         <div class="${spineColor} h-2.5 w-full border-b-2 border-slate-900"></div>
                         <div class="p-5 flex-1 flex flex-col justify-between">
                             <div>
-                                <!-- Top Row: Module & Category Badges + Action Buttons -->
                                 <div class="flex items-start justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5">
                                         <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border-2 ${badgeClass}">
@@ -1588,20 +1669,17 @@
                                     ${adminControls}
                                 </div>
 
-                                <!-- Term Title & Full Name -->
                                 <div class="mb-2.5">
                                     <h3 class="text-xl font-bold text-slate-900 leading-snug tracking-tight">${highlightText(escapeHTML(item.term), q)}</h3>
                                     ${item.fullName ? `<p class="text-xs font-bold text-amber-800 mt-0.5">${highlightText(escapeHTML(item.fullName), q)}</p>` : ''}
                                     ${item.module ? `<p class="text-[11px] font-medium text-slate-500 mt-0.5"><i class="fa-solid fa-bookmark text-rose-400 mr-1"></i>${escapeHTML(item.module)}</p>` : ''}
                                 </div>
 
-                                <!-- Definition -->
                                 <p class="text-sm text-slate-700 leading-relaxed mb-4">
                                     ${highlightText(escapeHTML(item.definition), q)}
                                 </p>
                             </div>
 
-                            <!-- Bottom Section: Formula & Example -->
                             <div class="space-y-2.5 pt-3 border-t-2 border-dashed border-slate-300">
                                 ${hasFormula ? `
                                     <div class="bg-amber-100 border-2 border-slate-900 rounded-xl p-3 relative group/formula">
@@ -1842,6 +1920,45 @@
         }
 
         // --- 11. CALCULATOR LOGIC ---
+        function selectCalcFormulaMenu(menuKey) {
+            activeCalcMenu = CALC_FORMULA_CONFIG[menuKey] ? menuKey : 'all';
+            const cfg = CALC_FORMULA_CONFIG[activeCalcMenu];
+
+            document.querySelectorAll('.calc-menu-btn').forEach(btn => {
+                const isSelected = btn.getAttribute('data-calc-menu') === activeCalcMenu;
+                btn.className = isSelected
+                    ? 'calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]'
+                    : 'calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900';
+            });
+
+            const hintEl = document.getElementById('activeCalcFormulaHint');
+            if (hintEl) hintEl.textContent = cfg.hint;
+
+            const allInputs = ['Spend', 'Impressions', 'Clicks', 'Conversions', 'Revenue', 'Sessions', 'Bounces', 'Cltv'];
+            allInputs.forEach(key => {
+                const wrap = document.getElementById('calcInputWrap' + key);
+                if (!wrap) return;
+                const isRelevant = activeCalcMenu === 'all' || cfg.inputs.includes(key);
+                wrap.classList.toggle('hidden', !isRelevant);
+                wrap.classList.remove('opacity-45');
+                wrap.classList.toggle('ring-2', activeCalcMenu !== 'all' && isRelevant);
+                wrap.classList.toggle('ring-amber-400', activeCalcMenu !== 'all' && isRelevant);
+                wrap.classList.toggle('rounded-xl', activeCalcMenu !== 'all' && isRelevant);
+            });
+
+            const allCards = ['Ctr', 'Cpc', 'Cpm', 'Cvr', 'Cpa', 'Roas', 'Aov', 'Cir', 'Bounce', 'Ltvcac'];
+            allCards.forEach(key => {
+                const card = document.getElementById('resCard' + key);
+                if (!card) return;
+                const isFocused = activeCalcMenu !== 'all' && cfg.cards.includes(key);
+                const isRelevant = activeCalcMenu === 'all' || cfg.cards.includes(key);
+                card.classList.toggle('hidden', !isRelevant);
+                card.classList.remove('opacity-45');
+                card.classList.toggle('ring-4', isFocused);
+                card.classList.toggle('ring-amber-300', isFocused);
+            });
+        }
+
         function formatRupiah(num) {
             if (!isFinite(num) || isNaN(num)) return 'Rp 0';
             return 'Rp ' + Math.round(num).toLocaleString('id-ID');
@@ -1969,6 +2086,8 @@
             renderModulePills();
             renderCategoryPills();
             handleSearchAndFilter();
+            selectCalcFormulaMenu('all');
+            calculateMetrics();
             if (cloudConfig.sheetUrl && cloudConfig.sheetUrl.trim() !== '') {
                 await syncFromGoogleSheets(false);
             }
