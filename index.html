@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus & Rumus Digital Marketing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="bg-gradient-to-r from-brand-950 via-brand-900 to-indigo-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <!-- Brand Title -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/20 shadow-inner">
+                            <i class="fa-solid fa-book-open-reader text-xl text-indigo-200"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-lg sm:text-xl font-bold tracking-tight leading-tight">Kamus & Rumus Digital Marketing</h1>
+                            <p class="text-xs text-indigo-200/85">Glosarium Lengkap, Rumus Metrik & Kalkulator Praktis</p>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Quick Add Button -->
+                    <button onclick="requireAdmin(() => openTermModal())" class="md:hidden bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-xl text-sm font-semibold shadow-md flex items-center gap-1.5 transition active:scale-95">
+                        <i class="fa-solid fa-plus"></i> Tambah
+                    </button>
+                </div>
+
+                <!-- Navigation Tabs & Action Buttons -->
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <!-- Tab Switcher -->
+                    <div class="bg-brand-950/50 p-1 rounded-xl flex items-center border border-white/10 w-full sm:w-auto">
+                        <button id="tabBtnDictionary" onclick="switchTab('dictionary')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition bg-white text-brand-900 shadow-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-list-ul"></i> Kamus (<span id="termCountBadge">0</span>)
+                        </button>
+                        <button id="tabBtnCalculator" onclick="switchTab('calculator')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition text-indigo-200 hover:text-white flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calculator"></i> Kalkulator Metrik
+                        </button>
+                    </div>
+
+                    <!-- Cloud Sync Status Pill -->
+                    <button onclick="openCloudSettingsModal()" id="cloudStatusBtn" class="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl text-xs font-medium border border-white/15 flex items-center gap-2 transition" title="Pengaturan Koneksi Google Sheets">
+                        <span id="cloudStatusDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        <span id="cloudStatusText">Lokal</span>
+                    </button>
+
+                    <!-- Admin Lock / Unlock Toggle -->
+                    <button onclick="toggleAdminMode()" id="adminToggleBtn" class="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl text-xs font-medium border border-white/15 flex items-center gap-1.5 transition" title="Buka/Kunci Mode Admin untuk Edit">
+                        <i id="adminLockIcon" class="fa-solid fa-lock text-amber-300"></i>
+                        <span id="adminLockText" class="hidden sm:inline">Mode Baca</span>
+                    </button>
+
+                    <!-- Desktop Add Button -->
+                    <button onclick="requireAdmin(() => openTermModal())" class="hidden md:flex bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md items-center gap-2 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                        <i class="fa-solid fa-plus"></i> Tambah Istilah
+                    </button>
+
+                    <!-- Data Management Dropdown -->
+                    <div class="relative ml-auto sm:ml-0">
+                        <button onclick="toggleDataMenu()" id="dataMenuBtn" class="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl text-sm font-medium border border-white/15 flex items-center gap-2 transition" title="Kelola Data, Google Sheets & Backup">
+                            <i class="fa-solid fa-database"></i>
+                            <span class="hidden lg:inline">Data</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div id="dataMenuDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 text-slate-700 z-50 animate-fade-in">
+                            <div class="px-4 py-1.5 border-b border-slate-100">
+                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Database & Keamanan</p>
+                            </div>
+                            <button onclick="openCloudSettingsModal()" class="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2.5 transition">
+                                <i class="fa-solid fa-cloud text-brand-600 w-4"></i> Koneksi Google Sheets & PIN
+                            </button>
+                            <button onclick="syncFromGoogleSheets(true)" class="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2.5 transition">
+                                <i class="fa-solid fa-arrows-rotate text-sky-600 w-4"></i> Tarik Data Terbaru (Refresh)
+                            </button>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <div class="px-4 py-1.5">
+                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cadangkan & Pulihkan</p>
+                            </div>
+                            <button onclick="exportJSON()" class="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2.5 transition">
+                                <i class="fa-solid fa-download text-brand-600 w-4"></i> Export Backup (.JSON)
+                            </button>
+                            <label class="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2.5 transition cursor-pointer">
+                                <i class="fa-solid fa-upload text-emerald-600 w-4"></i> Import Backup (.JSON)
+                                <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importJSON(event)">
+                            </label>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <button onclick="requireAdmin(() => openResetConfirmModal())" class="w-full text-left px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 transition">
+                                <i class="fa-solid fa-rotate-left w-4"></i> Reset ke Data Bawaan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- VIEW 1: KAMUS & RUMUS -->
+        <div id="viewDictionary" class="space-y-6">
+            <!-- Search & Filter Box -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-5 space-y-4">
+                <div class="flex flex-col md:flex-row gap-3">
+                    <!-- Search Input -->
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearchAndFilter()" 
+                            placeholder="Cari istilah, singkatan, rumus, atau penjelasan (misal: CTR, CAC, ROAS, A/B Test, GA4, UTM)..." 
+                            class="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Formula Only Toggle -->
+                    <button id="formulaToggleBtn" onclick="toggleFormulaFilter()" 
+                        class="px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-sm font-medium flex items-center justify-center gap-2 transition shrink-0">
+                        <i class="fa-solid fa-square-root-variable text-brand-600"></i>
+                        <span>Hanya yang Berumus</span>
+                    </button>
+                </div>
+
+                <!-- Module Pills -->
+                <div class="space-y-1.5">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Filter Modul Belajar:</span>
+                    <div id="modulePillsContainer" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- Category Pills -->
+                <div class="space-y-1.5">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Filter Kategori Topik:</span>
+                    <div id="categoryPillsContainer" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Summary Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 px-1">
+                <p id="resultSummaryText">Menampilkan semua istilah</p>
+                <div class="flex items-center gap-2">
+                    <label for="sortSelect" class="font-medium text-slate-600">Urutkan:</label>
+                    <select id="sortSelect" onchange="handleSearchAndFilter()" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="az">Abjad (A - Z)</option>
+                        <option value="za">Abjad (Z - A)</option>
+                        <option value="newest">Terbaru Ditambahkan</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Terms Grid -->
+            <div id="termsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                <!-- Cards rendered via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden bg-white rounded-2xl border border-dashed border-slate-300 p-10 text-center max-w-lg mx-auto my-8">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-brand-600 flex items-center justify-center text-2xl mx-auto mb-4">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-1">Istilah Tidak Ditemukan</h3>
+                <p class="text-sm text-slate-500 mb-5">Kata kunci atau filter yang Anda cari belum ada di kamus. Anda bisa menambahkannya sendiri sebagai catatan baru!</p>
+                <div class="flex items-center justify-center gap-3">
+                    <button onclick="resetFilters()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition">
+                        Reset Pencarian
+                    </button>
+                    <button onclick="requireAdmin(() => openTermModalWithSearchTerm())" class="px-4 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Istilah Ini
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: KALKULATOR METRIK DIGITAL MARKETING -->
+        <div id="viewCalculator" class="hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-brand-600"></i> Kalkulator Simulasi Metrik Digital Marketing
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Masukkan angka performa kampanye atau bisnis Anda untuk langsung melihat hasil hitung rumus utama.</p>
+                    </div>
+                    <button onclick="fillSampleCalculator()" class="px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-brand-700 text-xs font-semibold transition self-start sm:self-auto flex items-center gap-1.5">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Isi Contoh Angka
+                    </button>
+                </div>
+
+                <!-- Input Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Ad Spend / Biaya Iklan (Rp)</label>
+                        <input type="number" id="calcSpend" oninput="calculateMetrics()" placeholder="Contoh: 5000000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Impressions (Tayangan)</label>
+                        <input type="number" id="calcImpressions" oninput="calculateMetrics()" placeholder="Contoh: 250000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Clicks / Views (Klik / Tonton)</label>
+                        <input type="number" id="calcClicks" oninput="calculateMetrics()" placeholder="Contoh: 5000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Conversions / Orders (Transaksi)</label>
+                        <input type="number" id="calcConversions" oninput="calculateMetrics()" placeholder="Contoh: 125" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Gross Revenue / Omzet (Rp)</label>
+                        <input type="number" id="calcRevenue" oninput="calculateMetrics()" placeholder="Contoh: 25000000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Total Sessions (Sesi Website)</label>
+                        <input type="number" id="calcSessions" oninput="calculateMetrics()" placeholder="Contoh: 4500" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Bounced Sessions (Keluar 1 Hal.)</label>
+                        <input type="number" id="calcBounces" oninput="calculateMetrics()" placeholder="Contoh: 1800" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">CLTV / Profit Pelanggan (Rp)</label>
+                        <input type="number" id="calcCltv" oninput="calculateMetrics()" placeholder="Contoh: 150000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-100">
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CTR (Click-Through Rate)</div>
+                        <div id="resCtr" class="text-2xl font-extrabold text-brand-700 mt-1">0.00%</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">(Clicks ÷ Impressions) × 100%</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CPC (Cost Per Click)</div>
+                        <div id="resCpc" class="text-2xl font-extrabold text-brand-700 mt-1">Rp 0</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">Ad Spend ÷ Clicks</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CPM (Cost Per Mille)</div>
+                        <div id="resCpm" class="text-2xl font-extrabold text-brand-700 mt-1">Rp 0</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">(Ad Spend ÷ Impressions) × 1.000</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CVR (Conversion Rate)</div>
+                        <div id="resCvr" class="text-2xl font-extrabold text-emerald-600 mt-1">0.00%</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">(Conversions ÷ Clicks) × 100%</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CPA / CPO / CAC</div>
+                        <div id="resCpa" class="text-2xl font-extrabold text-amber-600 mt-1">Rp 0</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">Ad Spend ÷ Conversions</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">ROAS (Return on Ad Spend)</div>
+                        <div id="resRoas" class="text-2xl font-extrabold text-emerald-600 mt-1">0.00x (0%)</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">Gross Revenue ÷ Ad Spend</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">AOV (Average Order Value)</div>
+                        <div id="resAov" class="text-2xl font-extrabold text-brand-700 mt-1">Rp 0</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">Gross Revenue ÷ Orders</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CIR (Cost Income Ratio)</div>
+                        <div id="resCir" class="text-2xl font-extrabold text-slate-800 mt-1">0.00%</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">(Ad Spend ÷ Revenue) × 100%</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Bounce Rate</div>
+                        <div id="resBounce" class="text-2xl font-extrabold text-rose-600 mt-1">0.00%</div>
+                        <div class="text-[11px] font-mono text-slate-500 mt-1">(Bounces ÷ Sessions) × 100%</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+                        <div class="text-xs font-bold text-slate-500 uppercase">CLTV / CAC Ratio</div>
+                        <div id="resLtvCac" class="text-2xl font-extrabold text-indigo-700 mt-1">0.00x</div>
+                        <div id="resLtvCacNote" class="text-[11px] text-slate-500 mt-1">Ideal sehat: ≥ 3.0x</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== MODAL: PENGATURAN GOOGLE SHEETS & PIN ADMIN ==================== -->
+    <div id="cloudSettingsModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-xl overflow-hidden animate-fade-in my-auto">
+            <div class="bg-brand-900 text-white px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-indigo-300"></i>
+                    <span>Koneksi Google Sheets & PIN Admin</span>
+                </h3>
+                <button onclick="closeCloudSettingsModal()" class="text-indigo-200 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="saveCloudSettings(event)" class="p-6 space-y-5 max-h-[82vh] overflow-y-auto">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Google Apps Script Web App URL
+                    </label>
+                    <input type="url" id="inputSheetUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" 
+                        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
+                        Tempelkan URL deployment dari Google Apps Script (berakhiran <code class="bg-slate-100 px-1 rounded">/exec</code>). Kosongkan jika hanya ingin menyimpan di browser lokal.
+                    </p>
+                </div>
+
+                <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved text-amber-600"></i> Keamanan PIN Admin
+                        </span>
+                        <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">Aktif</span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">
+                            PIN Admin (Default: <code class="font-mono font-bold">1234</code> — Ubah sesuai keinginan)
+                        </label>
+                        <input type="text" id="inputAdminPin" maxlength="12" placeholder="Masukkan PIN angka/teks (misal: 2026)" 
+                            class="w-full px-3.5 py-2 bg-white border border-amber-200 rounded-xl font-mono text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <p class="text-[11px] text-amber-800/90 leading-relaxed">
+                        Pengunjung yang membuka link Anda tetap bisa mencari istilah dan memakai kalkulator, namun wajib memasukkan PIN ini untuk menambah, mengedit, atau menghapus istilah.
+                    </p>
+                </div>
+
+                <div class="bg-indigo-50/70 border border-indigo-200/80 rounded-xl p-4 space-y-2.5">
+                    <h4 class="text-xs font-bold text-brand-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-export text-brand-600"></i> Migrasi Data Awal ke Google Sheets
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Jika Google Sheets Anda masih kosong, klik tombol di bawah untuk mengirim seluruh <strong><span id="localCountForSync">0</span> istilah</strong> yang ada saat ini ke Google Sheets sekaligus.
+                    </p>
+                    <button type="button" onclick="pushAllLocalToGoogleSheets()" id="btnPushAll" class="w-full py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Kirim Semua Istilah Lokal ke Google Sheets Sekarang
+                    </button>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-3">
+                    <button type="button" onclick="closeCloudSettingsModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition">
+                        Tutup
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-check"></i> Simpan & Hubungkan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: VERIFIKASI PIN ADMIN ==================== -->
+    <div id="pinModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-sm p-6 animate-fade-in">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4 mx-auto">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 text-center mb-1">Verifikasi Mode Admin</h3>
+            <p class="text-xs text-slate-500 text-center mb-5">Masukkan PIN Admin untuk mengaktifkan fitur tambah, edit, dan hapus istilah.</p>
+            
+            <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="pinVerifyInput" required placeholder="••••" autocomplete="off"
+                        class="w-full px-4 py-3 text-center tracking-[0.4em] font-mono text-lg font-bold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                    <p id="pinErrorMsg" class="hidden text-xs text-rose-600 font-medium text-center mt-2">PIN salah! Silakan coba lagi.</p>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="closePinModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-sm transition">
+                        Buka Kunci
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: TAMBAH / EDIT ISTILAH ==================== -->
+    <div id="termModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-lg overflow-hidden animate-fade-in my-auto">
+            <div class="bg-brand-900 text-white px-6 py-4 flex items-center justify-between">
+                <h3 id="termModalTitle" class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-pen-nib text-indigo-300"></i>
+                    <span>Tambah Istilah Baru</span>
+                </h3>
+                <button onclick="closeTermModal()" class="text-indigo-200 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="saveTerm(event)" class="p-6 space-y-4 max-h-[82vh] overflow-y-auto">
+                <input type="hidden" id="termId">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Istilah / Singkatan *</label>
+                        <input type="text" id="inputTerm" required placeholder="Contoh: CTR atau ROAS" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Kepanjangan / Nama Lengkap</label>
+                        <input type="text" id="inputFullName" placeholder="Contoh: Click-Through Rate" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Topik</label>
+                        <select id="inputCategory" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="Fundamental & Strategi">Fundamental & Strategi</option>
+                            <option value="Performance & Paid Ads">Performance & Paid Ads</option>
+                            <option value="Metrik & Rumus Bisnis">Metrik & Rumus Bisnis</option>
+                            <option value="SEO & Organic Content">SEO & Organic Content</option>
+                            <option value="Email & CRM Retention">Email & CRM Retention</option>
+                            <option value="Analytics & Tag Tracking">Analytics & Tag Tracking</option>
+                            <option value="Data Analysis & Reporting">Data Analysis & Reporting</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Referensi Modul</label>
+                        <select id="inputModule" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="Modul 0 - Intro & Landscape">Modul 0 - Intro & Landscape</option>
+                            <option value="Modul 1 - Performance & CAC">Modul 1 - Performance & CAC</option>
+                            <option value="Modul 3 - Analytics & GTM">Modul 3 - Analytics & GTM</option>
+                            <option value="Modul 4 - Data & Reporting">Modul 4 - Data & Reporting</option>
+                            <option value="Umum / Tambahan">Umum / Tambahan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Pengertian / Penjelasan *</label>
+                    <textarea id="inputDefinition" required rows="3" placeholder="Jelaskan arti istilah ini dengan bahasa yang mudah dipahami..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Rumus (Opsional)</label>
+                    <input type="text" id="inputFormula" placeholder="Contoh: (Clicks ÷ Impressions) × 100%" class="w-full px-3.5 py-2.5 bg-indigo-50/60 border border-indigo-200 rounded-xl font-mono text-xs text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Contoh Hitungan / Studi Kasus (Opsional)</label>
+                    <textarea id="inputExample" rows="2" placeholder="Contoh: Iklan tayang 10.000 kali dan diklik 200 kali -> CTR = 2%." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-3">
+                    <button type="button" onclick="closeTermModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition">
+                        Batal
+                    </button>
+                    <button type="submit" id="saveTermSubmitBtn" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan Istilah
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: KONFIRMASI HAPUS / RESET ==================== -->
+    <div id="confirmModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-sm p-6 animate-fade-in">
+            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl mb-4 mx-auto">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirmTitle" class="text-lg font-bold text-slate-800 text-center mb-1">Konfirmasi</h3>
+            <p id="confirmMessage" class="text-xs text-slate-500 text-center mb-5">Apakah Anda yakin ingin melanjutkan?</p>
+            <div class="flex items-center gap-2.5">
+                <button onclick="closeConfirmModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition">
+                    Batal
+                </button>
+                <button onclick="executePendingConfirm()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold shadow-sm transition">
+                    Ya, Lanjutkan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ==================== SCRIPT ==================== -->
+    <script>
+        // --- 1. DEFAULT DATASET (100+ ISTILAH & RUMUS LENGKAP) ---
+        const DEFAULT_TERMS = [
+            // MODUL 0: INTRO & LANDSCAPE
+            { id: 'm0-1', term: 'Digital Marketing', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Pemasaran yang memakai channel digital untuk memahami, menjangkau, melibatkan, mendapatkan, dan mempertahankan pelanggan dengan mempelajari perilaku audiens terlebih dahulu.', formula: '', example: 'Menggunakan SEO, Instagram Ads, dan Email Marketing secara terpadu untuk menjangkau pembeli online.' },
+            { id: 'm0-2', term: 'B2B', fullName: 'Business-to-Business', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Model bisnis yang menjual produk atau layanan kepada bisnis/perusahaan lain. Proses keputusannya biasanya lebih lambat, rasional, dan berfokus pada efisiensi serta ROI.', formula: '', example: 'Perusahaan software akuntansi menjual langganan ke perusahaan ritel.' },
+            { id: 'm0-3', term: 'B2C', fullName: 'Business-to-Consumer', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Model bisnis yang menjual produk atau layanan langsung kepada konsumen individu. Keputusannya lebih cepat dan dipengaruhi harga, emosi, serta loyalitas brand.', formula: '', example: 'Brand sepatu lokal menjual langsung ke pembeli lewat Shopee atau website.' },
+            { id: 'm0-4', term: 'Marketing Funnel', fullName: 'Conversion Funnel (TOFU-MOFU-BOFU)', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Model perjalanan pelanggan secara bertahap dari Awareness (tahu), Interest & Consideration (tertarik & mempertimbangkan), hingga Purchase (membeli). Membantu menemukan titik di mana calon pelanggan berhenti.', formula: '', example: '10.000 orang lihat iklan (TOFU) -> 1.000 kunjungi website (MOFU) -> 50 beli produk (BOFU).' },
+            { id: 'm0-5', term: 'Flywheel', fullName: 'Marketing Flywheel Model', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Model berbentuk siklus ketika pelanggan yang sudah ada menciptakan momentum melalui retention, referral, dan engagement berulang untuk membantu menarik pelanggan baru.', formula: '', example: 'Pelanggan puas memberikan ulasan bintang 5 dan mengajak temannya membeli.' },
+            { id: 'm0-6', term: 'Channel Strategy', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Rencana strategis untuk menentukan channel marketing mana yang dipakai, kapan digunakan, dan apa alasannya sesuai perilaku audiens. Sekadar posting di media sosial belum disebut strategi lengkap.', formula: '', example: 'Memakai TikTok untuk awareness anak muda dan Google Search Ads untuk menangkap pembeli siap bayar.' },
+            { id: 'm0-7', term: 'Owned Media', fullName: 'Owned Media Channel', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Konten dan aset digital yang dibuat serta dikendalikan sepenuhnya oleh bisnis, seperti website, aplikasi, halaman media sosial resmi, dan daftar email.', formula: '', example: 'Blog resmi perusahaan, akun Instagram brand, dan database subscriber newsletter.' },
+            { id: 'm0-8', term: 'Paid Media', fullName: 'Paid Media Channel', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Konten atau penempatan yang dibayar bisnis agar tampil di depan audiens, seperti iklan digital atau sponsorship. Visibilitas berhenti saat anggaran iklan dihentikan.', formula: '', example: 'Meta Ads (FB/IG Ads), Google Search Ads, TikTok Ads, dan endorse influencer.' },
+            { id: 'm0-9', term: 'Earned Media', fullName: 'Earned Media Channel', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Publisitas atau konten tentang bisnis yang dibuat secara sukarela oleh orang lain tanpa dibayar langsung, biasanya muncul karena produk dan pengalaman pelanggan yang baik.', formula: '', example: 'Liputan media, review organik pelanggan di TikTok, atau rekomendasi dari mulut ke mulut.' },
+            { id: 'm0-10', term: 'UGC', fullName: 'User-Generated Content', category: 'SEO & Organic Content', module: 'Modul 0 - Intro & Landscape', definition: 'Konten yang dibuat oleh pengguna atau pelanggan nyata, bukan oleh tim internal brand, seperti video unboxing, ulasan foto, atau testimoni.', formula: '', example: 'Video TikTok pembeli yang memamerkan hasil pemakaian skincare milik brand.' },
+            { id: 'm0-11', term: 'Pull Marketing', fullName: 'Intent-Based Marketing', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Pemasaran yang menangkap permintaan (intent) yang sudah ada saat orang secara aktif mencari produk atau solusi.', formula: '', example: 'Google Search Ads pada kata kunci "jual laptop gaming murah" atau artikel SEO.' },
+            { id: 'm0-12', term: 'Push Marketing', fullName: 'Identity-Based Marketing', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Pemasaran yang menjangkau orang sebelum mereka mencari sesuatu, ditargetkan berdasarkan demografi, usia, lokasi, atau minat mereka.', formula: '', example: 'Iklan feed Instagram yang muncul saat pengguna sedang scrolling santai.' },
+            { id: 'm0-13', term: 'Acquisition', fullName: 'Customer Acquisition', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Proses mendapatkan pelanggan atau pengguna baru, misalnya melalui pembelian pertama, pendaftaran (signup), instalasi aplikasi, atau pembuatan akun.', formula: '', example: 'Mendapatkan 500 pembeli baru pertama kali selama kampanye promo gajian.' },
+            { id: 'm0-14', term: 'Retention', fullName: 'Customer Retention', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Proses mempertahankan pelanggan yang sudah ada agar tetap aktif, melakukan pembelian ulang (repeat order), berinteraksi, atau merekomendasikan brand.', formula: '', example: 'Memberikan poin loyalti atau voucher diskon khusus bagi member yang sudah pernah belanja.' },
+            { id: 'm0-15', term: 'CRM', fullName: 'Customer Relationship Management', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Strategi dan sistem untuk mengelola informasi serta interaksi pelanggan agar bisnis dapat mempertahankan pelanggan dan menjalankan campaign yang relevan.', formula: '', example: 'Menggunakan HubSpot atau Mailchimp untuk mencatat riwayat belanja dan mengirim promo personal.' },
+            { id: 'm0-16', term: 'Email Marketing', fullName: '', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Mengirim newsletter atau rangkaian email otomatis kepada orang yang telah memberikan alamat emailnya guna mempertahankan pelanggan dan mendorong repeat purchase.', formula: '', example: 'Mengirimkan katalog promo akhir pekan kepada 10.000 subscriber.' },
+            { id: 'm0-17', term: 'Drip Campaign', fullName: 'Drip Series / Automated Email Sequence', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Rangkaian email otomatis yang dikirim bertahap berdasarkan tindakan atau waktu tertentu, seperti setelah mendaftar, meninggalkan keranjang belanja, atau pasca pembelian.', formula: '', example: 'Email 1: Selamat datang (hari ke-1) -> Email 2: Tips produk (hari ke-3) -> Email 3: Kupon diskon (hari ke-5).' },
+            { id: 'm0-18', term: 'Newsletter', fullName: 'Email Broadcast', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Campaign email satu kali (blast) yang mengirimkan konten yang sama kepada banyak penerima sekaligus, biasanya berisi edukasi, peluncuran produk, atau pembaruan.', formula: '', example: 'Buletin mingguan berisi rangkuman tren industri dan pengumuman fitur baru.' },
+            { id: 'm0-19', term: 'Consent-First Marketing', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Pendekatan pemasaran yang mengumpulkan dan menggunakan data pelanggan hanya setelah mendapat izin eksplisit yang jelas sesuai regulasi privasi data.', formula: '', example: 'Menyediakan kotak centang persetujuan berlangganan email dan banner cookie website.' },
+            { id: 'm0-20', term: 'First-Party Data', fullName: '', category: 'Analytics & Tag Tracking', module: 'Modul 0 - Intro & Landscape', definition: 'Informasi yang dikumpulkan bisnis secara langsung dari pelanggan atau penggunanya sendiri dengan izin yang sesuai. Sangat krusial seiring dihapusnya third-party cookies.', formula: '', example: 'Data transaksi website, email dari form pendaftaran, dan perilaku pengguna di aplikasi sendiri.' },
+            { id: 'm0-21', term: 'Third-Party Cookies', fullName: '', category: 'Analytics & Tag Tracking', module: 'Modul 0 - Intro & Landscape', definition: 'File pelacakan dari domain pihak ketiga yang mengikuti aktivitas pengguna lintas berbagai website untuk keperluan penargetan iklan.', formula: '', example: 'Cookie jaringan iklan yang melacak barang yang Anda lihat di satu toko lalu memunculkan iklannya di situs berita.' },
+            { id: 'm0-22', term: 'Integrated Marketing', fullName: 'Integrated Marketing Communications (IMC)', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Menggabungkan dan menyelaraskan aktivitas pemasaran offline dan online agar pesan brand konsisten dan saling memperkuat dampak bisnis.', formula: '', example: 'Memasang kode QR di baliho jalan yang mengarah ke halaman promo spesial di website.' },
+            { id: 'm0-23', term: 'Social Commerce', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Proses pembelian produk atau layanan secara langsung di dalam platform media sosial tanpa harus berpindah ke website eksternal.', formula: '', example: 'Checkout dan membayar produk langsung melalui fitur TikTok Shop atau Instagram Shopping.' },
+            { id: 'm0-24', term: 'Virality', fullName: 'Viral Marketing', category: 'SEO & Organic Content', module: 'Modul 0 - Intro & Landscape', definition: 'Penyebaran dan lonjakan perhatian yang sangat cepat terhadap suatu konten karena dibagikan secara masif. Virality adalah bonus hasil yang mungkin terjadi, bukan tujuan bisnis utama.', formula: '', example: 'Video kampanye kreatif yang dibagikan 100.000 kali dalam 24 jam.' },
+            { id: 'm0-25', term: 'A/B Test', fullName: 'Split Testing', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Metode eksperimen yang membandingkan dua versi kampanye, iklan, atau halaman web (Versi A vs Versi B) secara bersamaan untuk mengetahui mana yang menghasilkan performa lebih baik.', formula: '', example: 'Menguji tombol beli warna hijau vs oranye pada landing page untuk melihat mana yang menghasilkan CVR lebih tinggi.' },
+            { id: 'm0-26', term: 'T-Shaped Marketer', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Profil marketer yang memiliki pemahaman luas di berbagai bidang digital marketing (garis horizontal T), namun memiliki keahlian praktis mendalam di satu atau dua bidang spesifik (garis vertikal T).', formula: '', example: 'Paham dasar SEO, Email, dan Analytics, namun sangat ahli menjalankan Meta & Google Ads.' },
+            { id: 'm0-27', term: 'Generalist vs Specialist', fullName: 'Marketing Career Paths', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Generalist memahami banyak channel marketing dan berfokus pada strategi bisnis menyeluruh, sedangkan Specialist memiliki penguasaan teknis mendalam di satu channel spesifik (misal khusus SEO atau Paid Ads).', formula: '', example: 'Startup tahap awal biasanya merekrut Marketing Generalist, sedangkan perusahaan besar merekrut SEO Specialist.' },
+            { id: 'm0-28', term: 'Performance Marketing', fullName: '', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Strategi pemasaran berbayar di mana pengiklan membayar atau mengukur keberhasilan berdasarkan hasil spesifik yang terukur, seperti klik, leads, atau penjualan.', formula: '', example: 'Mengelola kampanye Google Ads dan Meta Ads dengan target ROAS minimal 4x.' },
+            { id: 'm0-29', term: 'Programmatic Advertising', fullName: '', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Pembelian dan penempatan ruang iklan digital secara otomatis menggunakan sistem lelang real-time (RTB) berbasis algoritma dan data audiens.', formula: '', example: 'Membeli slot banner otomatis di ribuan portal berita melalui DSP (Demand-Side Platform).' },
+            { id: 'm0-30', term: 'Retargeting', fullName: 'Remarketing', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Menampilkan iklan khusus kepada orang yang sebelumnya sudah mengunjungi website, berinteraksi dengan media sosial, atau memasukkan barang ke keranjang namun belum membeli.', formula: '', example: 'Menampilkan iklan voucher gratis ongkir kepada pengunjung yang meninggalkan halaman checkout.' },
+            { id: 'm0-31', term: 'RFM Analysis', fullName: 'Recency, Frequency, Monetary Analysis', category: 'Email & CRM Retention', module: 'Modul 0 - Intro & Landscape', definition: 'Teknik segmentasi pelanggan berdasarkan seberapa baru terakhir kali membeli (Recency), seberapa sering membeli (Frequency), dan seberapa besar total belanjanya (Monetary).', formula: '', example: 'Memisahkan pelanggan VIP (baru belanja, sering, nilai besar) dengan pelanggan yang berisiko churn.' },
+            { id: 'm0-32', term: 'Segmentation', fullName: 'Audience / Customer Segmentation', category: 'Fundamental & Strategi', module: 'Modul 0 - Intro & Landscape', definition: 'Membagi audiens atau basis pelanggan yang luas menjadi kelompok-kelompok kecil yang memiliki karakteristik, minat, atau perilaku yang mirip agar pesan pemasaran lebih relevan.', formula: '', example: 'Membagi audiens iklan berdasarkan domisili Jabodetabek, usia 25-34 tahun, dan minat olahraga lari.' },
+            { id: 'm0-33', term: 'SEO', fullName: 'Search Engine Optimization', category: 'SEO & Organic Content', module: 'Modul 0 - Intro & Landscape', definition: 'Upaya mengoptimalkan konten, struktur teknis, dan otoritas website agar muncul di peringkat atas hasil pencarian organik (tanpa bayar iklan) di Google.', formula: '', example: 'Menulis artikel panduan lengkap sehingga muncul di halaman 1 Google saat orang mencari kata kunci terkait.' },
+            { id: 'm0-34', term: 'SEM / Search Ads', fullName: 'Search Engine Marketing', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Mempromosikan bisnis melalui iklan berbayar yang melakukan bidding pada kata kunci tertentu agar tampil di posisi teratas halaman hasil pencarian mesin pencari.', formula: '', example: 'Iklan Google Search bertanda "Sponsored" di posisi paling atas saat orang mencari "sewa mobil jakarta".' },
+            { id: 'm0-35', term: 'Display Ads (GDN)', fullName: 'Google Display Network / Banner Ads', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Iklan visual berbentuk banner, gambar, atau video yang tampil di jutaan website, blog, dan aplikasi pihak ketiga yang tergabung dalam jaringan iklan seperti Google Display Network.', formula: '', example: 'Banner iklan persegi panjang yang muncul di sisi artikel portal berita online.' },
+            { id: 'm0-36', term: 'Social Ads', fullName: 'Paid Social Media', category: 'Performance & Paid Ads', module: 'Modul 0 - Intro & Landscape', definition: 'Iklan berbayar di platform media sosial (Instagram, Facebook, TikTok, LinkedIn) untuk menjangkau audiens yang sesuai profil target guna meraih impressions, klik, atau konversi.', formula: '', example: 'Iklan Instagram Story dan Reels yang ditargetkan ke wanita usia 20-35 tahun.' },
+            { id: 'm0-37', term: 'Organic Channel', fullName: 'Organic Marketing / Social Organic', category: 'SEO & Organic Content', module: 'Modul 0 - Intro & Landscape', definition: 'Distribusi konten dan pemasaran tanpa biaya iklan berbayar, seperti SEO, postingan feed/reels gratis, dan email ke subscriber. Pertumbuhannya lebih bertahap namun hemat biaya jangka panjang.', formula: '', example: 'Membangun komunitas pengikut melalui konten edukasi rutin di Instagram dan TikTok.' },
+
+            // MODUL 1: PERFORMANCE & CAC
+            { id: 'm1-1', term: 'Awareness', fullName: 'Brand Awareness', category: 'Fundamental & Strategi', module: 'Modul 1 - Performance & CAC', definition: 'Tahap paling atas dalam marketing funnel ketika calon pelanggan pertama kali mengetahui, melihat, atau mengenali keberadaan suatu brand atau produk.', formula: '', example: 'Menjalankan kampanye Reach & Video Views untuk memperkenalkan brand baru ke 1 juta orang.' },
+            { id: 'm1-2', term: 'Consideration', fullName: 'Consideration Stage', category: 'Fundamental & Strategi', module: 'Modul 1 - Performance & CAC', definition: 'Tahap tengah funnel ketika audiens sudah mengenal brand, mulai mencari informasi lebih dalam, membandingkan fitur/harga, dan mempertimbangkan brand sebagai pilihan solusi.', formula: '', example: 'Pengunjung membaca ulasan produk, melihat halaman detail, atau mengunduh brosur.' },
+            { id: 'm1-3', term: 'Conversion', fullName: 'Conversion / Purchase / Order', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Tindakan berharga yang diharapkan dilakukan pengguna setelah melihat aktivitas marketing, seperti melakukan pembelian (purchase), mengisi formulir lead, booking, atau registrasi.', formula: '', example: 'Pengunjung menyelesaikan pembayaran pesanan di toko online.' },
+            { id: 'm1-4', term: 'Impression', fullName: 'Impressions', category: 'Performance & Paid Ads', module: 'Modul 1 - Performance & CAC', definition: 'Jumlah total berapa kali iklan atau konten ditampilkan di layar pengguna, baik diklik maupun tidak. Satu orang bisa menyumbang beberapa impressions jika melihat iklan berulang kali.', formula: '', example: 'Iklan muncul 50.000 kali di beranda pengguna dalam sehari.' },
+            { id: 'm1-5', term: 'Reach', fullName: 'Unique Reach', category: 'Performance & Paid Ads', module: 'Modul 1 - Performance & CAC', definition: 'Jumlah individu/pengguna unik yang melihat iklan atau konten setidaknya satu kali.', formula: 'Frequency = Impressions ÷ Reach', example: 'Jika Impressions = 30.000 dan Reach = 10.000 orang, berarti rata-rata 1 orang melihat iklan 3 kali (Frequency = 3).' },
+            { id: 'm1-6', term: 'Ad Fatigue', fullName: 'Creative Fatigue', category: 'Performance & Paid Ads', module: 'Modul 1 - Performance & CAC', definition: 'Kondisi ketika audiens terlalu sering melihat materi iklan yang sama (Frequency terlalu tinggi) sehingga mereka bosan, mengabaikan iklan, CTR turun, dan biaya konversi melonjak.', formula: '', example: 'Setelah 3 minggu memakai banner yang sama, CTR turun dari 2% menjadi 0.4%.' },
+            { id: 'm1-7', term: 'Algorithm Learning State', fullName: 'Learning Phase / Learning Threshold', category: 'Performance & Paid Ads', module: 'Modul 1 - Performance & CAC', definition: 'Periode awal ketika algoritma platform iklan (seperti Meta/Google) mengumpulkan cukup data konversi untuk mempelajari siapa audiens terbaik dan mengoptimalkan penayangan. Umumnya butuh ambang sekitar 50 konversi per minggu.', formula: '', example: 'Selama status masih "Learning", performa dan biaya per hasil cenderung berfluktuasi.' },
+            { id: 'm1-8', term: 'CTR', fullName: 'Click-Through Rate', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Persentase jumlah tayangan iklan (impressions) yang berhasil menghasilkan klik. Mengukur seberapa menarik materi kreatif dan copywriting iklan Anda.', formula: 'CTR = (Clicks ÷ Impressions) × 100%', example: 'Dari 100.000 impressions terdapat 2.500 klik -> CTR = (2.500 ÷ 100.000) × 100% = 2.5%.' },
+            { id: 'm1-9', term: 'VTR', fullName: 'View-Through Rate', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Persentase tayangan iklan video (impressions) yang menghasilkan tontonan (views) hingga durasi tertentu.', formula: 'VTR = (Views ÷ Impressions) × 100%', example: 'Iklan video tayang 20.000 kali dan ditonton 6.000 kali -> VTR = 30%.' },
+            { id: 'm1-10', term: 'CPC', fullName: 'Cost Per Click', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Rata-rata biaya yang dikeluarkan pengiklan untuk setiap satu kali klik pada iklan.', formula: 'CPC = Total Ad Spend ÷ Total Clicks', example: 'Biaya iklan Rp 2.000.000 menghasilkan 1.000 klik -> CPC = Rp 2.000 per klik.' },
+            { id: 'm1-11', term: 'CPM', fullName: 'Cost Per Mille (Cost Per 1,000 Impressions)', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Biaya yang dibayar untuk menampilkan iklan sebanyak 1.000 kali tayangan. Metrik standar untuk mengukur efisiensi biaya di tahap Awareness.', formula: 'CPM = (Total Ad Spend ÷ Total Impressions) × 1.000', example: 'Biaya Rp 5.000.000 menghasilkan 250.000 impressions -> CPM = (5.000.000 ÷ 250.000) × 1.000 = Rp 20.000.' },
+            { id: 'm1-12', term: 'Conversion Rate (CVR)', fullName: 'Conversion Rate', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Persentase pengunjung atau klik yang berhasil menyelesaikan tindakan yang diinginkan (konversi/pembelian). Mengukur efektivitas landing page dan penawaran produk.', formula: 'CVR = (Total Conversions ÷ Total Clicks atau Sessions) × 100%', example: 'Dari 2.000 pengunjung website, 80 orang membeli -> CVR = (80 ÷ 2.000) × 100% = 4%.' },
+            { id: 'm1-13', term: 'CPA / CPL', fullName: 'Cost Per Acquisition / Cost Per Lead', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Rata-rata biaya iklan yang dikeluarkan untuk mendapatkan satu tindakan konversi spesifik, seperti pendaftaran, pengisian form (lead), atau booking.', formula: 'CPA = Total Ad Spend ÷ Total Conversions (atau Leads)', example: 'Biaya iklan Rp 3.000.000 menghasilkan 150 leads -> CPL = Rp 20.000 per lead.' },
+            { id: 'm1-14', term: 'CPO / CPP', fullName: 'Cost Per Order / Cost Per Purchase', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Biaya iklan rata-rata yang dikeluarkan untuk menghasilkan satu transaksi pesanan (order/purchase).', formula: 'CPO / CPP = Total Ad Spend ÷ Total Orders (Purchases)', example: 'Biaya iklan Rp 4.000.000 menghasilkan 80 transaksi -> CPP = Rp 50.000 per order.' },
+            { id: 'm1-15', term: 'CAC', fullName: 'Customer Acquisition Cost', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Biaya rata-rata yang dikeluarkan untuk mendapatkan satu pelanggan baru yang membayar.', formula: 'CAC = Total Biaya Akuisisi ÷ Jumlah Pelanggan Baru', example: 'Total biaya marketing Rp 10.000.000 menghasilkan 200 pelanggan baru -> CAC = Rp 50.000.' },
+            { id: 'm1-16', term: 'Blended CAC', fullName: 'Blended Customer Acquisition Cost', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Metrik biaya akuisisi gabungan yang membagi seluruh pengeluaran marketing (paid + organic) dengan total seluruh pelanggan baru yang didapat.', formula: 'Blended CAC = (Paid Spend + Organic Marketing Cost) ÷ Total Semua Pelanggan Baru', example: 'Spend iklan Rp 8 jt + biaya konten organik Rp 2 jt = Rp 10 jt untuk 250 pelanggan baru -> Blended CAC = Rp 40.000.' },
+            { id: 'm1-17', term: 'Fully Loaded CAC', fullName: '', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Perhitungan CAC menyeluruh yang memasukkan biaya iklan ditambah seluruh biaya operasional terkait pemasaran & penjualan (gaji tim, biaya software/tools, agensi) dibagi total pelanggan baru.', formula: 'Fully Loaded CAC = (Ad Spend + Gaji Tim + Biaya Tools/Operasional) ÷ Total Pelanggan Baru', example: 'Memberikan gambaran kesehatan profitabilitas bisnis yang jauh lebih akurat dibanding sekadar melihat biaya iklan.' },
+            { id: 'm1-18', term: 'AOV', fullName: 'Average Order Value (Average Basket Size)', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Rata-rata nilai pendapatan (revenue) yang dihasilkan dari setiap satu transaksi pesanan.', formula: 'AOV = Total Revenue ÷ Total Jumlah Order', example: 'Total omzet Rp 30.000.000 dari 150 transaksi -> AOV = Rp 200.000 per order.' },
+            { id: 'm1-19', term: 'ROAS', fullName: 'Return on Ad Spend', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Mengukur berapa banyak pendapatan kotor (gross revenue) yang dihasilkan dari setiap rupiah biaya iklan yang dikeluarkan. Semakin tinggi semakin baik.', formula: 'ROAS = Gross Revenue dari Iklan ÷ Ad Spend (atau dalam %: × 100%)', example: 'Biaya iklan Rp 5.000.000 menghasilkan omzet Rp 25.000.000 -> ROAS = 5x (atau 500%).' },
+            { id: 'm1-20', term: 'CIR', fullName: 'Cost Income Ratio', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Perbandingan persentase biaya pemasaran/iklan terhadap pendapatan yang dihasilkan (kebalikan dari ROAS). Semakin rendah persentasenya semakin efisien.', formula: 'CIR = (Ad Spend ÷ Gross Revenue) × 100%', example: 'Biaya iklan Rp 5.000.000 dengan omzet Rp 25.000.000 -> CIR = 20%.' },
+            { id: 'm1-21', term: 'Contribution Margin', fullName: '', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Persentase atau nominal pendapatan yang tersisa sebagai laba kotor setelah dikurangi biaya langsung produk/penjualan (HPP/COGS, ongkir, biaya payment gateway).', formula: 'Contribution Margin (%) = ((Revenue - Biaya Langsung) ÷ Revenue) × 100%', example: 'Harga jual Rp 100.000, HPP + ongkir Rp 40.000 -> Contribution Margin = 60% (Rp 60.000).' },
+            { id: 'm1-22', term: 'CLTV / LTV', fullName: 'Customer Lifetime Value', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Perkiraan total laba bersih yang dihasilkan satu pelanggan selama seluruh masa ia berlangganan atau berbelanja di bisnis Anda.', formula: 'CLTV = AOV × Frekuensi Beli per Tahun × Rata-rata Lama Berlangganan × Contribution Margin (%)', example: 'Pelanggan belanja rata-rata Rp 200 rb, 3x setahun, selama 2 tahun, margin 50% -> CLTV = Rp 600.000.' },
+            { id: 'm1-23', term: 'CLTV / CAC Ratio', fullName: 'LTV to CAC Ratio', category: 'Metrik & Rumus Bisnis', module: 'Modul 1 - Performance & CAC', definition: 'Rasio perbandingan antara nilai keuntungan jangka panjang pelanggan (CLTV) dengan biaya untuk mendapatkannya (CAC). Rasio ≥ 3x umumnya dianggap sehat dan berkelanjutan.', formula: 'CLTV/CAC Ratio = CLTV ÷ CAC', example: 'Jika CLTV = Rp 600.000 dan CAC = Rp 150.000 -> Rasio = 4.0x (Sangat Sehat).' },
+            { id: 'm1-24', term: 'Media Planning', fullName: 'Media Plan', category: 'Performance & Paid Ads', module: 'Modul 1 - Performance & CAC', definition: 'Proses merencanakan pemilihan channel, pembagian anggaran (budget allocation), penjadwalan, target audiens, serta proyeksi metrik (Impressions, Clicks, CAC, ROAS) untuk mencapai target bisnis.', formula: '', example: 'Menyusun tabel proyeksi anggaran Rp 50 juta untuk Meta Ads (60%) dan Google Search (40%) selama Q4.' },
+            { id: 'm1-25', term: 'Bounce Rate', fullName: '', category: 'Analytics & Tag Tracking', module: 'Modul 1 - Performance & CAC', definition: 'Persentase sesi kunjungan di mana pengguna masuk ke website namun hanya melihat satu halaman tanpa interaksi lebih lanjut lalu langsung pergi.', formula: 'Bounce Rate = (Bounced Sessions ÷ Total Sessions) × 100%', example: 'Dari 1.000 kunjungan landing page, 450 langsung menutup halaman tanpa klik apa pun -> Bounce Rate = 45%.' },
+            { id: 'm1-26', term: 'Session', fullName: 'Website Session / Traffic', category: 'Analytics & Tag Tracking', module: 'Modul 1 - Performance & CAC', definition: 'Sekumpulan interaksi yang dilakukan satu pengguna di dalam website atau aplikasi dalam rentang waktu tertentu (secara default berakhir setelah 30 menit tidak aktif).', formula: '', example: 'Satu pengguna membuka homepage, melihat 3 halaman produk, lalu checkout dalam 15 menit = 1 Session.' },
+
+            // MODUL 3: ANALYTICS & GTM
+            { id: 'm3-1', term: 'Google Analytics 4 (GA4)', fullName: 'GA4', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Platform analitik generasi terbaru dari Google berbasis event untuk melacak dan menganalisis aktivitas pengguna, sumber traffic, konversi, dan performa bisnis di website maupun aplikasi.', formula: '', example: 'Melihat berapa banyak pengunjung yang datang dari Organic Search dan menyelesaikan pembelian.' },
+            { id: 'm3-2', term: 'Google Tag Manager (GTM)', fullName: 'GTM', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Sistem manajemen tag gratis dari Google yang memungkinkan marketer memasang dan memperbarui kode pelacakan (GA4, Meta Pixel, TikTok Pixel) di website tanpa harus mengubah kode sumber website berulang kali.', formula: '', example: 'Memasang pelacakan klik tombol WhatsApp melalui GTM tanpa perlu meminta bantuan programmer.' },
+            { id: 'm3-3', term: 'Meta Pixel', fullName: 'Facebook / Meta Tracking Pixel', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Potongan kode pelacakan yang dipasang di website untuk merekam tindakan pengunjung (ViewContent, AddToCart, Purchase) agar algoritma Meta Ads dapat mengoptimalkan iklan dan membuat audiens retargeting.', formula: '', example: 'Melacak orang yang klik iklan Instagram lalu berhasil melakukan pembayaran di website.' },
+            { id: 'm3-4', term: 'UTM Tag / Parameter', fullName: 'Urchin Tracking Module', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Parameter teks khusus yang ditambahkan di ujung URL link kampanye agar Google Analytics dapat mengenali secara presisi asal sumber traffic, medium, nama kampanye, dan konten iklannya.', formula: 'url.com?utm_source=...&utm_medium=...&utm_campaign=...', example: 'toko.com/?utm_source=instagram&utm_medium=paid_social&utm_campaign=promo_ramadan' },
+            { id: 'm3-5', term: 'UTM Source & Medium', fullName: 'utm_source & utm_medium', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'utm_source menunjukkan platform/asal pengirim traffic (google, instagram, newsletter), sedangkan utm_medium menunjukkan jenis/taktik salurannya (cpc, organic, email, referral).', formula: '', example: 'Source / Medium: google / cpc (iklan pencarian berbayar Google) atau instagram / organic.' },
+            { id: 'm3-6', term: 'UTM Campaign & Content', fullName: 'utm_campaign & utm_content', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'utm_campaign mengelompokkan traffic ke satu nama kampanye promosi tertentu, sedangkan utm_content membedakan variasi materi kreatif atau posisi link di dalam kampanye tersebut.', formula: '', example: 'utm_campaign=flash_sale_1111 & utm_content=video_testimoni_a' },
+            { id: 'm3-7', term: 'Campaign URL Builder', fullName: 'Google Campaign URL Builder', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Alat bantu resmi untuk menyusun link URL lengkap dengan parameter UTM secara rapi dan bebas salah ketik.', formula: '', example: 'Membuat link pelacakan khusus untuk dibagikan ke bio Instagram atau blast WhatsApp.' },
+            { id: 'm3-8', term: 'Tag, Trigger & Container (GTM)', fullName: 'Google Tag Manager Components', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Container adalah wadah seluruh pengaturan GTM di satu website; Tag adalah kode perintah pengirim data (ke GA4/Pixel); Trigger adalah aturan kondisi kapan Tag tersebut dijalankan (misal saat Page View atau Click).', formula: '', example: 'Trigger "Klik Tombol Beli" memicu Tag "GA4 Event Purchase" untuk mengirim laporan ke Analytics.' },
+            { id: 'm3-9', term: 'Event & Key Event', fullName: 'GA4 Events & Hard KPI', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Event adalah setiap interaksi pengguna yang direkam (scroll, klik tombol, play video), sedangkan Key Event (sebelumnya disebut Conversion) adalah event paling krusial yang berdampak langsung pada tujuan bisnis.', formula: '', example: 'Event: page_view, scroll. Key Event: purchase, generate_lead.' },
+            { id: 'm3-10', term: 'Engagement Rate (GA4)', fullName: '', category: 'Metrik & Rumus Bisnis', module: 'Modul 3 - Analytics & GTM', definition: 'Persentase sesi kunjungan yang aktif berinteraksi (berlangsung >10 detik, memiliki key event, atau melihat minimal 2 halaman). Kebalikan dari Bounce Rate di GA4.', formula: 'Engagement Rate = (Engaged Sessions ÷ Total Sessions) × 100%', example: 'Dari 1.000 sesi, 650 sesi aktif berinteraksi -> Engagement Rate = 65%.' },
+            { id: 'm3-11', term: 'DAU & MAU', fullName: 'Daily Active Users & Monthly Active Users', category: 'Metrik & Rumus Bisnis', module: 'Modul 3 - Analytics & GTM', definition: 'DAU adalah jumlah pengguna unik yang aktif menggunakan aplikasi/platform dalam satu hari, sedangkan MAU adalah jumlah pengguna unik yang aktif dalam rentang 30 hari (1 bulan).', formula: '', example: 'Aplikasi memiliki 20.000 DAU dan 100.000 MAU.' },
+            { id: 'm3-12', term: 'Stickiness Ratio', fullName: 'Product Stickiness (DAU/MAU)', category: 'Metrik & Rumus Bisnis', module: 'Modul 3 - Analytics & GTM', definition: 'Mengukur seberapa sering dan rutin pengguna kembali memakai aplikasi setiap bulannya.', formula: 'Stickiness (%) = (DAU ÷ MAU) × 100%', example: 'Jika DAU = 25.000 dan MAU = 100.000 -> Stickiness = 25% (rata-rata user membuka app 7-8 hari per bulan).' },
+            { id: 'm3-13', term: 'Dimension vs Metric', fullName: 'Analytics Data Structure', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Dimension adalah atribut teks/kategori untuk mengelompokkan data (Negara, Device, Source/Medium), sedangkan Metric adalah angka kuantitatif yang diukur (Sessions, Users, Revenue, CTR).', formula: '', example: 'Dimension: "Mobile" & "Desktop". Metric: "1.200 Sessions" & "Rp 15.000.000 Revenue".' },
+            { id: 'm3-14', term: 'Default Channel Grouping', fullName: '', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Pengelompokan otomatis sumber traffic di GA4 ke dalam kategori standar seperti Organic Search, Paid Search, Organic Social, Paid Social, Direct, Email, dan Referral.', formula: '', example: 'Memudahkan membandingkan performa keseluruhan traffic organik vs berbayar.' },
+            { id: 'm3-15', term: 'Measurement Plan', fullName: '', category: 'Analytics & Tag Tracking', module: 'Modul 3 - Analytics & GTM', definition: 'Dokumen perencanaan terstruktur yang memetakan tujuan bisnis menjadi KPI terukur dan daftar event teknis yang harus dilacak di website/aplikasi.', formula: '', example: 'Menentukan sebelum website rilis bahwa tombol "Daftar Gratis" dan "Checkout" wajib dilacak.' },
+            { id: 'm3-16', term: 'Pareto Principle (80/20)', fullName: '', category: 'Fundamental & Strategi', module: 'Modul 3 - Analytics & GTM', definition: 'Prinsip analisis yang menyatakan bahwa sekitar 80% hasil bisnis (omzet/konversi) sering kali berasal dari sekitar 20% sumber traffic, kampanye, atau produk terbaik.', formula: '', example: '80% penjualan toko berasal dari 20% SKU produk terlaris atau 2 kampanye iklan utama.' },
+
+            // MODUL 4: DATA ANALYSIS & REPORTING
+            { id: 'm4-1', term: 'Google Looker Studio', fullName: 'Google Data Studio', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Alat visualisasi data gratis dari Google untuk mengubah data mentah dari Google Analytics, Google Sheets, atau Google Ads menjadi dashboard laporan interaktif yang mudah dibaca.', formula: '', example: 'Membuat dashboard monitoring performa iklan harian otomatis untuk dipresentasikan ke klien/manajemen.' },
+            { id: 'm4-2', term: 'Pivot Table', fullName: '', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fitur ringkasan data di Google Sheets/Excel yang merangkum ribuan baris data mentah secara cepat untuk membandingkan metrik berdasarkan kategori, channel, atau tanggal.', formula: '', example: 'Meringkas total Ad Spend dan Revenue per bulan dan per platform iklan dalam hitungan detik.' },
+            { id: 'm4-3', term: 'QUERY()', fullName: 'Google Sheets QUERY Function', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi unggulan di Google Sheets yang menggunakan perintah mirip SQL untuk menyaring, mengelompokkan, dan mengurutkan data dari tabel besar secara dinamis.', formula: '=QUERY(A1:G100, "SELECT B, SUM(F) WHERE C = \'Paid\' GROUP BY B")', example: 'Menarik hanya data kampanye yang memiliki ROAS di atas 3x ke tab laporan terpisah.' },
+            { id: 'm4-4', term: 'Calculated Field', fullName: 'Custom Metric', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Kolom metrik baru buatan pengguna di Looker Studio atau Pivot Table yang dihitung memakai rumus dari field data yang sudah ada.', formula: 'SUM(Revenue) / SUM(Spend)', example: 'Membuat metrik ROAS atau CTR secara manual di dalam dashboard Looker Studio.' },
+            { id: 'm4-5', term: 'Data Blending & Joins', fullName: 'Left Join & Right Join', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Menggabungkan data dari dua sumber tabel berbeda (misal biaya iklan dari Meta Ads dan data penjualan aktual dari CRM) menggunakan kunci pencocokan yang sama seperti Tanggal atau Nama Kampanye.', formula: '', example: 'Left Join mempertahankan seluruh baris tabel kiri dan mencocokkan data dari tabel kanan.' },
+            { id: 'm4-6', term: 'Time Series & Comparison', fullName: '', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Penyajian data berdasarkan urutan waktu (harian, mingguan, bulanan) dan membandingkannya dengan periode sebelumnya (MoM / YoY) untuk membaca pola tren kenaikan atau penurunan.', formula: 'Growth (%) = ((Nilai Sekarang - Nilai Lalu) ÷ Nilai Lalu) × 100%', example: 'Membandingkan performa penjualan bulan ini vs bulan lalu (Month-over-Month).' },
+            { id: 'm4-7', term: 'Bar, Line & Combo Chart', fullName: 'Data Visualization Charts', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Bar chart membandingkan nilai antar kategori; Line chart menunjukkan tren perubahan dari waktu ke waktu; Combo chart menggabungkan batang dan garis untuk melihat dua metrik berskala berbeda sekaligus.', formula: '', example: 'Combo chart menampilkan Ad Spend (batang) dan ROAS (garis) dalam satu grafik.' },
+            { id: 'm4-8', term: 'Insight & Reporting Best Practices', fullName: '', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Laporan yang baik tidak sekadar menampilkan angka mentah, tetapi sederhana, berlabel jelas, menonjolkan Insight (alasan mengapa angka naik/turun), dan memberikan rekomendasi tindakan berikutnya.', formula: '', example: 'Insight: CPA naik 30% karena Ad Fatigue di audiens lama. Rekomendasi: Segarkan materi video kreatif minggu ini.' }
+        ];
+
+        // --- 2. STATE & CLOUD CONFIGURATION ---
+        const DEFAULT_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxJ5OU3vbRm69jk4n-Pl2iqlMwXNmk2crJaX87Z2IYg9PgRkp43wfgAsuDo3n5h1Cm8/exec	'; 
+        const DEFAULT_ADMIN_PIN = '05050201';
+
+        const STORAGE_KEY = 'kamus_digital_marketing_data_v2_revou';
+        const CONFIG_KEY = 'kamus_dm_cloud_config_v1';
+        const ADMIN_SESSION_KEY = 'kamus_dm_admin_unlocked';
+
+        let termsData = [];
+        let selectedCategory = 'Semua';
+        let selectedModule = 'Semua Modul';
+        let onlyWithFormula = false;
+        let searchQuery = '';
+
+        let cloudConfig = {
+            sheetUrl: DEFAULT_SHEET_URL,
+            adminPin: DEFAULT_ADMIN_PIN
+        };
+        let isAdminUnlocked = false;
+        let postUnlockCallback = null;
+
+        // --- 3. INITIALIZATION ---
+        window.onload = async function() {
+            loadCloudConfig();
+            loadDataFromStorage();
+            updateAdminUI();
+            updateCloudStatusUI();
+            renderModulePills();
+            renderCategoryPills();
+            handleSearchAndFilter();
+
+            if (cloudConfig.sheetUrl) {
+                await syncFromGoogleSheets(false);
+            }
+
+            document.addEventListener('click', function(e) {
+                const dropdown = document.getElementById('dataMenuDropdown');
+                const btn = document.getElementById('dataMenuBtn');
+                if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        };
+
+        function loadCloudConfig() {
+            try {
+                const savedCfg = localStorage.getItem(CONFIG_KEY);
+                if (savedCfg) {
+                    const parsed = JSON.parse(savedCfg);
+                    cloudConfig.sheetUrl = parsed.sheetUrl || DEFAULT_SHEET_URL;
+                    cloudConfig.adminPin = parsed.adminPin || DEFAULT_ADMIN_PIN;
+                }
+                isAdminUnlocked = sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+            } catch (err) {
+                console.error('Gagal memuat konfigurasi cloud:', err);
+            }
+        }
+
+        function saveCloudConfigToStorage() {
+            try {
+                localStorage.setItem(CONFIG_KEY, JSON.stringify(cloudConfig));
+            } catch (err) {
+                console.error('Gagal menyimpan konfigurasi cloud:', err);
+            }
+        }
+
+        function loadDataFromStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        termsData = parsed;
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error('Gagal membaca localStorage:', err);
+            }
+            termsData = JSON.parse(JSON.stringify(DEFAULT_TERMS));
+            saveDataToStorage();
+        }
+
+        function saveDataToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(termsData));
+            } catch (err) {
+                console.error('Gagal menyimpan ke localStorage:', err);
+            }
+        }
+
+        // --- 4. TAB SWITCHING & DROPDOWN ---
+        function switchTab(tab) {
+            const viewDict = document.getElementById('viewDictionary');
+            const viewCalc = document.getElementById('viewCalculator');
+            const btnDict = document.getElementById('tabBtnDictionary');
+            const btnCalc = document.getElementById('tabBtnCalculator');
+
+            if (tab === 'dictionary') {
+                viewDict.classList.remove('hidden');
+                viewCalc.classList.add('hidden');
+                btnDict.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition bg-white text-brand-900 shadow-sm flex items-center justify-center gap-2';
+                btnCalc.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition text-indigo-200 hover:text-white flex items-center justify-center gap-2';
+            } else {
+                viewDict.classList.add('hidden');
+                viewCalc.classList.remove('hidden');
+                btnCalc.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition bg-white text-brand-900 shadow-sm flex items-center justify-center gap-2';
+                btnDict.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-medium transition text-indigo-200 hover:text-white flex items-center justify-center gap-2';
+            }
+        }
+
+        function toggleDataMenu() {
+            const dropdown = document.getElementById('dataMenuDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // --- 5. FILTER PILLS RENDERING ---
+        function renderModulePills() {
+            const container = document.getElementById('modulePillsContainer');
+            const modules = ['Semua Modul', ...new Set(termsData.map(t => t.module).filter(Boolean))];
+            container.innerHTML = modules.map(mod => {
+                const isActive = selectedModule === mod;
+                const count = mod === 'Semua Modul' ? termsData.length : termsData.filter(t => t.module === mod).length;
+                return `
+                    <button onclick="selectModule('${escapeHTML(mod).replace(/'/g, "\\'")}')"
+                        class="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition flex items-center gap-1.5 ${isActive ? 'bg-brand-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                        <span>${escapeHTML(mod)}</span>
+                        <span class="px-1.5 py-0.2 rounded-full text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'}">${count}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderCategoryPills() {
+            const container = document.getElementById('categoryPillsContainer');
+            const categories = ['Semua', ...new Set(termsData.map(t => t.category).filter(Boolean))];
+            container.innerHTML = categories.map(cat => {
+                const isActive = selectedCategory === cat;
+                const count = cat === 'Semua' ? termsData.length : termsData.filter(t => t.category === cat).length;
+                return `
+                    <button onclick="selectCategory('${escapeHTML(cat).replace(/'/g, "\\'")}')"
+                        class="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition flex items-center gap-1.5 ${isActive ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                        <span>${escapeHTML(cat)}</span>
+                        <span class="px-1.5 py-0.2 rounded-full text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'}">${count}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectModule(mod) {
+            selectedModule = mod;
+            renderModulePills();
+            handleSearchAndFilter();
+        }
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategoryPills();
+            handleSearchAndFilter();
+        }
+
+        function toggleFormulaFilter() {
+            onlyWithFormula = !onlyWithFormula;
+            const btn = document.getElementById('formulaToggleBtn');
+            if (onlyWithFormula) {
+                btn.className = 'px-4 py-3 rounded-xl border border-brand-600 bg-brand-600 text-white text-sm font-semibold flex items-center justify-center gap-2 transition shrink-0 shadow-sm';
+            } else {
+                btn.className = 'px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-sm font-medium flex items-center justify-center gap-2 transition shrink-0';
+            }
+            handleSearchAndFilter();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            handleSearchAndFilter();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            selectedCategory = 'Semua';
+            selectedModule = 'Semua Modul';
+            onlyWithFormula = false;
+            const btn = document.getElementById('formulaToggleBtn');
+            btn.className = 'px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-sm font-medium flex items-center justify-center gap-2 transition shrink-0';
+            renderModulePills();
+            renderCategoryPills();
+            handleSearchAndFilter();
+        }
+
+        // --- 6. SEARCH, FILTER & RENDER CARDS ---
+        function handleSearchAndFilter() {
+            const inputEl = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            searchQuery = inputEl.value.trim();
+
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            const q = searchQuery.toLowerCase();
+            let filtered = termsData.filter(item => {
+                const matchModule = selectedModule === 'Semua Modul' || item.module === selectedModule;
+                const matchCategory = selectedCategory === 'Semua' || item.category === selectedCategory;
+                const matchFormula = !onlyWithFormula || (item.formula && item.formula.trim().length > 0);
+                const matchSearch = !q || 
+                    (item.term && item.term.toLowerCase().includes(q)) ||
+                    (item.fullName && item.fullName.toLowerCase().includes(q)) ||
+                    (item.definition && item.definition.toLowerCase().includes(q)) ||
+                    (item.formula && item.formula.toLowerCase().includes(q)) ||
+                    (item.example && item.example.toLowerCase().includes(q));
+
+                return matchModule && matchCategory && matchFormula && matchSearch;
+            });
+
+            const sortVal = document.getElementById('sortSelect').value;
+            if (sortVal === 'az') {
+                filtered.sort((a, b) => a.term.localeCompare(b.term));
+            } else if (sortVal === 'za') {
+                filtered.sort((a, b) => b.term.localeCompare(a.term));
+            } else if (sortVal === 'newest') {
+                filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+
+            document.getElementById('termCountBadge').textContent = termsData.length;
+            document.getElementById('resultSummaryText').innerHTML = `Menampilkan <strong>${filtered.length}</strong> dari <strong>${termsData.length}</strong> istilah`;
+
+            renderCards(filtered);
+        }
+
+        function renderCards(items) {
+            const grid = document.getElementById('termsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = items.map(item => {
+                const termHtml = highlightText(escapeHTML(item.term), searchQuery);
+                const fullNameHtml = item.fullName ? highlightText(escapeHTML(item.fullName), searchQuery) : '';
+                const defHtml = highlightText(escapeHTML(item.definition), searchQuery);
+                const formulaHtml = item.formula ? highlightText(escapeHTML(item.formula), searchQuery) : '';
+                const exampleHtml = item.example ? highlightText(escapeHTML(item.example), searchQuery) : '';
+
+                return `
+                    <div class="group bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all p-5 flex flex-col justify-between animate-fade-in">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-indigo-50 text-brand-700 border border-indigo-100">
+                                        ${escapeHTML(item.category)}
+                                    </span>
+                                    ${item.module ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 text-slate-600">${escapeHTML(item.module)}</span>` : ''}
+                                </div>
+                                <div class="flex items-center gap-1 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0">
+                                    <button onclick="requireAdmin(() => openTermModal('${item.id}'))" title="Edit Istilah" 
+                                        class="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition">
+                                        <i class="fa-solid fa-pen-to-square text-sm"></i>
+                                    </button>
+                                    <button onclick="requireAdmin(() => confirmDeleteTerm('${item.id}', '${escapeHTML(item.term).replace(/'/g, "\\'")}'))" title="Hapus Istilah" 
+                                        class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition">
+                                        <i class="fa-solid fa-trash-can text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <h3 class="text-lg font-extrabold text-slate-900 leading-snug">${termHtml}</h3>
+                            ${fullNameHtml ? `<p class="text-xs font-medium text-brand-600 mt-0.5">${fullNameHtml}</p>` : ''}
+                            
+                            <p class="text-sm text-slate-600 mt-3 leading-relaxed">${defHtml}</p>
+                        </div>
+
+                        <div class="mt-4 space-y-2.5">
+                            ${item.formula ? `
+                                <div class="bg-indigo-50/80 border border-indigo-100 rounded-xl p-3 relative group/formula">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-700 flex items-center gap-1">
+                                            <i class="fa-solid fa-square-root-variable"></i> Rumus
+                                        </span>
+                                        <button onclick="copyFormula('${escapeHTML(item.formula).replace(/'/g, "\\'")}')" class="text-[11px] text-brand-600 hover:text-brand-800 font-medium flex items-center gap-1">
+                                            <i class="fa-regular fa-copy"></i> Salin
+                                        </button>
+                                    </div>
+                                    <code class="text-xs font-semibold text-brand-950 block break-words leading-relaxed">${formulaHtml}</code>
+                                </div>
+                            ` : ''}
+
+                            ${item.example ? `
+                                <div class="bg-slate-50 border border-slate-100 rounded-xl p-3">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Contoh Praktis</span>
+                                    <p class="text-xs text-slate-600 leading-relaxed">${exampleHtml}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- 7. CRUD MODAL HANDLERS ---
+        function openTermModal(id = null) {
+            const modal = document.getElementById('termModal');
+            const titleEl = document.getElementById('termModalTitle');
+
+            if (id) {
+                const item = termsData.find(t => t.id === id);
+                if (!item) return;
+                titleEl.innerHTML = `<i class="fa-solid fa-pen-to-square text-indigo-300"></i> <span>Edit Istilah</span>`;
+                document.getElementById('termId').value = item.id;
+                document.getElementById('inputTerm').value = item.term;
+                document.getElementById('inputFullName').value = item.fullName || '';
+                document.getElementById('inputCategory').value = item.category || 'Fundamental & Strategi';
+                document.getElementById('inputModule').value = item.module || 'Umum / Tambahan';
+                document.getElementById('inputDefinition').value = item.definition;
+                document.getElementById('inputFormula').value = item.formula || '';
+                document.getElementById('inputExample').value = item.example || '';
+            } else {
+                titleEl.innerHTML = `<i class="fa-solid fa-plus-circle text-emerald-300"></i> <span>Tambah Istilah Baru</span>`;
+                document.getElementById('termId').value = '';
+                document.getElementById('inputTerm').value = '';
+                document.getElementById('inputFullName').value = '';
+                document.getElementById('inputCategory').value = 'Fundamental & Strategi';
+                document.getElementById('inputModule').value = 'Umum / Tambahan';
+                document.getElementById('inputDefinition').value = '';
+                document.getElementById('inputFormula').value = '';
+                document.getElementById('inputExample').value = '';
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('inputTerm').focus(), 100);
+        }
+
+        function openTermModalWithSearchTerm() {
+            openTermModal();
+            document.getElementById('inputTerm').value = searchQuery;
+        }
+
+        function closeTermModal() {
+            document.getElementById('termModal').classList.add('hidden');
+        }
+
+        async function saveTerm(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('termId').value;
+            const term = document.getElementById('inputTerm').value.trim();
+            const fullName = document.getElementById('inputFullName').value.trim();
+            const category = document.getElementById('inputCategory').value;
+            const module = document.getElementById('inputModule').value;
+            const definition = document.getElementById('inputDefinition').value.trim();
+            const formula = document.getElementById('inputFormula').value.trim();
+            const example = document.getElementById('inputExample').value.trim();
+
+            if (!term || !definition) return;
+
+            const submitBtn = document.getElementById('saveTermSubmitBtn');
+            const origBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+
+            if (id) {
+                const index = termsData.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    const updatedItem = {
+                        ...termsData[index],
+                        term,
+                        fullName,
+                        category,
+                        module,
+                        definition,
+                        formula,
+                        example
+                    };
+                    termsData[index] = updatedItem;
+                    saveDataToStorage();
+                    await postToGoogleSheets({ action: 'update', item: updatedItem });
+                    showToast(`Istilah "${term}" berhasil diperbarui!`);
+                }
+            } else {
+                const newItem = {
+                    id: 'term-' + Date.now(),
+                    term,
+                    fullName,
+                    category,
+                    module,
+                    definition,
+                    formula,
+                    example,
+                    createdAt: Date.now()
+                };
+                termsData.unshift(newItem);
+                saveDataToStorage();
+                await postToGoogleSheets({ action: 'create', item: newItem });
+                showToast(`Istilah baru "${term}" berhasil ditambahkan!`);
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = origBtnHtml;
+
+            renderModulePills();
+            renderCategoryPills();
+            handleSearchAndFilter();
+            closeTermModal();
+        }
+
+        let pendingConfirmCallback = null;
+
+        function confirmDeleteTerm(id, termName) {
+            document.getElementById('confirmTitle').textContent = 'Hapus Istilah?';
+            document.getElementById('confirmMessage').innerHTML = `Apakah Anda yakin ingin menghapus istilah <strong>"${termName}"</strong> dari kamus Anda?`;
+            pendingConfirmCallback = async () => {
+                termsData = termsData.filter(t => t.id !== id);
+                saveDataToStorage();
+                renderModulePills();
+                renderCategoryPills();
+                handleSearchAndFilter();
+                await postToGoogleSheets({ action: 'delete', id: id });
+                showToast(`Istilah "${termName}" telah dihapus.`);
+            };
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function openResetConfirmModal() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            document.getElementById('confirmTitle').textContent = 'Reset ke Data Bawaan?';
+            document.getElementById('confirmMessage').textContent = 'Seluruh perubahan lokal akan dikembalikan ke 100+ istilah bawaan awal.';
+            pendingConfirmCallback = () => {
+                termsData = JSON.parse(JSON.stringify(DEFAULT_TERMS));
+                saveDataToStorage();
+                renderModulePills();
+                renderCategoryPills();
+                handleSearchAndFilter();
+                showToast('Data berhasil dikembalikan ke pengaturan bawaan.');
+            };
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+            pendingConfirmCallback = null;
+        }
+
+        async function executePendingConfirm() {
+            if (pendingConfirmCallback) {
+                const cb = pendingConfirmCallback;
+                closeConfirmModal();
+                await cb();
+            }
+        }
+
+        // --- 8. BACKUP (EXPORT / IMPORT JSON) ---
+        function exportJSON() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            const dataStr = JSON.stringify(termsData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kamus-digital-marketing-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File backup JSON berhasil diunduh!');
+        }
+
+        function importJSON(event) {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported) && imported.length > 0 && imported[0].term) {
+                        termsData = imported;
+                        saveDataToStorage();
+                        renderModulePills();
+                        renderCategoryPills();
+                        handleSearchAndFilter();
+                        showToast(`Berhasil memuat ${imported.length} istilah dari file backup!`);
+                    } else {
+                        showToast('Format file JSON tidak valid.', 'error');
+                    }
+                } catch (err) {
+                    showToast('Gagal membaca file JSON.', 'error');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        // --- 9. KALKULATOR METRIK ---
+        function fillSampleCalculator() {
+            document.getElementById('calcSpend').value = 5000000;
+            document.getElementById('calcImpressions').value = 250000;
+            document.getElementById('calcClicks').value = 5000;
+            document.getElementById('calcConversions').value = 125;
+            document.getElementById('calcRevenue').value = 25000000;
+            document.getElementById('calcSessions').value = 4500;
+            document.getElementById('calcBounces').value = 1800;
+            document.getElementById('calcCltv').value = 150000;
+            calculateMetrics();
+        }
+
+        function formatRupiah(num) {
+            if (!isFinite(num) || isNaN(num)) return 'Rp 0';
+            return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+        }
+
+        function calculateMetrics() {
+            const spend = parseFloat(document.getElementById('calcSpend').value) || 0;
+            const imp = parseFloat(document.getElementById('calcImpressions').value) || 0;
+            const clicks = parseFloat(document.getElementById('calcClicks').value) || 0;
+            const conv = parseFloat(document.getElementById('calcConversions').value) || 0;
+            const rev = parseFloat(document.getElementById('calcRevenue').value) || 0;
+            const sessions = parseFloat(document.getElementById('calcSessions').value) || 0;
+            const bounces = parseFloat(document.getElementById('calcBounces').value) || 0;
+            const cltv = parseFloat(document.getElementById('calcCltv').value) || 0;
+
+            const ctr = imp > 0 ? (clicks / imp) * 100 : 0;
+            const cpc = clicks > 0 ? spend / clicks : 0;
+            const cpm = imp > 0 ? (spend / imp) * 1000 : 0;
+            const cvr = clicks > 0 ? (conv / clicks) * 100 : 0;
+            const cpa = conv > 0 ? spend / conv : 0;
+            const roas = spend > 0 ? rev / spend : 0;
+            const aov = conv > 0 ? rev / conv : 0;
+            const cir = rev > 0 ? (spend / rev) * 100 : 0;
+            const bounceRate = sessions > 0 ? (bounces / sessions) * 100 : 0;
+            const ltvCac = cpa > 0 ? cltv / cpa : 0;
+
+            document.getElementById('resCtr').textContent = ctr.toFixed(2) + '%';
+            document.getElementById('resCpc').textContent = formatRupiah(cpc);
+            document.getElementById('resCpm').textContent = formatRupiah(cpm);
+            document.getElementById('resCvr').textContent = cvr.toFixed(2) + '%';
+            document.getElementById('resCpa').textContent = formatRupiah(cpa);
+            document.getElementById('resRoas').textContent = `${roas.toFixed(2)}x (${Math.round(roas * 100)}%)`;
+            document.getElementById('resAov').textContent = formatRupiah(aov);
+            document.getElementById('resCir').textContent = cir.toFixed(2) + '%';
+            document.getElementById('resBounce').textContent = bounceRate.toFixed(2) + '%';
+            document.getElementById('resLtvCac').textContent = ltvCac.toFixed(2) + 'x';
+
+            const noteEl = document.getElementById('resLtvCacNote');
+            if (ltvCac === 0) {
+                noteEl.textContent = 'Ideal sehat: ≥ 3.0x';
+                noteEl.className = 'text-[11px] text-slate-500 mt-1';
+            } else if (ltvCac >= 3) {
+                noteEl.textContent = 'Sangat Sehat (≥ 3.0x)';
+                noteEl.className = 'text-[11px] font-semibold text-emerald-600 mt-1';
+            } else if (ltvCac >= 1) {
+                noteEl.textContent = 'Cukup, perlu optimasi (1x - 2.9x)';
+                noteEl.className = 'text-[11px] font-semibold text-amber-600 mt-1';
+            } else {
+                noteEl.textContent = 'Rugi: Biaya akuisisi > CLTV (< 1x)';
+                noteEl.className = 'text-[11px] font-semibold text-rose-600 mt-1';
+            }
+        }
+
+        // --- 10. UTILITIES ---
+        function copyFormula(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Rumus disalin ke clipboard!');
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const bgColor = type === 'error' ? 'bg-rose-600' : 'bg-slate-900';
+            const icon = type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check text-emerald-400';
+
+            toast.className = `${bgColor} text-white px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 animate-fade-in pointer-events-auto max-w-sm`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span>${escapeHTML(message)}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            return text.replace(regex, '<mark class="bg-amber-200/80 text-slate-900 px-0.5 rounded">$1</mark>');
+        }
+
+        // --- 11. ADMIN PIN SECURITY ---
+        function requireAdmin(callback) {
+            if (!cloudConfig.adminPin || isAdminUnlocked) {
+                callback();
+                return;
+            }
+            postUnlockCallback = callback;
+            document.getElementById('pinVerifyInput').value = '';
+            document.getElementById('pinErrorMsg').classList.add('hidden');
+            document.getElementById('pinModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('pinVerifyInput').focus(), 100);
+        }
+
+        function toggleAdminMode() {
+            if (isAdminUnlocked) {
+                isAdminUnlocked = false;
+                sessionStorage.removeItem(ADMIN_SESSION_KEY);
+                updateAdminUI();
+                showToast('Mode Admin dikunci (Mode Baca aktif).');
+            } else {
+                requireAdmin(() => {
+                    showToast('Mode Admin aktif! Anda kini bisa menambah & mengedit istilah.');
+                });
+            }
+        }
+
+        function verifyAdminPin(event) {
+            event.preventDefault();
+            const enteredPin = document.getElementById('pinVerifyInput').value.trim();
+            if (enteredPin === String(cloudConfig.adminPin)) {
+                isAdminUnlocked = true;
+                sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+                updateAdminUI();
+                closePinModal();
+                if (postUnlockCallback) {
+                    const cb = postUnlockCallback;
+                    postUnlockCallback = null;
+                    cb();
+                } else {
+                    showToast('PIN benar! Mode Admin aktif.');
+                }
+            } else {
+                document.getElementById('pinErrorMsg').classList.remove('hidden');
+                document.getElementById('pinVerifyInput').select();
+            }
+        }
+
+        function closePinModal() {
+            document.getElementById('pinModal').classList.add('hidden');
+            postUnlockCallback = null;
+        }
+
+        function updateAdminUI() {
+            const icon = document.getElementById('adminLockIcon');
+            const text = document.getElementById('adminLockText');
+            const btn = document.getElementById('adminToggleBtn');
+            if (!icon || !text || !btn) return;
+
+            if (isAdminUnlocked) {
+                icon.className = 'fa-solid fa-lock-open text-emerald-300';
+                text.textContent = 'Admin Aktif';
+                btn.classList.add('bg-emerald-500/20', 'border-emerald-400/40');
+                btn.classList.remove('bg-white/10', 'border-white/15');
+            } else {
+                icon.className = 'fa-solid fa-lock text-amber-300';
+                text.textContent = 'Mode Baca';
+                btn.classList.remove('bg-emerald-500/20', 'border-emerald-400/40');
+                btn.classList.add('bg-white/10', 'border-white/15');
+            }
+        }
+
+        // --- 12. GOOGLE SHEETS API SYNC ---
+        function updateCloudStatusUI(state = null) {
+            const dot = document.getElementById('cloudStatusDot');
+            const text = document.getElementById('cloudStatusText');
+            if (!dot || !text) return;
+
+            if (!cloudConfig.sheetUrl) {
+                dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+                text.textContent = 'Lokal';
+                return;
+            }
+
+            if (state === 'syncing') {
+                dot.className = 'w-2 h-2 rounded-full bg-sky-400 animate-ping';
+                text.textContent = 'Sinkron...';
+            } else if (state === 'error') {
+                dot.className = 'w-2 h-2 rounded-full bg-rose-400';
+                text.textContent = 'Offline';
+            } else {
+                dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+                text.textContent = 'Sheets Aktif';
+            }
+        }
+
+        function openCloudSettingsModal() {
+            const dropdown = document.getElementById('dataMenuDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+
+            document.getElementById('inputSheetUrl').value = cloudConfig.sheetUrl || '';
+            document.getElementById('inputAdminPin').value = cloudConfig.adminPin || DEFAULT_ADMIN_PIN;
+            document.getElementById('localCountForSync').textContent = termsData.length;
+            document.getElementById('cloudSettingsModal').classList.remove('hidden');
+        }
+
+        function closeCloudSettingsModal() {
+            document.getElementById('cloudSettingsModal').classList.add('hidden');
+        }
+
+        async function saveCloudSettings(event) {
+            event.preventDefault();
+            const newUrl = document.getElementById('inputSheetUrl').value.trim();
+            const newPin = document.getElementById('inputAdminPin').value.trim();
+
+            if (cloudConfig.adminPin && newPin !== cloudConfig.adminPin && !isAdminUnlocked) {
+                closeCloudSettingsModal();
+                requireAdmin(() => {
+                    cloudConfig.sheetUrl = newUrl;
+                    cloudConfig.adminPin = newPin || DEFAULT_ADMIN_PIN;
+                    saveCloudConfigToStorage();
+                    updateCloudStatusUI();
+                    showToast('Pengaturan Google Sheets & PIN berhasil disimpan!');
+                    if (cloudConfig.sheetUrl) syncFromGoogleSheets(true);
+                });
+                return;
+            }
+
+            cloudConfig.sheetUrl = newUrl;
+            cloudConfig.adminPin = newPin || DEFAULT_ADMIN_PIN;
+            saveCloudConfigToStorage();
+            updateCloudStatusUI();
+            closeCloudSettingsModal();
+            showToast('Pengaturan Google Sheets & PIN disimpan!');
+
+            if (cloudConfig.sheetUrl) {
+                await syncFromGoogleSheets(true);
+            }
+        }
+
+        async function syncFromGoogleSheets(notifyUser = false) {
+            const dropdown = document.getElementById('dataMenuDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+
+            if (!cloudConfig.sheetUrl) {
+                if (notifyUser) showToast('Masukkan URL Google Sheets terlebih dahulu di menu Data.', 'error');
+                return;
+            }
+
+            updateCloudStatusUI('syncing');
+            try {
+                const response = await fetch(cloudConfig.sheetUrl, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+                const result = await response.json();
+
+                if (result && result.status === 'success' && Array.isArray(result.data)) {
+                    if (result.data.length > 0) {
+                        termsData = result.data.map(row => ({
+                            id: String(row.id || ('term-' + Date.now() + Math.random())),
+                            term: String(row.term || ''),
+                            fullName: String(row.fullName || ''),
+                            category: String(row.category || 'Fundamental & Strategi'),
+                            module: String(row.module || 'Umum / Tambahan'),
+                            definition: String(row.definition || ''),
+                            formula: String(row.formula || ''),
+                            example: String(row.example || ''),
+                            createdAt: Number(row.createdAt) || Date.now()
+                        }));
+                        saveDataToStorage();
+                        renderModulePills();
+                        renderCategoryPills();
+                        handleSearchAndFilter();
+                        if (notifyUser) showToast(`Berhasil memuat ${termsData.length} istilah dari Google Sheets!`);
+                    } else if (notifyUser) {
+                        showToast('Google Sheets terhubung, namun tabel masih kosong. Gunakan tombol "Kirim Semua Istilah Lokal" untuk mengisi awal.');
+                    }
+                    updateCloudStatusUI('connected');
+                } else {
+                    throw new Error('Format respons tidak sesuai');
+                }
+            } catch (err) {
+                console.error('Gagal menarik data dari Google Sheets:', err);
+                updateCloudStatusUI('error');
+                if (notifyUser) showToast('Gagal terhubung ke Google Sheets. Periksa URL & akses "Anyone".', 'error');
+            }
+        }
+
+        async function postToGoogleSheets(payload) {
+            if (!cloudConfig.sheetUrl) return;
+            updateCloudStatusUI('syncing');
+            try {
+                await fetch(cloudConfig.sheetUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                updateCloudStatusUI('connected');
+            } catch (err) {
+                console.error('Gagal mengirim perubahan ke Google Sheets:', err);
+                updateCloudStatusUI('error');
+                showToast('Tersimpan lokal, namun gagal sinkron ke Google Sheets.', 'error');
+            }
+        }
+
+        async function pushAllLocalToGoogleSheets() {
+            const urlInput = document.getElementById('inputSheetUrl').value.trim();
+            if (!urlInput) {
+                showToast('Isi Google Apps Script Web App URL terlebih dahulu!', 'error');
+                return;
+            }
+
+            requireAdmin(async () => {
+                cloudConfig.sheetUrl = urlInput;
+                saveCloudConfigToStorage();
+
+                const btn = document.getElementById('btnPushAll');
+                const origText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengirim ${termsData.length} istilah...`;
+
+                try {
+                    const batchSize = 25;
+                    for (let i = 0; i < termsData.length; i += batchSize) {
+                        const chunk = termsData.slice(i, i + batchSize);
+                        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengirim ${Math.min(i + batchSize, termsData.length)} / ${termsData.length}...`;
+                        for (const item of chunk) {
+                            await fetch(cloudConfig.sheetUrl, {
+                                method: 'POST',
+                                mode: 'no-cors',
+                                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                body: JSON.stringify({ action: 'create', item: item })
+                            });
+                        }
+                    }
+                    updateCloudStatusUI('connected');
+                    showToast(`Berhasil mengirim ${termsData.length} istilah ke Google Sheets!`);
+                } catch (err) {
+                    console.error('Gagal migrasi massal:', err);
+                    updateCloudStatusUI('error');
+                    showToast('Terjadi kendala saat mengirim data ke Google Sheets.', 'error');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = origText;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
