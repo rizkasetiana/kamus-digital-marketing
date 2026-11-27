@@ -1631,17 +1631,23 @@
 
                 if (result && result.status === 'success' && Array.isArray(result.data)) {
                     if (result.data.length > 0) {
-                        const cloudItems = result.data.map(row => ({
-                            id: String(row.id || ('term-' + Date.now() + Math.random())),
-                            term: String(row.term || ''),
-                            fullName: String(row.fullName || ''),
-                            category: String(row.category || 'Fundamental & Strategi'),
-                            module: String(row.module || 'Umum / Tambahan'),
-                            definition: String(row.definition || ''),
-                            formula: String(row.formula || ''),
-                            example: String(row.example || ''),
-                            createdAt: Number(row.createdAt) || Date.now()
-                        }));
+                        const cloudItems = result.data.map(row => {
+                            let cleanFormula = String(row.formula || '');
+                            if (cleanFormula.startsWith("'=")) {
+                                cleanFormula = cleanFormula.substring(1);
+                            }
+                            return {
+                                id: String(row.id || ('term-' + Date.now() + Math.random())),
+                                term: String(row.term || ''),
+                                fullName: String(row.fullName || ''),
+                                category: String(row.category || 'Fundamental & Strategi'),
+                                module: String(row.module || 'Umum / Tambahan'),
+                                definition: String(row.definition || ''),
+                                formula: cleanFormula,
+                                example: String(row.example || ''),
+                                createdAt: Number(row.createdAt) || Date.now()
+                            };
+                        });
 
                         // Pertahankan istilah bawaan terbaru yang belum tersimpan di Google Sheets
                         const cloudIds = new Set(cloudItems.map(t => t.id));
@@ -1672,13 +1678,17 @@
             if (!cloudConfig.sheetUrl) return;
             updateCloudStatusUI('syncing');
             try {
+                const safePayload = JSON.parse(JSON.stringify(payload));
+                if (safePayload.item && safePayload.item.formula && String(safePayload.item.formula).trim().startsWith('=')) {
+                    safePayload.item.formula = "'" + String(safePayload.item.formula).trim();
+                }
                 await fetch(cloudConfig.sheetUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
                         'Content-Type': 'text/plain;charset=utf-8'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(safePayload)
                 });
                 updateCloudStatusUI('connected');
             } catch (err) {
@@ -1710,11 +1720,15 @@
                         const chunk = termsData.slice(i, i + batchSize);
                         btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengirim ${Math.min(i + batchSize, termsData.length)} / ${termsData.length}...`;
                         for (const item of chunk) {
+                            const safeItem = { ...item };
+                            if (safeItem.formula && String(safeItem.formula).trim().startsWith('=')) {
+                                safeItem.formula = "'" + String(safeItem.formula).trim();
+                            }
                             await fetch(cloudConfig.sheetUrl, {
                                 method: 'POST',
                                 mode: 'no-cors',
                                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                                body: JSON.stringify({ action: 'create', item: item })
+                                body: JSON.stringify({ action: 'create', item: safeItem })
                             });
                         }
                     }
