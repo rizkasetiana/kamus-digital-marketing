@@ -512,18 +512,18 @@
     </div>
 
     <!-- ==================== MODAL: KONFIRMASI HAPUS / RESET ==================== -->
-    <div id="confirmModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-sm p-6 animate-fade-in">
+    <div id="confirmModal" onclick="if(event.target === this) closeConfirmModal()" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-sm p-6 animate-fade-in relative z-[61]">
             <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl mb-4 mx-auto">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
             <h3 id="confirmTitle" class="text-lg font-bold text-slate-800 text-center mb-1">Konfirmasi</h3>
             <p id="confirmMessage" class="text-xs text-slate-500 text-center mb-5 leading-relaxed">Apakah Anda yakin?</p>
             <div class="flex items-center gap-2.5">
-                <button type="button" onclick="closeConfirmModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition">
+                <button type="button" id="btnConfirmCancel" onclick="closeConfirmModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 active:scale-95 transition cursor-pointer">
                     Batal
                 </button>
-                <button type="button" onclick="executePendingConfirm()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold shadow-sm transition">
+                <button type="button" id="btnConfirmProceed" onclick="executePendingConfirm()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold shadow-sm active:scale-95 transition cursor-pointer">
                     Ya, Lanjutkan
                 </button>
             </div>
@@ -1207,8 +1207,51 @@
         let pendingConfirmCallback = null;
 
         function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
+            const modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.add('hidden');
             pendingConfirmCallback = null;
+        }
+
+        async function executePendingConfirm() {
+            const cb = pendingConfirmCallback;
+            closeConfirmModal();
+            if (typeof cb === 'function') {
+                await cb();
+            }
+        }
+
+        function confirmDeleteTerm(id, termName) {
+            document.getElementById('confirmTitle').textContent = 'Hapus Istilah?';
+            document.getElementById('confirmMessage').innerHTML = `Apakah Anda yakin ingin menghapus istilah <strong>"${termName}"</strong> dari kamus Anda?`;
+            pendingConfirmCallback = async () => {
+                termsData = termsData.filter(t => t.id !== id);
+                saveDataToStorage();
+                renderModulePills();
+                renderCategoryPills();
+                handleSearchAndFilter();
+                await postToGoogleSheets({ action: 'delete', id: id });
+                showToast(`Istilah "${termName}" telah dihapus.`);
+            };
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('btnConfirmProceed')?.focus(), 50);
+        }
+
+        function openResetConfirmModal() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            document.getElementById('confirmTitle').textContent = 'Reset ke Data Bawaan?';
+            document.getElementById('confirmMessage').textContent = `Seluruh perubahan lokal akan dikembalikan ke ${DEFAULT_TERMS.length} istilah bawaan awal.`;
+            pendingConfirmCallback = () => {
+                termsData = JSON.parse(JSON.stringify(DEFAULT_TERMS));
+                saveDataToStorage();
+                renderModulePills();
+                renderCategoryPills();
+                handleSearchAndFilter();
+                showToast(`Data berhasil dikembalikan ke ${DEFAULT_TERMS.length} istilah bawaan.`);
+            };
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('btnConfirmProceed')?.focus(), 50);
         }
 
         async function executePendingConfirm() {
