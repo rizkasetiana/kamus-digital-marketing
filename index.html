@@ -104,6 +104,52 @@
         .library-header-bg {
             background: linear-gradient(135deg, #fde68a 0%, #fbbf24 50%, #f59e0b 100%);
         }
+        .article-prose h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .article-prose p {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+            color: #334155;
+        }
+        .article-prose ul, .article-prose ol {
+            margin-bottom: 0.85rem;
+            padding-left: 1.35rem;
+            color: #334155;
+        }
+        .article-prose ul {
+            list-style-type: disc;
+        }
+        .article-prose ol {
+            list-style-type: decimal;
+        }
+        .article-prose li {
+            margin-bottom: 0.35rem;
+            line-height: 1.65;
+        }
+        .article-prose code {
+            background-color: #fef3c7;
+            border: 1px solid #cbd5e1;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            color: #92400e;
+        }
+        .article-prose pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid #0f172a;
+            overflow-x: auto;
+            font-size: 0.78rem;
+            margin-bottom: 0.9rem;
+        }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
@@ -179,7 +225,7 @@
                         </div>
                         <div class="bg-white/90 backdrop-blur-xs px-3.5 py-1.5 rounded-2xl border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">
                             <h1 class="text-lg sm:text-2xl font-bold tracking-tight text-slate-900 leading-tight">Perpustakaan Digital Marketing</h1>
-                            <p class="text-xs font-semibold text-slate-700 mt-0.5">🏛️ Kamus Saku Istilah, Rumus & Kalkulator Belajar</p>
+                            <p class="text-xs font-semibold text-slate-700 mt-0.5">🏛️ Kamus Saku Istilah, Rumus, Artikel & Kalkulator Belajar</p>
                         </div>
                     </div>
 
@@ -190,10 +236,13 @@
 
                 <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
                     <div class="bg-amber-200/90 p-1 rounded-xl flex items-center border-2 border-slate-900 w-full sm:w-auto">
-                        <button id="tabBtnDictionary" onclick="switchTab('dictionary')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition bg-white text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] flex items-center justify-center gap-2">
+                        <button id="tabBtnDictionary" onclick="switchTab('dictionary')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition bg-white text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-book-open text-amber-600"></i> Rak Buku (<span id="termCountBadge">0</span>)
                         </button>
-                        <button id="tabBtnCalculator" onclick="switchTab('calculator')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-2">
+                        <button id="tabBtnArticles" onclick="switchTab('articles')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-newspaper text-rose-600"></i> Artikel (<span id="articleCountBadge">0</span>)
+                        </button>
+                        <button id="tabBtnCalculator" onclick="switchTab('calculator')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-calculator text-indigo-600"></i> Kalkulator
                         </button>
                     </div>
@@ -260,6 +309,7 @@
 
     <!-- ==================== MAIN CONTENT ==================== -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- VIEW 1: KAMUS / RAK BUKU -->
         <div id="viewDictionary" class="space-y-6">
             <div class="bg-paper rounded-2xl cartoon-box p-4 sm:p-5 space-y-4 relative overflow-hidden">
                 <div class="hidden lg:flex items-center gap-3 bg-amber-100/80 border-2 border-slate-900 rounded-xl px-4 py-2.5">
@@ -272,7 +322,7 @@
                     </svg>
                     <div class="text-xs text-slate-800">
                         <span class="font-cartoon text-sm font-bold text-amber-900 block">Selamat Belajar Digital Marketing! ✨</span>
-                        <span>Cari istilah apa saja di rak buku ini, filter berdasarkan modul belajar, atau buka tab <strong>Kalkulator</strong> untuk latihan menghitung rumus iklan.</span>
+                        <span>Cari istilah apa saja di rak buku ini, baca panduan lengkap di tab <strong>Artikel</strong>, atau buka tab <strong>Kalkulator</strong> untuk latihan menghitung rumus iklan.</span>
                     </div>
                 </div>
 
@@ -280,7 +330,7 @@
                     <div class="relative flex-1">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-700"></i>
                         <input type="text" id="searchInput" oninput="handleSearchAndFilter()" 
-                            placeholder="Cari kata kunci di buku kamus (misal: CTR, SEO, GMV, ROAS, Funnel, GA4)..." 
+                            placeholder="Cari kata kunci di buku kamus (misal: CTR, SEO, GMV, ROAS, IFERROR, QUERY)..." 
                             class="w-full pl-11 pr-10 py-3 bg-white border-2 border-slate-900 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-amber-300 transition">
                         <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 p-1">
                             <i class="fa-solid fa-circle-xmark text-base"></i>
@@ -337,7 +387,7 @@
                 </div>
                 <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Mau Cari Istilah atau Rumus Apa Hari Ini?</h3>
                 <p class="text-sm text-slate-600 mb-6 leading-relaxed">
-                    Tersedia <strong><span id="welcomeTotalCount">230</span> istilah & rumus</strong> siap dicari. Ketik kata kunci pada kolom pencarian di atas, pilih <strong>Bab / Modul</strong>, atau klik salah satu <strong>Rak Kategori</strong> untuk membuka halamannya.
+                    Tersedia <strong><span id="welcomeTotalCount">240</span> istilah & rumus</strong> siap dicari. Ketik kata kunci pada kolom pencarian di atas, pilih <strong>Bab / Modul</strong>, atau klik salah satu <strong>Rak Kategori</strong> untuk membuka halamannya.
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-3">
                     <button onclick="document.getElementById('searchInput').focus()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-900 text-sm font-bold cartoon-btn flex items-center gap-2">
@@ -345,6 +395,9 @@
                     </button>
                     <button onclick="showAllTermsManual()" class="px-5 py-2.5 rounded-xl bg-white hover:bg-sky-50 text-slate-800 text-sm font-bold cartoon-btn flex items-center gap-2">
                         <i class="fa-solid fa-layer-group text-sky-600"></i> Lihat Semua Daftar
+                    </button>
+                    <button onclick="switchTab('articles')" class="px-5 py-2.5 rounded-xl bg-rose-200 hover:bg-rose-300 text-slate-900 text-sm font-bold cartoon-btn flex items-center gap-2">
+                        <i class="fa-solid fa-newspaper text-rose-700"></i> Baca Artikel Panduan
                     </button>
                 </div>
             </div>
@@ -376,7 +429,67 @@
             </div>
         </div>
 
-        <!-- VIEW 2: KALKULATOR METRIK DIGITAL MARKETING -->
+        <!-- VIEW 2: ARTIKEL & PANDUAN PRAKTIS -->
+        <div id="viewArticles" class="hidden space-y-6 animate-fade-in">
+            <div class="bg-paper rounded-2xl cartoon-box p-5 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b-2 border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-rose-300 border-2 border-slate-900 flex items-center justify-center text-slate-900 text-xl shrink-0">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Artikel & Panduan Digital Marketing</h2>
+                            <p class="text-xs sm:text-sm text-slate-600">Bacaan praktis seputar Spreadsheet, Funnel, Tracking GA4, hingga strategi optimasi iklan.</p>
+                        </div>
+                    </div>
+                    <button onclick="requireAdmin(() => openArticleEditorModal())" class="px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-500 text-slate-900 text-xs sm:text-sm font-bold cartoon-btn self-start sm:self-auto flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> Tulis Artikel Baru
+                    </button>
+                </div>
+
+                <!-- Search & Category Filter Artikel -->
+                <div class="mt-4 flex flex-col md:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-700"></i>
+                        <input type="text" id="articleSearchInput" oninput="renderArticles()" 
+                            placeholder="Cari judul atau topik artikel (misal: Spreadsheet, ROAS, Funnel, GA4)..." 
+                            class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-amber-300 transition">
+                    </div>
+                    <div id="articleCategoryPills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
+                </div>
+            </div>
+
+            <!-- Grid Daftar Artikel -->
+            <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+            <!-- Detail Reader Artikel -->
+            <div id="articleReaderView" class="hidden bg-paper rounded-2xl cartoon-box overflow-hidden animate-fade-in">
+                <div class="bg-amber-200 border-b-2 border-slate-900 px-5 sm:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
+                    <button onclick="closeArticleReader()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-amber-50 text-slate-900 text-xs sm:text-sm font-bold cartoon-btn flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Artikel
+                    </button>
+                    <div id="readerAdminActions" class="hidden flex items-center gap-2">
+                        <button id="btnEditCurrentArticle" class="px-3 py-1.5 rounded-xl bg-sky-300 hover:bg-sky-400 text-slate-900 text-xs font-bold cartoon-btn flex items-center gap-1.5">
+                            <i class="fa-solid fa-pen"></i> Edit Artikel
+                        </button>
+                        <button id="btnDeleteCurrentArticle" class="px-3 py-1.5 rounded-xl bg-rose-300 hover:bg-rose-400 text-slate-900 text-xs font-bold cartoon-btn flex items-center gap-1.5">
+                            <i class="fa-solid fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+                <article class="p-6 sm:p-10 max-w-4xl mx-auto">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span id="readerCategoryBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-rose-200 border-2 border-slate-900 text-slate-900">Kategori</span>
+                        <span id="readerReadTime" class="text-xs font-semibold text-slate-600"><i class="fa-regular fa-clock mr-1"></i> 5 menit baca</span>
+                    </div>
+                    <h1 id="readerTitle" class="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug mb-3">Judul Artikel</h1>
+                    <p id="readerSummary" class="text-sm sm:text-base text-slate-600 font-medium bg-amber-50 border-2 border-slate-900 rounded-xl p-4 mb-6">Ringkasan artikel...</p>
+                    <div id="readerBody" class="article-prose text-sm sm:text-base"></div>
+                </article>
+            </div>
+        </div>
+
+        <!-- VIEW 3: KALKULATOR METRIK DIGITAL MARKETING -->
         <div id="viewCalculator" class="hidden space-y-6 animate-fade-in">
             <div class="bg-paper rounded-2xl cartoon-box p-5 sm:p-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b-2 border-slate-200">
@@ -510,6 +623,61 @@
     </main>
 
     <!-- ==================== MODALS ==================== -->
+    <!-- MODAL: EDITOR ARTIKEL -->
+    <div id="articleModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-paper rounded-2xl cartoon-box w-full max-w-2xl overflow-hidden animate-fade-in my-auto">
+            <div class="bg-rose-300 text-slate-900 border-b-2 border-slate-900 px-6 py-4 flex items-center justify-between">
+                <h3 id="articleModalTitle" class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-newspaper text-rose-800"></i>
+                    <span>Tulis Artikel Baru</span>
+                </h3>
+                <button onclick="closeArticleEditorModal()" class="text-slate-800 hover:bg-white/60 p-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="saveArticle(event)" class="p-6 space-y-4 max-h-[82vh] overflow-y-auto">
+                <input type="hidden" id="articleId">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Judul Artikel *</label>
+                    <input type="text" id="inputArticleTitle" required placeholder="Contoh: Cara Membaca ROAS dan CPA untuk Pemula" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Artikel</label>
+                        <select id="inputArticleCategory" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                            <option value="Spreadsheet & Data">Spreadsheet & Data</option>
+                            <option value="Performance & Paid Ads">Performance & Paid Ads</option>
+                            <option value="Strategi & Funnel">Strategi & Funnel</option>
+                            <option value="Analytics & Tracking">Analytics & Tracking</option>
+                            <option value="SEO & Konten">SEO & Konten</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Estimasi Waktu Baca</label>
+                        <input type="text" id="inputArticleReadTime" placeholder="Contoh: 5 menit baca" value="5 menit baca" class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Ringkasan Singkat *</label>
+                    <textarea id="inputArticleSummary" required rows="2" placeholder="Ringkasan 1-2 kalimat yang tampil di kartu artikel..." class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Isi Artikel Lengkap (Mendukung Paragraf & Subjudul) *</label>
+                    <textarea id="inputArticleContent" required rows="8" placeholder="Tulis isi panduan lengkap di sini. Gunakan baris kosong untuk memisahkan paragraf..." class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+                </div>
+                <div class="pt-3 border-t-2 border-slate-200 flex items-center justify-end gap-3">
+                    <button type="button" onclick="closeArticleEditorModal()" class="px-4 py-2.5 rounded-xl bg-white text-slate-700 text-sm font-bold cartoon-btn">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-500 text-slate-900 text-sm font-bold cartoon-btn flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan Artikel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="cloudSettingsModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-paper rounded-2xl cartoon-box w-full max-w-xl overflow-hidden animate-fade-in my-auto">
             <div class="bg-amber-300 text-slate-900 border-b-2 border-slate-900 px-6 py-4 flex items-center justify-between">
@@ -554,7 +722,7 @@
                         </div>
                     </div>
                     <p class="text-[11px] text-slate-700 leading-relaxed">
-                        Pengunjung yang membuka link Anda tetap bisa mencari istilah dan memakai kalkulator, namun wajib memasukkan PIN ini untuk menambah, mengedit, atau menghapus istilah.
+                        Pengunjung yang membuka link Anda tetap bisa mencari istilah, membaca artikel, dan memakai kalkulator, namun wajib memasukkan PIN ini untuk menambah, mengedit, atau menghapus data.
                     </p>
                 </div>
 
@@ -588,7 +756,7 @@
                 <i class="fa-solid fa-key"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 text-center mb-1">Verifikasi Mode Admin</h3>
-            <p class="text-xs text-slate-600 text-center mb-5">Masukkan PIN Admin untuk mengaktifkan fitur tambah, edit, dan hapus istilah.</p>
+            <p class="text-xs text-slate-600 text-center mb-5">Masukkan PIN Admin untuk mengaktifkan fitur tambah, edit, dan hapus data.</p>
             
             <form onsubmit="verifyAdminPin(event)" class="space-y-4">
                 <div>
@@ -947,19 +1115,120 @@
             { id: 'soc-13', term: 'Social Proof', fullName: '', category: 'Social Media Marketing', module: 'Umum / Tambahan', definition: 'Bukti sosial berupa testimoni, jumlah pembeli, ulasan bintang 5, atau liputan media yang meyakinkan calon pelanggan bahwa produk tersebut terpercaya dan dipilih banyak orang.', formula: '', example: 'Menampilkan sorotan story "Testimoni 10.000+ Pelanggan Puas" di profil Instagram bisnis.' },
             { id: 'soc-14', term: 'Brand Tone of Voice', fullName: 'Brand Voice', category: 'Social Media Marketing', module: 'Umum / Tambahan', definition: 'Karakter kepribadian dan gaya bahasa konsisten yang digunakan brand saat berkomunikasi di caption, balasan komentar, maupun iklan.', formula: '', example: 'Gaya bahasa santai, akrab, dan jenaka untuk brand kopi anak muda vs formal dan edukatif untuk bank.' },
             { id: 'soc-15', term: 'Virality Rate', fullName: 'Amplification Rate', category: 'Social Media Marketing', module: 'Umum / Tambahan', definition: 'Persentase seberapa sering sebuah konten dibagikan ulang (share/repost) dibandingkan jumlah tayangan atau impresinya.', formula: 'Virality Rate = (Total Shares ÷ Total Impressions) × 100%', example: 'Unggahan mendapat 400 shares dari 20.000 impressions -> Virality Rate = 2%.' },
-            { id: 'soc-16', term: 'Spark Ads / Whitelisting', fullName: 'Creator Licensing / Partnership Ads', category: 'Social Media Marketing', module: 'Umum / Tambahan', definition: 'Menjalankan iklan berbayar menggunakan identitas akun kreator/influencer (dengan izin mereka) sehingga iklan tampil lebih natural seperti konten organik kreator tersebut.', formula: '', example: 'Mengiklankan video review TikTok milik kreator melalui akun kreator tersebut memakai kode Spark Ads.' }
+            { id: 'soc-16', term: 'Spark Ads / Whitelisting', fullName: 'Creator Licensing / Partnership Ads', category: 'Social Media Marketing', module: 'Umum / Tambahan', definition: 'Menjalankan iklan berbayar menggunakan identitas akun kreator/influencer (dengan izin mereka) sehingga iklan tampil lebih natural seperti konten organik kreator tersebut.', formula: '', example: 'Mengiklankan video review TikTok milik kreator melalui akun kreator tersebut memakai kode Spark Ads.' },
+
+            { id: 'ss-1', term: 'SUMIF & SUMIFS', fullName: 'Conditional Sum Function (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi spreadsheet untuk menjumlahkan angka (seperti Ad Spend atau Revenue) berdasarkan satu syarat (SUMIF) atau banyak syarat sekaligus seperti platform dan periode kampanye (SUMIFS).', formula: '=SUMIFS(F2:F100, B2:B100, "Google Ads", C2:C100, "Promo 12.12")', example: 'Menghitung total biaya iklan khusus platform Meta Ads sepanjang bulan November tanpa memfilter tabel.' },
+            { id: 'ss-2', term: 'COUNTIF & COUNTIFS', fullName: 'Conditional Count Function (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi spreadsheet untuk menghitung berapa banyak baris data atau transaksi yang memenuhi satu kriteria (COUNTIF) maupun beberapa kriteria (COUNTIFS).', formula: '=COUNTIF(G2:G100, "Paid")', example: 'Menghitung jumlah pesanan berstatus "Paid" atau menghitung berapa kampanye yang mencapai target ROAS ≥ 3.' },
+            { id: 'ss-3', term: 'IFERROR', fullName: 'Error Handling Function (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi wajib dalam laporan iklan spreadsheet untuk membungkus rumus pembagian agar ketika pembaginya bernilai nol (misal 0 Clicks atau 0 Conversions), sel tidak menampilkan error #DIV/0! yang merusak perhitungan total.', formula: '=IFERROR(Revenue / Spend, 0)', example: 'Membungkus rumus CTR menjadi =IFERROR(Clicks / Impressions, 0) sehingga tetap rapi bernilai 0% saat iklan belum tayang.' },
+            { id: 'ss-4', term: 'IF (Fungsi Logika Evaluasi)', fullName: 'Conditional Logic IF() (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi logika di spreadsheet untuk memberi label status keputusan kampanye secara otomatis berdasarkan ambang batas KPI tertentu.', formula: '=IF(M2>=3, "Scale Up (Profit)", IF(M2>=1.5, "Pertahankan", "Evaluasi / Matikan"))', example: 'Otomatis menandai baris kampanye dengan label "Scale Up" jika nilai ROAS di kolom M mencapai 3.0 atau lebih.' },
+            { id: 'ss-5', term: 'XLOOKUP & VLOOKUP', fullName: 'Lookup & Data Blending Function (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fungsi pencarian di spreadsheet untuk menarik dan mencocokkan data dari tabel lain berdasarkan ID atau nama kampanye yang sama (misal menggabungkan data biaya iklan dengan omzet kasir).', formula: '=XLOOKUP(A2, Kasir!A:A, Kasir!E:E, 0)', example: 'Menarik nilai Revenue aktual dari sheet penjualan ke sheet laporan iklan berdasarkan Campaign ID.' },
+            { id: 'ss-6', term: 'CONCATENATE & UTM Builder Formula', fullName: 'Text Joining & Automated UTM Link (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Penggabungan teks menggunakan fungsi CONCATENATE atau operator "&" di spreadsheet untuk merakit ratusan tautan pelacakan kampanye (UTM URL) secara massal dan bebas salah ketik.', formula: '=A2 & "?utm_source=" & LOWER(B2) & "&utm_medium=" & LOWER(C2) & "&utm_campaign=" & SUBSTITUTE(LOWER(D2), " ", "_")', example: 'Mengubah kolom Landing Page, Source, Medium, dan Campaign menjadi link UTM siap pakai secara otomatis.' },
+            { id: 'ss-7', term: 'TRIM & LOWER', fullName: 'Data Cleaning Functions (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Pasangan fungsi pembersih data teks di spreadsheet: TRIM menghapus spasi berlebih yang tidak sengaja terketik di awal/akhir kata, sedangkan LOWER menyeragamkan huruf menjadi huruf kecil semua agar kategori tidak terpecah saat di-Pivot.', formula: '=TRIM(LOWER(B2))', example: 'Menyamakan penulisan "Meta Ads ", "meta ads", dan "META ADS" agar terbaca sebagai satu kategori utuh.' },
+            { id: 'ss-8', term: 'Conditional Formatting', fullName: 'Visual Rule Highlighting (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fitur spreadsheet yang otomatis mewarnai sel atau baris berdasarkan nilai angkanya sehingga kampanye yang menang maupun boncos langsung terlihat sekilas mata.', formula: 'Aturan: Sel ≥ 3.0 (Hijau) | Sel < 1.5 (Merah)', example: 'Mewarnai sel ROAS ≥ 3 dengan latar hijau dan sel ROAS < 1.5 dengan warna merah pada tabel laporan harian.' },
+            { id: 'ss-9', term: 'Ads Tracker Table Structure', fullName: 'Struktur Tabel Laporan Kampanye Standar', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Aturan penyusunan tabel database iklan di spreadsheet dengan prinsip "1 Baris = 1 Data Harian per Kampanye" (Date, Channel, Campaign, Spend, Impressions, Clicks, Conversions, Revenue) agar siap diolah ke Pivot Table dan Looker Studio.', formula: 'Input Mentah: Spend, Impr, Clicks, Conv, Rev → Rumus Otomatis: CTR, CPC, CVR, CPA, ROAS', example: 'Menyusun kolom A–H sebagai data mentah platform iklan dan kolom I–M sebagai metrik turunan berumus IFERROR.' },
+            { id: 'ss-10', term: 'Weighted Average Metric (Total CTR / ROAS)', fullName: 'Aturan Perhitungan Baris Total Metrik Rasio', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Prinsip krusial dalam laporan spreadsheet bahwa metrik rasio (CTR, CVR, ROAS, CPA) pada baris Total tidak boleh dihitung dengan =AVERAGE(), melainkan wajib dihitung ulang dari pembagian total pembilang dan penyebutnya.', formula: 'Total ROAS = SUM(Revenue) ÷ SUM(Ad Spend) | Total CTR = SUM(Clicks) ÷ SUM(Impressions)', example: 'Menghindari kesalahan fatal laporan bulanan akibat merata-ratakan persentase harian yang volume kliknya berbeda jauh.' }
+        ];
+
+        const DEFAULT_ARTICLES = [
+            {
+                id: 'art-1',
+                title: 'Panduan Lengkap Penggunaan Spreadsheet (Google Sheets / Excel) di Digital Marketing',
+                category: 'Spreadsheet & Data',
+                readTime: '6 menit baca',
+                summary: 'Pelajari peran utama spreadsheet, rumus anti-error #DIV/0!, pembuat link UTM otomatis, hingga struktur tabel laporan kampanye standar.',
+                content: `<h4>1. Peran Utama Spreadsheet bagi Digital Marketer</h4>
+<ul>
+<li><strong>Media Planning & Budgeting:</strong> Menghitung estimasi klik, leads, penjualan, dan pembagian anggaran harian/bulanan antar channel (Meta Ads, Google Ads, TikTok Ads).</li>
+<li><strong>Campaign Performance Tracking:</strong> Merekap data harian dari berbagai platform iklan menjadi satu tabel terpadu untuk memantau efisiensi biaya.</li>
+<li><strong>UTM Link Builder Massal:</strong> Membuat ratusan tautan pelacakan kampanye (utm_source, utm_medium, utm_campaign) secara otomatis tanpa salah ketik.</li>
+<li><strong>Data Cleaning & Blending:</strong> Merapikan format tanggal, menggabungkan tabel biaya iklan dengan tabel omzet penjualan aktual, serta menghapus data duplikat.</li>
+</ul>
+
+<h4>2. Rumus & Fungsi Spreadsheet Paling Wajib Dikuasai</h4>
+<p>Dalam laporan iklan, sering kali ada hari di mana Clicks = 0 atau Conversions = 0. Jika langsung dibagi (<code>=Spend/Clicks</code>), spreadsheet akan memunculkan error <code>#DIV/0!</code> yang merusak total rata-rata.</p>
+<pre>=IFERROR(Clicks / Impressions, 0)   // CTR Aman
+=IFERROR(Revenue / Spend, 0)       // ROAS Aman
+=IFERROR(Spend / Conversions, 0)   // CPA Aman</pre>
+<ul>
+<li><strong>SUMIFS:</strong> Menjumlahkan biaya atau omzet berdasarkan banyak syarat (misal per platform dan per bulan): <code>=SUMIFS(F2:F100, B2:B100, "Google Ads", C2:C100, "Promo 12.12")</code></li>
+<li><strong>IF Evaluasi Otomatis:</strong> <code>=IF(M2>=3, "Scale Up (Profit)", IF(M2>=1.5, "Pertahankan", "Evaluasi / Matikan"))</code></li>
+<li><strong>UTM Builder Formula:</strong> <code>=A2 & "?utm_source=" & LOWER(B2) & "&utm_medium=" & LOWER(C2) & "&utm_campaign=" & SUBSTITUTE(LOWER(D2), " ", "_")</code></li>
+</ul>
+
+<h4>3. Tips Krusial Baris Total</h4>
+<p>Jangan pernah menghitung rata-rata <strong>CTR</strong>, <strong>CVR</strong>, atau <strong>ROAS</strong> di baris Total menggunakan <code>=AVERAGE()</code>! Selalu hitung ulang dari pembagian totalnya: <code>Total ROAS = SUM(Revenue) / SUM(Ad Spend)</code> dan <code>Total CTR = SUM(Clicks) / SUM(Impressions)</code>.</p>`
+            },
+            {
+                id: 'art-2',
+                title: 'Memahami Funnel TOFU – MOFU – BOFU agar Iklan Tidak Boncos',
+                category: 'Strategi & Funnel',
+                readTime: '5 menit baca',
+                summary: 'Mengapa menembak langsung promo hard-selling ke audiens dingin sering gagal? Kenali cara menyusun konten dan iklan sesuai suhu audiens.',
+                content: `<h4>1. Apa Itu TOFU, MOFU, dan BOFU?</h4>
+<p>Tidak semua orang yang melihat iklan Anda langsung siap mengeluarkan uang hari itu juga. Kerangka <strong>TOFU – MOFU – BOFU</strong> membantu kita menyesuaikan pesan iklan dengan tingkat kesiapan calon pembeli.</p>
+<ul>
+<li><strong>TOFU (Top of Funnel – Awareness):</strong> Audiens belum mengenal brand Anda. Fokus konten adalah edukasi, hiburan ringan, atau mengangkat masalah sehari-hari mereka (contoh: Reels tips, artikel blog, video Hook kuat).</li>
+<li><strong>MOFU (Middle of Funnel – Consideration):</strong> Audiens sudah kenal dan mulai membandingkan solusi. Fokus konten adalah studi kasus, perbandingan keunggulan produk, webinar, dan ulasan pelanggan.</li>
+<li><strong>BOFU (Bottom of Funnel – Conversion):</strong> Audiens sudah sangat berminat (misal sudah mengunjungi halaman produk atau memasukkan barang ke keranjang). Fokus konten adalah promo terbatas, gratis ongkir, garansi, dan retargeting CTA tegas.</li>
+</ul>
+
+<h4>2. Metrik Evaluasi Tiap Tahap</h4>
+<p>Jangan menilai iklan TOFU hanya dari ROAS hari pertama. Evaluasi TOFU lewat <strong>CPM, Hook Rate, dan CTR</strong>; evaluasi MOFU lewat <strong>Landing Page Views dan Add to Cart</strong>; serta evaluasi BOFU lewat <strong>CPA, CVR, dan ROAS</strong>.</p>`
+            },
+            {
+                id: 'art-3',
+                title: 'Cara Membaca Hubungan ROAS, CPA, dan Margin Keuntungan',
+                category: 'Performance & Paid Ads',
+                readTime: '4 menit baca',
+                summary: 'ROAS tinggi belum tentu untung jika margin produk tipis. Pelajari cara menghitung Break-Even ROAS agar bisnis tetap sehat.',
+                content: `<h4>1. Kenapa ROAS Saja Tidak Cukup?</h4>
+<p><strong>ROAS (Return on Ad Spend)</strong> hanya menghitung perbandingan antara omzet kotor (Gross Revenue) dan biaya iklan (Ad Spend), tanpa memperhitungkan HPP (Harga Pokok Penjualan), biaya packing, maupun potongan admin marketplace.</p>
+
+<h4>2. Rumus Break-Even ROAS (Titik Impas Iklan)</h4>
+<pre>Break-Even ROAS = 1 ÷ Margin Keuntungan Kotor (%)</pre>
+<p>Contoh praktis: Jika harga jual produk Rp 200.000 dan total biaya produk + operasional Rp 100.000, maka margin Anda adalah <strong>50% (0.5)</strong>. Artinya, <code>Break-Even ROAS = 1 ÷ 0.5 = 2.0x</code>. Jika ROAS iklan Anda di bawah 2.0x, artinya setiap penjualan justru merugi!</p>
+
+<h4>3. Langkah Optimasi Saat CPA Terlalu Mahal</h4>
+<ul>
+<li>Perbaiki materi iklan (Hook 3 detik pertama) untuk menaikkan CTR dan menurunkan biaya klik (CPC).</li>
+<li>Optimasi kecepatan dan penawaran di Landing Page untuk menaikkan Conversion Rate (CVR).</li>
+<li>Gunakan strategi <strong>Product Bundling</strong> untuk menaikkan Average Order Value (AOV).</li>
+</ul>`
+            },
+            {
+                id: 'art-4',
+                title: 'Checklist Wajib Sebelum Menjalankan Kampanye: UTM & Tracking GA4',
+                category: 'Analytics & Tracking',
+                readTime: '4 menit baca',
+                summary: 'Pastikan setiap klik iklan dan tautan bio media sosial tercatat rapi di Google Analytics 4 tanpa tercampur sebagai Direct Traffic.',
+                content: `<h4>1. Mengapa Parameter UTM Sangat Penting?</h4>
+<p>Tanpa parameter <strong>UTM (Urchin Tracking Module)</strong>, banyak klik dari aplikasi media sosial, WhatsApp, atau newsletter akan terbaca sebagai <em>Direct / Unassigned</em> di Google Analytics 4 sehingga Anda tidak tahu kampanye mana yang paling menghasilkan penjualan.</p>
+
+<h4>2. 3 Parameter UTM Utama yang Wajib Diisi</h4>
+<ul>
+<li><code>utm_source</code>: Asal platform (contoh: <code>instagram</code>, <code>tiktok</code>, <code>newsletter</code>).</li>
+<li><code>utm_medium</code>: Jenis saluran/taktik (contoh: <code>cpc</code>, <code>social</code>, <code>email</code>, <code>affiliate</code>).</li>
+<li><code>utm_campaign</code>: Nama spesifik kampanye (contoh: <code>promo_gajian_november</code>).</li>
+</ul>
+
+<h4>3. Aturan Penulisan UTM Agar Data Tidak Berantakan</h4>
+<p>Selalu gunakan <strong>huruf kecil semua (lowercase)</strong> dan ganti spasi dengan garis bawah (<code>_</code>) atau tanda hubung (<code>-</code>), karena GA4 membedakan huruf besar dan kecil (<code>Instagram</code> dan <code>instagram</code> akan dianggap dua sumber berbeda).</p>`
+            }
         ];
 
         const DEFAULT_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxJ5OU3vbRm69jk4n-Pl2iqlMwXNmk2crJaX87Z2IYg9PgRkp43wfgAsuDo3n5h1Cm8/exec'; 
         const DEFAULT_ADMIN_PIN = '05050201';
 
         const STORAGE_KEY = 'kamus_digital_marketing_data_v2_revou';
+        const ARTICLES_STORAGE_KEY = 'kamus_dm_articles_v1';
         const CONFIG_KEY = 'kamus_dm_cloud_config_v1';
         const ADMIN_SESSION_KEY = 'kamus_dm_admin_unlocked';
 
         let termsData = [];
+        let articlesData = [];
         let selectedCategory = 'Semua';
         let selectedModule = 'Semua Modul';
+        let selectedArticleCategory = 'Semua';
         let onlyWithFormula = false;
         let searchQuery = '';
         let forceShowAll = false;
@@ -994,6 +1263,15 @@
             'Email & CRM Retention',
             'Analytics & Tag Tracking',
             'Data Analysis & Reporting'
+        ];
+
+        const ARTICLE_CATEGORIES = [
+            'Semua',
+            'Spreadsheet & Data',
+            'Performance & Paid Ads',
+            'Strategi & Funnel',
+            'Analytics & Tracking',
+            'SEO & Konten'
         ];
 
         const CATEGORY_BADGES = {
@@ -1050,12 +1328,6 @@
                         sizes: '192x192',
                         type: 'image/svg+xml',
                         purpose: 'any maskable'
-                    },
-                    {
-                        src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23f59e0b'/%3E%3Crect x='90' y='96' width='332' height='320' rx='42' fill='%23fffdf7' stroke='%231e293b' stroke-width='24'/%3E%3Cpath d='M256 112V400' stroke='%231e293b' stroke-width='24'/%3E%3C/svg%3E",
-                        sizes: '512x512',
-                        type: 'image/svg+xml',
-                        purpose: 'any'
                     }
                 ]
             };
@@ -1068,16 +1340,10 @@
 
             if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
                 const swCode = `
-                    self.addEventListener('install', (event) => {
-                        self.skipWaiting();
-                    });
-                    self.addEventListener('activate', (event) => {
-                        event.waitUntil(self.clients.claim());
-                    });
+                    self.addEventListener('install', (event) => { self.skipWaiting(); });
+                    self.addEventListener('activate', (event) => { event.waitUntil(self.clients.claim()); });
                     self.addEventListener('fetch', (event) => {
-                        event.respondWith(
-                            fetch(event.request).catch(() => caches.match(event.request))
-                        );
+                        event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
                     });
                 `;
                 try {
@@ -1156,203 +1422,24 @@
             }
         }
 
-        function mergeMissingDefaults(existingList) {
-            const existingTermsLower = new Set(existingList.map(i => (i.term || '').trim().toLowerCase()));
-            const existingIds = new Set(existingList.map(i => String(i.id)));
-            let added = 0;
-            const merged = [...existingList];
-
-            DEFAULT_TERMS.forEach(defItem => {
-                const termLower = defItem.term.trim().toLowerCase();
-                if (!existingIds.has(String(defItem.id)) && !existingTermsLower.has(termLower)) {
-                    merged.push({ ...defItem, createdAt: Date.now() + added });
-                    existingIds.add(String(defItem.id));
-                    existingTermsLower.add(termLower);
-                    added++;
-                }
-            });
-            return { merged, added };
-        }
-
-        function loadData() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    const { merged, added } = mergeMissingDefaults(parsed);
-                    termsData = merged;
-                    if (added > 0) saveDataLocal();
-                } catch (e) {
-                    termsData = [...DEFAULT_TERMS];
-                    saveDataLocal();
-                }
-            } else {
-                termsData = DEFAULT_TERMS.map((item, idx) => ({
-                    ...item,
-                    createdAt: Date.now() - (DEFAULT_TERMS.length - idx) * 1000
-                }));
-                saveDataLocal();
-            }
-        }
-
-        function saveDataLocal() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(termsData));
-        }
-
-        function sanitizeFormulaForSheet(val) {
-            if (!val) return '';
-            const str = String(val).trim();
-            return str.startsWith('=') ? "'" + str : str;
-        }
-
-        function cleanFormulaFromSheet(val) {
-            if (!val) return '';
-            const str = String(val).trim();
-            return str.startsWith("'=") ? str.substring(1) : str;
-        }
-
-        async function syncFromGoogleSheets(showNotification = false) {
-            if (!cloudConfig.sheetUrl || cloudConfig.sheetUrl.trim() === '') {
-                if (showNotification) {
-                    showToast('URL Google Sheets belum diisi. Buka menu Data > Koneksi Google Sheets.', 'warning');
-                }
-                return;
-            }
-
-            setSyncLoadingState(true);
-            try {
-                const response = await fetch(cloudConfig.sheetUrl);
-                const result = await response.json();
-                if (result.status === 'success' && Array.isArray(result.data)) {
-                    const cleanedSheetData = result.data.map(row => ({
-                        id: String(row.id),
-                        term: String(row.term || ''),
-                        fullName: String(row.fullName || ''),
-                        category: String(row.category || 'Fundamental & Strategi'),
-                        module: String(row.module || 'Umum / Tambahan'),
-                        definition: String(row.definition || ''),
-                        formula: cleanFormulaFromSheet(row.formula),
-                        example: String(row.example || ''),
-                        createdAt: Number(row.createdAt) || Date.now()
-                    }));
-
-                    const { merged } = mergeMissingDefaults(cleanedSheetData);
-                    termsData = merged;
-                    saveDataLocal();
-                    renderModulePills();
-                    renderCategoryPills();
-                    handleSearchAndFilter();
-                    if (showNotification) {
-                        showToast(`Berhasil menyinkronkan ${termsData.length} istilah!`, 'success');
-                    }
-                } else {
-                    throw new Error('Format data tidak valid');
-                }
-            } catch (err) {
-                console.error('Sync Error:', err);
-                if (showNotification) {
-                    showToast('Gagal mengambil data dari Google Sheets. Periksa URL Apps Script Anda.', 'error');
-                }
-            } finally {
-                setSyncLoadingState(false);
-            }
-        }
-
-        async function postToGoogleSheets(payload) {
-            if (!cloudConfig.sheetUrl || cloudConfig.sheetUrl.trim() === '') return true;
-            setSyncLoadingState(true);
-            try {
-                const safePayload = JSON.parse(JSON.stringify(payload));
-                if (safePayload.item && safePayload.item.formula) {
-                    safePayload.item.formula = sanitizeFormulaForSheet(safePayload.item.formula);
-                }
-                await fetch(cloudConfig.sheetUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(safePayload)
-                });
-                return true;
-            } catch (err) {
-                console.error('POST Sheets Error:', err);
-                showToast('Tersimpan lokal, namun gagal mengirim ke Google Sheets.', 'warning');
-                return false;
-            } finally {
-                setSyncLoadingState(false);
-            }
-        }
-
-        async function mergeNewDefaultTerms() {
-            const { merged, added } = mergeMissingDefaults(termsData);
-            if (added === 0) {
-                showToast(`Semua ${termsData.length} istilah bawaan sudah ada di kamus Anda!`, 'info');
-                return;
-            }
-
-            const existingIdsBefore = new Set(termsData.map(i => String(i.id)));
-            const newlyAddedItems = merged.filter(i => !existingIdsBefore.has(String(i.id)));
-
-            termsData = merged;
-            saveDataLocal();
-            renderModulePills();
-            renderCategoryPills();
-            handleSearchAndFilter();
-
-            if (cloudConfig.sheetUrl && cloudConfig.sheetUrl.trim() !== '') {
-                showToast(`Mengirim ${added} istilah baru ke Google Sheets...`, 'info');
-                for (let i = 0; i < newlyAddedItems.length; i++) {
-                    await postToGoogleSheets({ action: 'create', item: newlyAddedItems[i] });
-                    await new Promise(r => setTimeout(r, 120));
-                }
-                showToast(`Sukses menambahkan & menyinkronkan ${added} istilah baru! Total: ${termsData.length}`, 'success');
-            } else {
-                showToast(`Berhasil menambahkan ${added} istilah baru ke kamus lokal! Total: ${termsData.length}`, 'success');
-            }
-        }
-
-        async function pushAllLocalToGoogleSheets() {
-            const urlInput = document.getElementById('inputSheetUrl').value.trim();
-            if (!urlInput) {
-                showToast('Masukkan URL Web App Google Apps Script terlebih dahulu!', 'warning');
-                return;
-            }
-            cloudConfig.sheetUrl = urlInput;
-            localStorage.setItem(CONFIG_KEY, JSON.stringify(cloudConfig));
-            updateCloudStatusUI();
-
-            const btn = document.getElementById('btnPushAll');
-            const originalHTML = btn.innerHTML;
-            btn.disabled = true;
-
-            try {
-                for (let i = 0; i < termsData.length; i++) {
-                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengirim ${i + 1} dari ${termsData.length}...`;
-                    await postToGoogleSheets({ action: 'create', item: termsData[i] });
-                    await new Promise(r => setTimeout(r, 120));
-                }
-                showToast(`Sukses mengirim ${termsData.length} istilah ke Google Sheets!`, 'success');
-            } catch (err) {
-                showToast('Terjadi kendala saat migrasi massal.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalHTML;
-            }
-        }
-
         function updateAdminUI() {
+            const btn = document.getElementById('adminToggleBtn');
             const icon = document.getElementById('adminLockIcon');
             const text = document.getElementById('adminLockText');
-            const btn = document.getElementById('adminToggleBtn');
             if (isAdminUnlocked) {
-                icon.className = 'fa-solid fa-lock-open text-emerald-700';
+                btn.className = 'bg-emerald-300 hover:bg-emerald-400 text-slate-900 px-3 py-2 rounded-xl text-xs font-bold cartoon-btn flex items-center gap-1.5';
+                icon.className = 'fa-solid fa-lock-open text-emerald-900';
                 text.textContent = 'Admin Aktif';
-                btn.className = 'bg-emerald-200 hover:bg-emerald-300 text-slate-900 px-3 py-2 rounded-xl text-xs font-bold cartoon-btn flex items-center gap-1.5';
             } else {
+                btn.className = 'bg-white hover:bg-amber-50 text-slate-900 px-3 py-2 rounded-xl text-xs font-bold cartoon-btn flex items-center gap-1.5';
                 icon.className = 'fa-solid fa-lock text-amber-600';
                 text.textContent = 'Mode Baca';
-                btn.className = 'bg-white hover:bg-amber-50 text-slate-900 px-3 py-2 rounded-xl text-xs font-bold cartoon-btn flex items-center gap-1.5';
             }
-            if (termsData.length > 0) handleSearchAndFilter();
+            const readerActions = document.getElementById('readerAdminActions');
+            if (readerActions && !document.getElementById('articleReaderView').classList.contains('hidden')) {
+                if (isAdminUnlocked) readerActions.classList.remove('hidden');
+                else readerActions.classList.add('hidden');
+            }
         }
 
         function toggleAdminMode() {
@@ -1360,10 +1447,9 @@
                 isAdminUnlocked = false;
                 sessionStorage.removeItem(ADMIN_SESSION_KEY);
                 updateAdminUI();
-                showToast('Mode Admin dikunci kembali.', 'info');
+                showToast('Mode Admin dikunci (Mode Baca).', 'info');
             } else {
-                pendingAdminAction = null;
-                openPinModal();
+                openPinModal(null);
             }
         }
 
@@ -1371,12 +1457,12 @@
             if (isAdminUnlocked) {
                 callback();
             } else {
-                pendingAdminAction = callback;
-                openPinModal();
+                openPinModal(callback);
             }
         }
 
-        function openPinModal() {
+        function openPinModal(callback) {
+            pendingAdminAction = callback;
             document.getElementById('pinVerifyInput').value = '';
             document.getElementById('pinErrorMsg').classList.add('hidden');
             document.getElementById('pinModal').classList.remove('hidden');
@@ -1394,11 +1480,13 @@
             if (entered === String(cloudConfig.adminPin)) {
                 isAdminUnlocked = true;
                 sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+                updateAdminUI();
                 const actionToRun = pendingAdminAction;
                 closePinModal();
-                updateAdminUI();
-                showToast('Akses Admin berhasil dibuka!', 'success');
-                if (typeof actionToRun === 'function') actionToRun();
+                showToast('Mode Admin berhasil dibuka!', 'success');
+                if (typeof actionToRun === 'function') {
+                    actionToRun();
+                }
             } else {
                 document.getElementById('pinErrorMsg').classList.remove('hidden');
                 document.getElementById('pinVerifyInput').value = '';
@@ -1406,28 +1494,27 @@
             }
         }
 
-        function toggleSettingsPinVisibility() {
-            const input = document.getElementById('inputAdminPin');
-            const icon = document.getElementById('settingsPinEyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.className = 'fa-solid fa-eye-slash';
-            } else {
-                input.type = 'password';
-                icon.className = 'fa-solid fa-eye';
-            }
-        }
-
         function openCloudSettingsModal() {
-            document.getElementById('dataMenuDropdown').classList.add('hidden');
             document.getElementById('inputSheetUrl').value = cloudConfig.sheetUrl || '';
             const pinInput = document.getElementById('inputAdminPin');
-            const pinIcon = document.getElementById('settingsPinEyeIcon');
-            pinInput.type = 'password';
-            if (pinIcon) pinIcon.className = 'fa-solid fa-eye';
             pinInput.value = cloudConfig.adminPin || DEFAULT_ADMIN_PIN;
+            pinInput.type = 'password';
+            const eyeIcon = document.getElementById('settingsPinEyeIcon');
+            if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye';
             document.getElementById('localCountForSync').textContent = termsData.length;
             document.getElementById('cloudSettingsModal').classList.remove('hidden');
+        }
+
+        function toggleSettingsPinVisibility() {
+            const pinInput = document.getElementById('inputAdminPin');
+            const eyeIcon = document.getElementById('settingsPinEyeIcon');
+            if (pinInput.type === 'password') {
+                pinInput.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            } else {
+                pinInput.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye';
+            }
         }
 
         function closeCloudSettingsModal() {
@@ -1446,47 +1533,437 @@
             closeCloudSettingsModal();
 
             if (newUrl) {
-                showToast('Menghubungkan & menarik data dari Google Sheets...', 'info');
+                showToast('Menghubungkan ke Google Sheets...', 'info');
                 await syncFromGoogleSheets(true);
             } else {
                 showToast('Pengaturan disimpan (Mode Penyimpanan Lokal).', 'success');
             }
         }
 
-        function switchTab(tab) {
-            const viewDict = document.getElementById('viewDictionary');
-            const viewCalc = document.getElementById('viewCalculator');
-            const btnDict = document.getElementById('tabBtnDictionary');
-            const btnCalc = document.getElementById('tabBtnCalculator');
-
-            if (tab === 'dictionary') {
-                viewDict.classList.remove('hidden');
-                viewCalc.classList.add('hidden');
-                btnDict.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition bg-white text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] flex items-center justify-center gap-2';
-                btnCalc.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-2';
-            } else {
-                viewDict.classList.add('hidden');
-                viewCalc.classList.remove('hidden');
-                btnCalc.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition bg-white text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] flex items-center justify-center gap-2';
-                btnDict.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-2';
+        async function syncFromGoogleSheets(showNotification = false) {
+            if (!cloudConfig.sheetUrl) {
+                if (showNotification) showToast('URL Google Sheets belum diatur. Membuka mode lokal.', 'info');
+                return;
+            }
+            setSyncLoadingState(true);
+            try {
+                const res = await fetch(cloudConfig.sheetUrl);
+                const json = await res.json();
+                if (json.status === 'success' && Array.isArray(json.data)) {
+                    if (json.data.length > 0) {
+                        termsData = json.data.map(item => ({
+                            id: String(item.id),
+                            term: String(item.term || ''),
+                            fullName: String(item.fullName || ''),
+                            category: String(item.category || 'Fundamental & Strategi'),
+                            module: String(item.module || 'Umum / Tambahan'),
+                            definition: String(item.definition || ''),
+                            formula: String(item.formula || ''),
+                            example: String(item.example || ''),
+                            createdAt: Number(item.createdAt) || Date.now()
+                        }));
+                        saveDataToLocalOnly();
+                        renderModulePills();
+                        renderCategoryPills();
+                        handleSearchAndFilter();
+                        if (showNotification) showToast(`Berhasil menarik ${termsData.length} istilah dari Google Sheets!`, 'success');
+                    } else if (showNotification) {
+                        showToast('Google Sheets terhubung, namun tabel masih kosong. Gunakan tombol migrasi jika ingin mengisi data awal.', 'info');
+                    }
+                }
+            } catch (err) {
+                console.error('Sync error:', err);
+                if (showNotification) showToast('Gagal terhubung ke Google Sheets. Periksa URL / akses Anyone.', 'error');
+            } finally {
+                setSyncLoadingState(false);
             }
         }
 
+        async function postActionToGoogleSheets(payload) {
+            if (!cloudConfig.sheetUrl) return;
+            setSyncLoadingState(true);
+            try {
+                await fetch(cloudConfig.sheetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.error('POST sync error:', err);
+                showToast('Tersimpan lokal, namun gagal sinkron ke Google Sheets.', 'error');
+            } finally {
+                setSyncLoadingState(false);
+            }
+        }
+
+        function pushAllLocalToGoogleSheets() {
+            if (!cloudConfig.sheetUrl) {
+                const tempUrl = document.getElementById('inputSheetUrl').value.trim();
+                if (!tempUrl) {
+                    showToast('Masukkan Google Apps Script Web App URL terlebih dahulu!', 'error');
+                    return;
+                }
+                cloudConfig.sheetUrl = tempUrl;
+                localStorage.setItem(CONFIG_KEY, JSON.stringify(cloudConfig));
+                updateCloudStatusUI();
+            }
+
+            openConfirmModal(
+                'Kirim Semua Data ke Google Sheets?',
+                `Kirim seluruh ${termsData.length} istilah saat ini ke Google Sheets? Pastikan baris 1 di Google Sheets Anda sudah memiliki header kolom (id, term, fullName, category, module, definition, formula, example, createdAt).`,
+                async () => {
+                    const btn = document.getElementById('btnPushAll');
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sedang mengirim data...';
+                    }
+
+                    setSyncLoadingState(true);
+                    try {
+                        for (let i = 0; i < termsData.length; i++) {
+                            await fetch(cloudConfig.sheetUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                body: JSON.stringify({ action: 'create', item: termsData[i] })
+                            });
+                        }
+                        showToast(`Sukses mengirim ${termsData.length} istilah ke Google Sheets!`, 'success');
+                        closeCloudSettingsModal();
+                    } catch (err) {
+                        showToast('Terjadi kendala saat mengirim data ke Google Sheets.', 'error');
+                    } finally {
+                        setSyncLoadingState(false);
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Kirim Semua Istilah Lokal ke Google Sheets Sekarang';
+                        }
+                    }
+                }
+            );
+        }
+
+        function openConfirmModal(title, message, onConfirmCallback) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+            pendingConfirmAction = onConfirmCallback;
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+            pendingConfirmAction = null;
+        }
+
+        function executePendingConfirm() {
+            const fn = pendingConfirmAction;
+            closeConfirmModal();
+            if (typeof fn === 'function') {
+                fn();
+            }
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        termsData = parsed;
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Gagal memuat data lokal:', e);
+                }
+            }
+            termsData = [...DEFAULT_TERMS];
+            saveDataToLocalOnly();
+        }
+
+        function saveDataToLocalOnly() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(termsData));
+            updateTermCountBadge();
+        }
+
+        function updateTermCountBadge() {
+            const badge = document.getElementById('termCountBadge');
+            if (badge) badge.textContent = termsData.length;
+            const welcomeCount = document.getElementById('welcomeTotalCount');
+            if (welcomeCount) welcomeCount.textContent = termsData.length;
+        }
+
+        // ==================== ARTICLES LOGIC ====================
+        function loadArticlesData() {
+            const saved = localStorage.getItem(ARTICLES_STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        articlesData = parsed;
+                        updateArticleCountBadge();
+                        return;
+                    }
+                } catch (e) {}
+            }
+            articlesData = [...DEFAULT_ARTICLES];
+            saveArticlesToLocal();
+        }
+
+        function saveArticlesToLocal() {
+            localStorage.setItem(ARTICLES_STORAGE_KEY, JSON.stringify(articlesData));
+            updateArticleCountBadge();
+        }
+
+        function updateArticleCountBadge() {
+            const badge = document.getElementById('articleCountBadge');
+            if (badge) badge.textContent = articlesData.length;
+        }
+
+        function renderArticleCategoryPills() {
+            const container = document.getElementById('articleCategoryPills');
+            if (!container) return;
+            container.innerHTML = ARTICLE_CATEGORIES.map(cat => {
+                const isActive = selectedArticleCategory === cat;
+                const activeStyle = isActive
+                    ? 'bg-rose-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]'
+                    : 'bg-white text-slate-700 hover:bg-rose-50 border-2 border-slate-900';
+                return `
+                    <button type="button" onclick="selectArticleCategory('${cat.replace(/'/g, "\\'")}')" 
+                        class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${activeStyle}">
+                        ${cat}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectArticleCategory(cat) {
+            selectedArticleCategory = cat;
+            closeArticleReader();
+            renderArticleCategoryPills();
+            renderArticles();
+        }
+
+        function renderArticles() {
+            const grid = document.getElementById('articlesGrid');
+            const reader = document.getElementById('articleReaderView');
+            if (!grid) return;
+
+            reader.classList.add('hidden');
+            grid.classList.remove('hidden');
+
+            const query = (document.getElementById('articleSearchInput')?.value || '').trim().toLowerCase();
+            const filtered = articlesData.filter(art => {
+                const matchCat = selectedArticleCategory === 'Semua' || art.category === selectedArticleCategory;
+                const matchQuery = !query || 
+                    art.title.toLowerCase().includes(query) || 
+                    art.summary.toLowerCase().includes(query) ||
+                    art.category.toLowerCase().includes(query);
+                return matchCat && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-paper rounded-2xl cartoon-box p-8 text-center">
+                        <p class="text-base font-bold text-slate-800 mb-1">Artikel tidak ditemukan</p>
+                        <p class="text-xs text-slate-600">Coba kata kunci lain atau pilih kategori Semua.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((art, idx) => {
+                const spineColor = BOOK_SPINE_COLORS[idx % BOOK_SPINE_COLORS.length];
+                return `
+                    <article onclick="openArticleReader('${art.id}')" class="cartoon-card rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group">
+                        <div>
+                            <div class="h-3 ${spineColor} border-b-2 border-slate-900"></div>
+                            <div class="p-5">
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 border border-slate-900 text-slate-900">${escapeHTML(art.category)}</span>
+                                    <span class="text-[11px] font-semibold text-slate-500"><i class="fa-regular fa-clock mr-1"></i>${escapeHTML(art.readTime || '5 menit baca')}</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-700 transition leading-snug mb-2">
+                                    ${escapeHTML(art.title)}
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                                    ${escapeHTML(art.summary)}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 bg-amber-50/80 border-t-2 border-slate-900 flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-slate-900 group-hover:underline flex items-center gap-1.5">
+                                <i class="fa-solid fa-book-open-reader text-amber-600"></i> Baca Selengkapnya
+                            </span>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-700 group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function openArticleReader(id) {
+            const art = articlesData.find(a => a.id === id);
+            if (!art) return;
+
+            document.getElementById('articlesGrid').classList.add('hidden');
+            const reader = document.getElementById('articleReaderView');
+            reader.classList.remove('hidden');
+
+            document.getElementById('readerCategoryBadge').textContent = art.category;
+            document.getElementById('readerReadTime').innerHTML = `<i class="fa-regular fa-clock mr-1"></i> ${escapeHTML(art.readTime || '5 menit baca')}`;
+            document.getElementById('readerTitle').textContent = art.title;
+            document.getElementById('readerSummary').textContent = art.summary;
+            document.getElementById('readerBody').innerHTML = art.content;
+
+            const adminActions = document.getElementById('readerAdminActions');
+            if (isAdminUnlocked) adminActions.classList.remove('hidden');
+            else adminActions.classList.add('hidden');
+
+            document.getElementById('btnEditCurrentArticle').onclick = () => requireAdmin(() => openArticleEditorModal(art.id));
+            document.getElementById('btnDeleteCurrentArticle').onclick = () => requireAdmin(() => deleteArticle(art.id));
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeArticleReader() {
+            document.getElementById('articleReaderView').classList.add('hidden');
+            document.getElementById('articlesGrid').classList.remove('hidden');
+        }
+
+        function openArticleEditorModal(id = null) {
+            const modal = document.getElementById('articleModal');
+            const titleEl = document.getElementById('articleModalTitle');
+            if (id) {
+                const art = articlesData.find(a => a.id === id);
+                if (!art) return;
+                titleEl.innerHTML = '<i class="fa-solid fa-pen text-rose-800"></i> <span>Edit Artikel</span>';
+                document.getElementById('articleId').value = art.id;
+                document.getElementById('inputArticleTitle').value = art.title;
+                document.getElementById('inputArticleCategory').value = art.category;
+                document.getElementById('inputArticleReadTime').value = art.readTime || '5 menit baca';
+                document.getElementById('inputArticleSummary').value = art.summary;
+                // Convert simple HTML tags back to plain lines for easy editing
+                const plainText = art.content
+                    .replace(/<h4>/g, '\n## ')
+                    .replace(/<\/h4>/g, '\n')
+                    .replace(/<p>/g, '')
+                    .replace(/<\/p>/g, '\n\n')
+                    .replace(/<li>/g, '- ')
+                    .replace(/<\/li>/g, '\n')
+                    .replace(/<[^>]+>/g, '')
+                    .trim();
+                document.getElementById('inputArticleContent').value = plainText;
+            } else {
+                titleEl.innerHTML = '<i class="fa-solid fa-newspaper text-rose-800"></i> <span>Tulis Artikel Baru</span>';
+                document.getElementById('articleId').value = '';
+                document.getElementById('inputArticleTitle').value = '';
+                document.getElementById('inputArticleCategory').value = 'Spreadsheet & Data';
+                document.getElementById('inputArticleReadTime').value = '5 menit baca';
+                document.getElementById('inputArticleSummary').value = '';
+                document.getElementById('inputArticleContent').value = '';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeArticleEditorModal() {
+            document.getElementById('articleModal').classList.add('hidden');
+        }
+
+        function formatPlainTextToArticleHTML(rawText) {
+            const lines = rawText.split('\n');
+            let html = '';
+            let inList = false;
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    continue;
+                }
+                if (trimmed.startsWith('## ')) {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    html += `<h4>${escapeHTML(trimmed.replace(/^##\s+/, ''))}</h4>`;
+                } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                    if (!inList) { html += '<ul>'; inList = true; }
+                    html += `<li>${escapeHTML(trimmed.replace(/^[-*]\s+/, ''))}</li>`;
+                } else {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    html += `<p>${escapeHTML(trimmed)}</p>`;
+                }
+            }
+            if (inList) html += '</ul>';
+            return html;
+        }
+
+        function saveArticle(e) {
+            e.preventDefault();
+            const id = document.getElementById('articleId').value.trim();
+            const title = document.getElementById('inputArticleTitle').value.trim();
+            const category = document.getElementById('inputArticleCategory').value;
+            const readTime = document.getElementById('inputArticleReadTime').value.trim() || '5 menit baca';
+            const summary = document.getElementById('inputArticleSummary').value.trim();
+            const rawContent = document.getElementById('inputArticleContent').value.trim();
+            const formattedHTML = formatPlainTextToArticleHTML(rawContent);
+
+            if (id) {
+                const idx = articlesData.findIndex(a => a.id === id);
+                if (idx !== -1) {
+                    articlesData[idx] = { ...articlesData[idx], title, category, readTime, summary, content: formattedHTML };
+                    saveArticlesToLocal();
+                    closeArticleEditorModal();
+                    openArticleReader(id);
+                    showToast('Artikel berhasil diperbarui!', 'success');
+                }
+            } else {
+                const newArt = {
+                    id: 'art-' + Date.now(),
+                    title,
+                    category,
+                    readTime,
+                    summary,
+                    content: formattedHTML
+                };
+                articlesData.unshift(newArt);
+                saveArticlesToLocal();
+                closeArticleEditorModal();
+                renderArticles();
+                showToast('Artikel baru berhasil diterbitkan!', 'success');
+            }
+        }
+
+        function deleteArticle(id) {
+            const art = articlesData.find(a => a.id === id);
+            if (!art) return;
+            openConfirmModal(
+                'Hapus Artikel?',
+                `Hapus artikel "${art.title}" dari perpustakaan?`,
+                () => {
+                    articlesData = articlesData.filter(a => a.id !== id);
+                    saveArticlesToLocal();
+                    closeArticleReader();
+                    renderArticles();
+                    showToast('Artikel berhasil dihapus.', 'info');
+                }
+            );
+        }
+
+        // ==================== RENDER MODULES & CATEGORIES ====================
         function renderModulePills() {
             const container = document.getElementById('modulePillsContainer');
+            if (!container) return;
             container.innerHTML = MODULES.map(mod => {
-                const count = mod === 'Semua Modul'
-                    ? termsData.length
-                    : termsData.filter(t => t.module === mod).length;
                 const isActive = selectedModule === mod;
-                const activeStyle = isActive
-                    ? 'bg-rose-400 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]'
-                    : 'bg-white text-slate-700 hover:bg-rose-50 border-2 border-slate-900';
+                const count = mod === 'Semua Modul' 
+                    ? termsData.length 
+                    : termsData.filter(t => t.module === mod).length;
+
+                const activeStyle = isActive 
+                    ? 'bg-sky-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]' 
+                    : 'bg-white text-slate-700 hover:bg-sky-50 border-2 border-slate-900';
 
                 return `
-                    <button onclick="selectModule('${mod}')" class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 ${activeStyle}">
+                    <button type="button" onclick="selectModule('${mod.replace(/'/g, "\\'")}')" 
+                        class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 ${activeStyle}">
                         <span>${mod}</span>
-                        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white text-slate-900' : 'bg-slate-200 text-slate-700'}">${count}</span>
+                        <span class="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold ${isActive ? 'bg-slate-900 text-white' : 'bg-amber-100 text-slate-800'}">${count}</span>
                     </button>
                 `;
             }).join('');
@@ -1494,19 +1971,22 @@
 
         function renderCategoryPills() {
             const container = document.getElementById('categoryPillsContainer');
+            if (!container) return;
             container.innerHTML = CATEGORIES.map(cat => {
+                const isActive = selectedCategory === cat;
                 const count = cat === 'Semua' 
                     ? termsData.length 
                     : termsData.filter(t => t.category === cat).length;
-                const isActive = selectedCategory === cat;
+
                 const activeStyle = isActive 
-                    ? 'bg-sky-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]' 
-                    : 'bg-white text-slate-700 hover:bg-sky-50 border-2 border-slate-900';
-                
+                    ? 'bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]' 
+                    : 'bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900';
+
                 return `
-                    <button onclick="selectCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 ${activeStyle}">
+                    <button type="button" onclick="selectCategory('${cat.replace(/'/g, "\\'")}')" 
+                        class="px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 ${activeStyle}">
                         <span>${cat}</span>
-                        <span class="text-[11px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white text-slate-900' : 'bg-slate-200 text-slate-700'}">${count}</span>
+                        <span class="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-800'}">${count}</span>
                     </button>
                 `;
             }).join('');
@@ -1514,28 +1994,24 @@
 
         function selectModule(mod) {
             selectedModule = mod;
-            forceShowAll = (mod === 'Semua Modul');
+            forceShowAll = true;
             renderModulePills();
             handleSearchAndFilter();
         }
 
         function selectCategory(cat) {
             selectedCategory = cat;
-            forceShowAll = (cat === 'Semua');
-            renderCategoryPills();
-            handleSearchAndFilter();
-        }
-
-        function showAllTermsManual() {
             forceShowAll = true;
+            renderCategoryPills();
             handleSearchAndFilter();
         }
 
         function toggleFormulaFilter() {
             onlyWithFormula = !onlyWithFormula;
+            forceShowAll = true;
             const btn = document.getElementById('formulaToggleBtn');
             if (onlyWithFormula) {
-                btn.className = 'px-4 py-3 rounded-xl bg-amber-400 text-slate-900 text-sm font-bold cartoon-btn flex items-center justify-center gap-2 shrink-0';
+                btn.className = 'px-4 py-3 rounded-xl bg-emerald-400 text-slate-900 text-sm font-bold cartoon-btn flex items-center justify-center gap-2 shrink-0';
             } else {
                 btn.className = 'px-4 py-3 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-900 text-sm font-bold cartoon-btn flex items-center justify-center gap-2 shrink-0';
             }
@@ -1548,14 +2024,19 @@
             document.getElementById('searchInput').focus();
         }
 
+        function showAllTermsManual() {
+            forceShowAll = true;
+            handleSearchAndFilter();
+        }
+
         function resetFilters() {
-            document.getElementById('searchInput').value = '';
+            searchQuery = '';
             selectedCategory = 'Semua';
             selectedModule = 'Semua Modul';
             onlyWithFormula = false;
             forceShowAll = false;
-            const btn = document.getElementById('formulaToggleBtn');
-            btn.className = 'px-4 py-3 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-900 text-sm font-bold cartoon-btn flex items-center justify-center gap-2 shrink-0';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('formulaToggleBtn').className = 'px-4 py-3 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-900 text-sm font-bold cartoon-btn flex items-center justify-center gap-2 shrink-0';
             renderModulePills();
             renderCategoryPills();
             handleSearchAndFilter();
@@ -1563,31 +2044,21 @@
 
         function handleSearchAndFilter() {
             const inputEl = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearchBtn');
-            const welcomeState = document.getElementById('initialWelcomeState');
-            const summaryBar = document.getElementById('resultSummaryBar');
-            const grid = document.getElementById('termsGrid');
-            const emptyState = document.getElementById('emptyState');
-
             searchQuery = inputEl.value.trim();
-
+            const clearBtn = document.getElementById('clearSearchBtn');
             if (searchQuery.length > 0) {
                 clearBtn.classList.remove('hidden');
             } else {
                 clearBtn.classList.add('hidden');
             }
 
-            document.getElementById('termCountBadge').textContent = termsData.length;
-            const welcomeCountEl = document.getElementById('welcomeTotalCount');
-            if (welcomeCountEl) welcomeCountEl.textContent = termsData.length;
+            const hasActiveFilter = searchQuery.length > 0 || selectedCategory !== 'Semua' || selectedModule !== 'Semua Modul' || onlyWithFormula || forceShowAll;
+            const welcomeState = document.getElementById('initialWelcomeState');
+            const summaryBar = document.getElementById('resultSummaryBar');
+            const grid = document.getElementById('termsGrid');
+            const emptyState = document.getElementById('emptyState');
 
-            const isIdleState = !forceShowAll &&
-                                searchQuery.length === 0 &&
-                                selectedCategory === 'Semua' &&
-                                selectedModule === 'Semua Modul' &&
-                                !onlyWithFormula;
-
-            if (isIdleState) {
+            if (!hasActiveFilter) {
                 welcomeState.classList.remove('hidden');
                 summaryBar.classList.add('hidden');
                 summaryBar.classList.remove('flex');
@@ -1600,136 +2071,171 @@
             welcomeState.classList.add('hidden');
             summaryBar.classList.remove('hidden');
             summaryBar.classList.add('flex');
-            grid.classList.remove('hidden');
-            grid.classList.add('grid');
 
-            const q = searchQuery.toLowerCase();
+            const qLower = searchQuery.toLowerCase();
             let filtered = termsData.filter(item => {
                 const matchModule = selectedModule === 'Semua Modul' || item.module === selectedModule;
                 const matchCat = selectedCategory === 'Semua' || item.category === selectedCategory;
                 const matchFormula = !onlyWithFormula || (item.formula && item.formula.trim() !== '');
-                const matchQuery = !q || 
-                    (item.term && item.term.toLowerCase().includes(q)) ||
-                    (item.fullName && item.fullName.toLowerCase().includes(q)) ||
-                    (item.definition && item.definition.toLowerCase().includes(q)) ||
-                    (item.formula && item.formula.toLowerCase().includes(q)) ||
-                    (item.example && item.example.toLowerCase().includes(q));
+                const matchQuery = !qLower || 
+                    item.term.toLowerCase().includes(qLower) ||
+                    (item.fullName && item.fullName.toLowerCase().includes(qLower)) ||
+                    item.definition.toLowerCase().includes(qLower) ||
+                    (item.formula && item.formula.toLowerCase().includes(qLower)) ||
+                    (item.example && item.example.toLowerCase().includes(qLower));
                 return matchModule && matchCat && matchFormula && matchQuery;
             });
 
-            const sortMode = document.getElementById('sortSelect').value;
-            filtered.sort((a, b) => {
-                if (sortMode === 'az') return a.term.localeCompare(b.term);
-                if (sortMode === 'za') return b.term.localeCompare(a.term);
-                if (sortMode === 'newest') return (b.createdAt || 0) - (a.createdAt || 0);
-                return 0;
-            });
+            const sortVal = document.getElementById('sortSelect').value;
+            if (sortVal === 'az') {
+                filtered.sort((a, b) => a.term.localeCompare(b.term, 'id'));
+            } else if (sortVal === 'za') {
+                filtered.sort((a, b) => b.term.localeCompare(a.term, 'id'));
+            } else if (sortVal === 'newest') {
+                filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
 
             const summaryText = document.getElementById('resultSummaryText');
-            summaryText.innerHTML = `Membuka <strong>${filtered.length}</strong> dari ${termsData.length} halaman istilah` +
+            summaryText.innerHTML = `Menampilkan <strong class="text-slate-900">${filtered.length}</strong> dari <strong>${termsData.length}</strong> istilah` +
                 (selectedModule !== 'Semua Modul' ? ` di <strong>${selectedModule}</strong>` : '') +
                 (selectedCategory !== 'Semua' ? ` • Rak <strong>${selectedCategory}</strong>` : '') +
-                (onlyWithFormula ? ` • <strong>Khusus yang Berumus</strong>` : '');
+                (onlyWithFormula ? ` • <strong>Berumus</strong>` : '');
 
             if (filtered.length === 0) {
-                grid.innerHTML = '';
                 grid.classList.add('hidden');
                 grid.classList.remove('grid');
                 emptyState.classList.remove('hidden');
-                return;
+            } else {
+                emptyState.classList.add('hidden');
+                grid.classList.remove('hidden');
+                grid.classList.add('grid');
+                grid.innerHTML = filtered.map((item, idx) => createTermCardHTML(item, qLower, idx)).join('');
             }
-
-            emptyState.classList.add('hidden');
-            grid.innerHTML = filtered.map((item, index) => {
-                const badgeClass = CATEGORY_BADGES[item.category] || 'bg-slate-200 text-slate-900 border-slate-900';
-                const spineColor = BOOK_SPINE_COLORS[index % BOOK_SPINE_COLORS.length];
-                const hasFormula = item.formula && item.formula.trim() !== '';
-                const hasExample = item.example && item.example.trim() !== '';
-
-                const adminControls = isAdminUnlocked ? `
-                    <div class="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition shrink-0">
-                        <button onclick="openEditTermModal('${item.id}')" class="w-8 h-8 rounded-lg bg-sky-200 hover:bg-sky-300 border-2 border-slate-900 text-slate-900 flex items-center justify-center transition" title="Edit Istilah">
-                            <i class="fa-solid fa-pen text-xs"></i>
-                        </button>
-                        <button onclick="deleteTerm('${item.id}')" class="w-8 h-8 rounded-lg bg-rose-200 hover:bg-rose-300 border-2 border-slate-900 text-slate-900 flex items-center justify-center transition" title="Hapus Istilah">
-                            <i class="fa-solid fa-trash text-xs"></i>
-                        </button>
-                    </div>
-                ` : `
-                    <button onclick="requireAdmin(() => openEditTermModal('${item.id}'))" class="text-slate-400 hover:text-amber-700 p-1.5 rounded-lg transition shrink-0" title="Buka Kunci Admin untuk Mengedit">
-                        <i class="fa-solid fa-lock text-xs"></i>
-                    </button>
-                `;
-
-                return `
-                    <div class="cartoon-card notebook-lines rounded-2xl overflow-hidden flex flex-col justify-between group animate-fade-in relative">
-                        <div class="${spineColor} h-2.5 w-full border-b-2 border-slate-900"></div>
-                        <div class="p-5 flex-1 flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-start justify-between gap-2 mb-3">
-                                    <div class="flex flex-wrap items-center gap-1.5">
-                                        <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border-2 ${badgeClass}">
-                                            ${escapeHTML(item.category)}
-                                        </span>
-                                        ${item.module ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-400">${escapeHTML(item.module.split(' - ')[0])}</span>` : ''}
-                                    </div>
-                                    ${adminControls}
-                                </div>
-
-                                <div class="mb-2.5">
-                                    <h3 class="text-xl font-bold text-slate-900 leading-snug tracking-tight">${highlightText(escapeHTML(item.term), q)}</h3>
-                                    ${item.fullName ? `<p class="text-xs font-bold text-amber-800 mt-0.5">${highlightText(escapeHTML(item.fullName), q)}</p>` : ''}
-                                    ${item.module ? `<p class="text-[11px] font-medium text-slate-500 mt-0.5"><i class="fa-solid fa-bookmark text-rose-400 mr-1"></i>${escapeHTML(item.module)}</p>` : ''}
-                                </div>
-
-                                <p class="text-sm text-slate-700 leading-relaxed mb-4">
-                                    ${highlightText(escapeHTML(item.definition), q)}
-                                </p>
-                            </div>
-
-                            <div class="space-y-2.5 pt-3 border-t-2 border-dashed border-slate-300">
-                                ${hasFormula ? `
-                                    <div class="bg-amber-100 border-2 border-slate-900 rounded-xl p-3 relative group/formula">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-950 flex items-center gap-1">
-                                                <i class="fa-solid fa-square-root-variable"></i> Rumus
-                                            </span>
-                                            <button onclick="copyFormula('${escapeAttr(item.formula)}')" class="text-[11px] font-bold text-slate-900 bg-white hover:bg-amber-200 px-2 py-0.5 rounded-md border border-slate-900 transition flex items-center gap-1">
-                                                <i class="fa-regular fa-copy"></i> Salin
-                                            </button>
-                                        </div>
-                                        <code class="text-xs font-mono font-bold text-slate-900 block break-words">${highlightText(escapeHTML(item.formula), q)}</code>
-                                    </div>
-                                ` : ''}
-
-                                ${hasExample ? `
-                                    <div class="bg-sky-50 border-2 border-slate-900 rounded-xl p-3">
-                                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-sky-900 block mb-0.5">
-                                            💡 Contoh Kasus:
-                                        </span>
-                                        <p class="text-xs text-slate-700 leading-relaxed">
-                                            ${highlightText(escapeHTML(item.example), q)}
-                                        </p>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
         }
 
-        function openTermModal() {
-            document.getElementById('termModalTitle').innerHTML = '<i class="fa-solid fa-pen-nib text-amber-800"></i><span>Tambah Istilah Baru</span>';
-            document.getElementById('termId').value = '';
-            document.getElementById('inputTerm').value = '';
-            document.getElementById('inputFullName').value = '';
-            document.getElementById('inputCategory').value = selectedCategory !== 'Semua' ? selectedCategory : 'Fundamental & Strategi';
-            document.getElementById('inputModule').value = selectedModule !== 'Semua Modul' ? selectedModule : 'Umum / Tambahan';
-            document.getElementById('inputDefinition').value = '';
-            document.getElementById('inputFormula').value = '';
-            document.getElementById('inputExample').value = '';
-            document.getElementById('termModal').classList.remove('hidden');
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function highlightText(text, query) {
+            const safe = escapeHTML(text);
+            if (!query) return safe;
+            const escapedQ = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedQ})`, 'gi');
+            return safe.replace(regex, '<mark class="bg-amber-300 text-slate-950 px-0.5 rounded font-semibold">$1</mark>');
+        }
+
+        function createTermCardHTML(item, qLower, idx) {
+            const badgeClass = CATEGORY_BADGES[item.category] || 'bg-slate-100 text-slate-800 border-slate-900';
+            const spineClass = BOOK_SPINE_COLORS[idx % BOOK_SPINE_COLORS.length];
+            const hasFormula = item.formula && item.formula.trim() !== '';
+            const hasExample = item.example && item.example.trim() !== '';
+            const safeFormulaAttr = escapeHTML(item.formula || '');
+
+            return `
+                <article class="cartoon-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-3 ${spineClass} border-b-2 border-slate-900 flex items-center justify-between px-3">
+                            <span class="w-8 h-0.5 bg-slate-900/30 rounded-full"></span>
+                            <span class="w-8 h-0.5 bg-slate-900/30 rounded-full"></span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-start justify-between gap-2 mb-2.5">
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${badgeClass}">
+                                        ${escapeHTML(item.category)}
+                                    </span>
+                                    ${item.module ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-300">${escapeHTML(item.module.split(' - ')[0])}</span>` : ''}
+                                </div>
+                                <div class="flex items-center gap-1 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition shrink-0">
+                                    <button onclick="requireAdmin(() => openTermModal('${item.id}'))" class="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-amber-200 rounded-lg transition" title="Edit Istilah">
+                                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+                                    </button>
+                                    <button onclick="requireAdmin(() => deleteTerm('${item.id}'))" class="p-1.5 text-slate-600 hover:text-rose-700 hover:bg-rose-200 rounded-lg transition" title="Hapus Istilah">
+                                        <i class="fa-solid fa-trash-can text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <h3 class="text-lg font-bold text-slate-900 leading-snug">
+                                ${highlightText(item.term, qLower)}
+                            </h3>
+                            ${item.fullName ? `<p class="text-xs font-semibold text-amber-800 mt-0.5">${highlightText(item.fullName, qLower)}</p>` : ''}
+
+                            <p class="text-sm text-slate-700 mt-3 leading-relaxed">
+                                ${highlightText(item.definition, qLower)}
+                            </p>
+
+                            ${hasFormula ? `
+                                <div class="mt-4 bg-amber-100/70 border-2 border-slate-900 rounded-xl p-3 relative">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-900 flex items-center gap-1">
+                                            <i class="fa-solid fa-square-root-variable"></i> Rumus
+                                        </span>
+                                        <button type="button" data-copy="${safeFormulaAttr}" onclick="copyFormula(this.getAttribute('data-copy'))" class="text-[11px] font-bold text-slate-800 hover:text-amber-800 bg-white px-2 py-0.5 rounded border border-slate-900 flex items-center gap-1 transition">
+                                            <i class="fa-regular fa-copy"></i> Salin
+                                        </button>
+                                    </div>
+                                    <code class="text-xs font-semibold text-slate-900 block break-words leading-relaxed">
+                                        ${highlightText(item.formula, qLower)}
+                                    </code>
+                                </div>
+                            ` : ''}
+
+                            ${hasExample ? `
+                                <div class="mt-3 bg-sky-50 border-l-4 border-sky-500 pl-3 pr-2 py-2 rounded-r-lg">
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <span class="font-bold text-sky-900">💡 Contoh:</span> ${highlightText(item.example, qLower)}
+                                    </p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="px-5 py-2.5 bg-amber-50/70 border-t-2 border-slate-200 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+                        <span><i class="fa-solid fa-book-bookmark mr-1 text-amber-600"></i> ${escapeHTML(item.module || 'Kamus DM')}</span>
+                        <button type="button" onclick="copyTermSummary('${item.id}')" class="hover:text-slate-900 font-bold transition flex items-center gap-1">
+                            <i class="fa-regular fa-clipboard"></i> Salin Info
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function openTermModal(editId = null) {
+            const modal = document.getElementById('termModal');
+            const titleEl = document.getElementById('termModalTitle');
+            
+            if (editId) {
+                const item = termsData.find(t => t.id === editId);
+                if (!item) return;
+                titleEl.innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-800"></i> <span>Edit Istilah Kamus</span>';
+                document.getElementById('termId').value = item.id;
+                document.getElementById('inputTerm').value = item.term;
+                document.getElementById('inputFullName').value = item.fullName || '';
+                document.getElementById('inputCategory').value = item.category;
+                document.getElementById('inputModule').value = item.module || 'Umum / Tambahan';
+                document.getElementById('inputDefinition').value = item.definition;
+                document.getElementById('inputFormula').value = item.formula || '';
+                document.getElementById('inputExample').value = item.example || '';
+            } else {
+                titleEl.innerHTML = '<i class="fa-solid fa-pen-nib text-amber-800"></i> <span>Tambah Istilah Baru</span>';
+                document.getElementById('termId').value = '';
+                document.getElementById('inputTerm').value = '';
+                document.getElementById('inputFullName').value = '';
+                document.getElementById('inputCategory').value = selectedCategory !== 'Semua' ? selectedCategory : 'Fundamental & Strategi';
+                document.getElementById('inputModule').value = selectedModule !== 'Semua Modul' ? selectedModule : 'Umum / Tambahan';
+                document.getElementById('inputDefinition').value = '';
+                document.getElementById('inputFormula').value = '';
+                document.getElementById('inputExample').value = '';
+            }
+            modal.classList.remove('hidden');
             setTimeout(() => document.getElementById('inputTerm').focus(), 100);
         }
 
@@ -1738,28 +2244,13 @@
             document.getElementById('inputTerm').value = searchQuery;
         }
 
-        function openEditTermModal(id) {
-            const item = termsData.find(t => String(t.id) === String(id));
-            if (!item) return;
-            document.getElementById('termModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-800"></i><span>Edit Istilah</span>';
-            document.getElementById('termId').value = item.id;
-            document.getElementById('inputTerm').value = item.term;
-            document.getElementById('inputFullName').value = item.fullName || '';
-            document.getElementById('inputCategory').value = item.category;
-            document.getElementById('inputModule').value = item.module || 'Umum / Tambahan';
-            document.getElementById('inputDefinition').value = item.definition;
-            document.getElementById('inputFormula').value = item.formula || '';
-            document.getElementById('inputExample').value = item.example || '';
-            document.getElementById('termModal').classList.remove('hidden');
-        }
-
         function closeTermModal() {
             document.getElementById('termModal').classList.add('hidden');
         }
 
         async function saveTerm(e) {
             e.preventDefault();
-            const id = document.getElementById('termId').value;
+            const id = document.getElementById('termId').value.trim();
             const term = document.getElementById('inputTerm').value.trim();
             const fullName = document.getElementById('inputFullName').value.trim();
             const category = document.getElementById('inputCategory').value;
@@ -1770,166 +2261,100 @@
 
             if (!term || !definition) return;
 
-            const submitBtn = document.getElementById('saveTermSubmitBtn');
-            submitBtn.disabled = true;
-
-            try {
-                if (id) {
-                    const idx = termsData.findIndex(t => String(t.id) === String(id));
-                    if (idx !== -1) {
-                        const updatedItem = { ...termsData[idx], term, fullName, category, module: moduleVal, definition, formula, example };
-                        termsData[idx] = updatedItem;
-                        saveDataLocal();
-                        closeTermModal();
-                        renderModulePills();
-                        renderCategoryPills();
-                        forceShowAll = true;
-                        handleSearchAndFilter();
-                        showToast(`Istilah "${term}" berhasil diperbarui!`, 'success');
-                        await postToGoogleSheets({ action: 'update', item: updatedItem });
-                    }
-                } else {
-                    const newItem = {
-                        id: 'custom-' + Date.now(),
-                        term,
-                        fullName,
-                        category,
-                        module: moduleVal,
-                        definition,
-                        formula,
-                        example,
-                        createdAt: Date.now()
-                    };
-                    termsData.unshift(newItem);
-                    saveDataLocal();
-                    closeTermModal();
+            if (id) {
+                const idx = termsData.findIndex(t => t.id === id);
+                if (idx !== -1) {
+                    const updatedItem = { ...termsData[idx], term, fullName, category, module: moduleVal, definition, formula, example };
+                    termsData[idx] = updatedItem;
+                    saveDataToLocalOnly();
                     renderModulePills();
                     renderCategoryPills();
-                    forceShowAll = true;
                     handleSearchAndFilter();
-                    showToast(`Istilah baru "${term}" berhasil ditambahkan!`, 'success');
-                    await postToGoogleSheets({ action: 'create', item: newItem });
+                    closeTermModal();
+                    showToast(`Istilah "${term}" berhasil diperbarui!`, 'success');
+                    await postActionToGoogleSheets({ action: 'update', item: updatedItem });
                 }
-            } finally {
-                submitBtn.disabled = false;
+            } else {
+                const newItem = {
+                    id: 'custom-' + Date.now(),
+                    term,
+                    fullName,
+                    category,
+                    module: moduleVal,
+                    definition,
+                    formula,
+                    example,
+                    createdAt: Date.now()
+                };
+                termsData.unshift(newItem);
+                forceShowAll = true;
+                saveDataToLocalOnly();
+                renderModulePills();
+                renderCategoryPills();
+                handleSearchAndFilter();
+                closeTermModal();
+                showToast(`Istilah "${term}" berhasil ditambahkan!`, 'success');
+                await postActionToGoogleSheets({ action: 'create', item: newItem });
             }
         }
 
         function deleteTerm(id) {
-            const item = termsData.find(t => String(t.id) === String(id));
+            const item = termsData.find(t => t.id === id);
             if (!item) return;
-
             openConfirmModal(
                 'Hapus Istilah?',
-                `Apakah Anda yakin ingin menghapus istilah "${item.term}" secara permanen?`,
+                `Apakah Anda yakin ingin menghapus istilah "${item.term}" dari kamus?`,
                 async () => {
-                    termsData = termsData.filter(t => String(t.id) !== String(id));
-                    saveDataLocal();
+                    termsData = termsData.filter(t => t.id !== id);
+                    saveDataToLocalOnly();
                     renderModulePills();
                     renderCategoryPills();
                     handleSearchAndFilter();
-                    showToast(`Istilah "${item.term}" telah dihapus.`, 'info');
-                    await postToGoogleSheets({ action: 'delete', id: String(id) });
+                    showToast(`Istilah "${item.term}" dihapus.`, 'info');
+                    await postActionToGoogleSheets({ action: 'delete', id: id });
                 }
             );
         }
 
-        function openConfirmModal(title, message, onProceed) {
-            document.getElementById('confirmTitle').textContent = title;
-            document.getElementById('confirmMessage').textContent = message;
-            pendingConfirmAction = onProceed;
-            document.getElementById('confirmModal').classList.remove('hidden');
-            setTimeout(() => {
-                const proceedBtn = document.getElementById('btnConfirmProceed');
-                if (proceedBtn) proceedBtn.focus();
-            }, 50);
-        }
+        function switchTab(tabName) {
+            const dictView = document.getElementById('viewDictionary');
+            const artView = document.getElementById('viewArticles');
+            const calcView = document.getElementById('viewCalculator');
+            const btnDict = document.getElementById('tabBtnDictionary');
+            const btnArt = document.getElementById('tabBtnArticles');
+            const btnCalc = document.getElementById('tabBtnCalculator');
 
-        function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
-            pendingConfirmAction = null;
-        }
+            const activeCls = 'flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition bg-white text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] flex items-center justify-center gap-1.5';
+            const inactiveCls = 'flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition text-slate-800 hover:bg-white/50 flex items-center justify-center gap-1.5';
 
-        async function executePendingConfirm() {
-            const action = pendingConfirmAction;
-            closeConfirmModal();
-            if (typeof action === 'function') await action();
-        }
+            dictView.classList.add('hidden');
+            artView.classList.add('hidden');
+            calcView.classList.add('hidden');
 
-        function toggleDataMenu() {
-            document.getElementById('dataMenuDropdown').classList.toggle('hidden');
-        }
+            btnDict.className = inactiveCls;
+            btnArt.className = inactiveCls;
+            btnCalc.className = inactiveCls;
 
-        document.addEventListener('click', function(e) {
-            const btn = document.getElementById('dataMenuBtn');
-            const dropdown = document.getElementById('dataMenuDropdown');
-            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.add('hidden');
+            if (tabName === 'dictionary') {
+                dictView.classList.remove('hidden');
+                btnDict.className = activeCls;
+            } else if (tabName === 'articles') {
+                artView.classList.remove('hidden');
+                btnArt.className = activeCls;
+                renderArticleCategoryPills();
+                renderArticles();
+            } else {
+                calcView.classList.remove('hidden');
+                btnCalc.className = activeCls;
             }
-        });
-
-        function exportJSON() {
-            document.getElementById('dataMenuDropdown').classList.add('hidden');
-            const dataStr = JSON.stringify(termsData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_kamus_digital_marketing_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('File backup JSON berhasil diunduh!', 'success');
-        }
-
-        function importJSON(event) {
-            document.getElementById('dataMenuDropdown').classList.add('hidden');
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported) && imported.length > 0 && imported[0].term) {
-                        termsData = imported;
-                        saveDataLocal();
-                        renderModulePills();
-                        renderCategoryPills();
-                        handleSearchAndFilter();
-                        showToast(`Berhasil mengimpor ${imported.length} istilah!`, 'success');
-                    } else {
-                        showToast('Format file JSON tidak valid!', 'error');
-                    }
-                } catch (err) {
-                    showToast('Gagal membaca file JSON!', 'error');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        function openResetConfirmModal() {
-            document.getElementById('dataMenuDropdown').classList.add('hidden');
-            openConfirmModal(
-                'Reset ke Data Bawaan?',
-                `Seluruh perubahan lokal akan dikembalikan ke ${DEFAULT_TERMS.length} istilah bawaan awal.`,
-                () => {
-                    termsData = DEFAULT_TERMS.map((item, idx) => ({
-                        ...item,
-                        createdAt: Date.now() - (DEFAULT_TERMS.length - idx) * 1000
-                    }));
-                    saveDataLocal();
-                    resetFilters();
-                    showToast(`Data berhasil di-reset ke ${DEFAULT_TERMS.length} istilah bawaan!`, 'info');
-                }
-            );
         }
 
         function selectCalcFormulaMenu(menuKey) {
-            activeCalcMenu = CALC_FORMULA_CONFIG[menuKey] ? menuKey : 'all';
-            const cfg = CALC_FORMULA_CONFIG[activeCalcMenu];
+            activeCalcMenu = menuKey;
+            const cfg = CALC_FORMULA_CONFIG[menuKey] || CALC_FORMULA_CONFIG.all;
 
             document.querySelectorAll('.calc-menu-btn').forEach(btn => {
-                const isSelected = btn.getAttribute('data-calc-menu') === activeCalcMenu;
+                const isSelected = btn.getAttribute('data-calc-menu') === menuKey;
                 btn.className = isSelected
                     ? 'calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]'
                     : 'calc-menu-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-slate-700 hover:bg-amber-50 border-2 border-slate-900';
@@ -1939,27 +2364,37 @@
             if (hintEl) hintEl.textContent = cfg.hint;
 
             const allInputs = ['Spend', 'Impressions', 'Clicks', 'Conversions', 'Revenue', 'Sessions', 'Bounces', 'Cltv'];
-            allInputs.forEach(key => {
-                const wrap = document.getElementById('calcInputWrap' + key);
+            allInputs.forEach(name => {
+                const wrap = document.getElementById('calcInputWrap' + name);
                 if (!wrap) return;
-                const isRelevant = activeCalcMenu === 'all' || cfg.inputs.includes(key);
-                wrap.classList.toggle('hidden', !isRelevant);
-                wrap.classList.remove('opacity-45');
-                wrap.classList.toggle('ring-2', activeCalcMenu !== 'all' && isRelevant);
-                wrap.classList.toggle('ring-amber-400', activeCalcMenu !== 'all' && isRelevant);
-                wrap.classList.toggle('rounded-xl', activeCalcMenu !== 'all' && isRelevant);
+                if (menuKey === 'all' || cfg.inputs.includes(name)) {
+                    wrap.classList.remove('hidden');
+                    if (menuKey !== 'all') {
+                        wrap.classList.add('ring-2', 'ring-amber-400', 'rounded-xl', 'p-2', 'bg-amber-50/70');
+                    } else {
+                        wrap.classList.remove('ring-2', 'ring-amber-400', 'rounded-xl', 'p-2', 'bg-amber-50/70');
+                    }
+                } else {
+                    wrap.classList.add('hidden');
+                    wrap.classList.remove('ring-2', 'ring-amber-400', 'rounded-xl', 'p-2', 'bg-amber-50/70');
+                }
             });
 
             const allCards = ['Ctr', 'Cpc', 'Cpm', 'Cvr', 'Cpa', 'Roas', 'Aov', 'Cir', 'Bounce', 'Ltvcac'];
-            allCards.forEach(key => {
-                const card = document.getElementById('resCard' + key);
+            allCards.forEach(name => {
+                const card = document.getElementById('resCard' + name);
                 if (!card) return;
-                const isFocused = activeCalcMenu !== 'all' && cfg.cards.includes(key);
-                const isRelevant = activeCalcMenu === 'all' || cfg.cards.includes(key);
-                card.classList.toggle('hidden', !isRelevant);
-                card.classList.remove('opacity-45');
-                card.classList.toggle('ring-4', isFocused);
-                card.classList.toggle('ring-amber-300', isFocused);
+                if (menuKey === 'all' || cfg.cards.includes(name)) {
+                    card.classList.remove('hidden');
+                    if (menuKey !== 'all') {
+                        card.classList.add('ring-4', 'ring-amber-300', 'shadow-[4px_4px_0px_#1e293b]', 'sm:col-span-2');
+                    } else {
+                        card.classList.remove('ring-4', 'ring-amber-300', 'shadow-[4px_4px_0px_#1e293b]', 'sm:col-span-2');
+                    }
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('ring-4', 'ring-amber-300', 'shadow-[4px_4px_0px_#1e293b]', 'sm:col-span-2');
+                }
             });
         }
 
@@ -1968,24 +2403,37 @@
             return 'Rp ' + Math.round(num).toLocaleString('id-ID');
         }
 
+        function fillSampleCalculator() {
+            document.getElementById('calcSpend').value = 5000000;
+            document.getElementById('calcImpressions').value = 250000;
+            document.getElementById('calcClicks').value = 5000;
+            document.getElementById('calcConversions').value = 125;
+            document.getElementById('calcRevenue').value = 25000000;
+            document.getElementById('calcSessions').value = 4500;
+            document.getElementById('calcBounces').value = 1800;
+            document.getElementById('calcCltv').value = 150000;
+            calculateMetrics();
+            showToast('Contoh angka kampanye berhasil diisi!', 'info');
+        }
+
         function calculateMetrics() {
             const spend = parseFloat(document.getElementById('calcSpend').value) || 0;
-            const impressions = parseFloat(document.getElementById('calcImpressions').value) || 0;
+            const impr = parseFloat(document.getElementById('calcImpressions').value) || 0;
             const clicks = parseFloat(document.getElementById('calcClicks').value) || 0;
-            const conversions = parseFloat(document.getElementById('calcConversions').value) || 0;
-            const revenue = parseFloat(document.getElementById('calcRevenue').value) || 0;
+            const conv = parseFloat(document.getElementById('calcConversions').value) || 0;
+            const rev = parseFloat(document.getElementById('calcRevenue').value) || 0;
             const sessions = parseFloat(document.getElementById('calcSessions').value) || 0;
             const bounces = parseFloat(document.getElementById('calcBounces').value) || 0;
             const cltv = parseFloat(document.getElementById('calcCltv').value) || 0;
 
-            const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
+            const ctr = impr > 0 ? (clicks / impr) * 100 : 0;
             const cpc = clicks > 0 ? spend / clicks : 0;
-            const cpm = impressions > 0 ? (spend / impressions) * 1000 : 0;
-            const cvr = clicks > 0 ? (conversions / clicks) * 100 : 0;
-            const cpa = conversions > 0 ? spend / conversions : 0;
-            const roas = spend > 0 ? revenue / spend : 0;
-            const aov = conversions > 0 ? revenue / conversions : 0;
-            const cir = revenue > 0 ? (spend / revenue) * 100 : 0;
+            const cpm = impr > 0 ? (spend / impr) * 1000 : 0;
+            const cvr = clicks > 0 ? (conv / clicks) * 100 : 0;
+            const cpa = conv > 0 ? spend / conv : 0;
+            const roas = spend > 0 ? rev / spend : 0;
+            const aov = conv > 0 ? rev / conv : 0;
+            const cir = rev > 0 ? (spend / rev) * 100 : 0;
             const bounceRate = sessions > 0 ? (bounces / sessions) * 100 : 0;
             const ltvCac = cpa > 0 ? cltv / cpa : 0;
 
@@ -2001,97 +2449,220 @@
             document.getElementById('resLtvCac').textContent = ltvCac.toFixed(2) + 'x';
 
             const noteEl = document.getElementById('resLtvCacNote');
-            if (ltvCac === 0) {
+            if (ltvCac >= 3) {
+                noteEl.textContent = 'Sangat Sehat (≥ 3.0x)';
+                noteEl.className = 'text-[11px] font-bold text-emerald-700 mt-1';
+            } else if (ltvCac > 1) {
+                noteEl.textContent = 'Profit tipis (1.0x - 2.9x)';
+                noteEl.className = 'text-[11px] font-bold text-amber-700 mt-1';
+            } else if (ltvCac > 0) {
+                noteEl.textContent = 'Rugi (< 1.0x)';
+                noteEl.className = 'text-[11px] font-bold text-rose-700 mt-1';
+            } else {
                 noteEl.textContent = 'Ideal sehat: ≥ 3.0x';
                 noteEl.className = 'text-[11px] text-slate-500 mt-1';
-            } else if (ltvCac >= 3) {
-                noteEl.textContent = 'Sangat Sehat (≥ 3.0x)';
-                noteEl.className = 'text-[11px] text-emerald-700 font-bold mt-1';
-            } else if (ltvCac >= 1) {
-                noteEl.textContent = 'Profit tipis (targetkan ≥ 3.0x)';
-                noteEl.className = 'text-[11px] text-amber-700 font-bold mt-1';
-            } else {
-                noteEl.textContent = 'Rugi (< 1.0x, CAC > CLTV)';
-                noteEl.className = 'text-[11px] text-rose-700 font-bold mt-1';
             }
         }
 
-        function fillSampleCalculator() {
-            document.getElementById('calcSpend').value = 5000000;
-            document.getElementById('calcImpressions').value = 250000;
-            document.getElementById('calcClicks').value = 5000;
-            document.getElementById('calcConversions').value = 125;
-            document.getElementById('calcRevenue').value = 25000000;
-            document.getElementById('calcSessions').value = 4500;
-            document.getElementById('calcBounces').value = 1800;
-            document.getElementById('calcCltv').value = 150000;
-            calculateMetrics();
-            showToast('Contoh angka performa kampanye berhasil diisi!', 'info');
+        function copyTextToClipboard(text, successMsg) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showToast(successMsg, 'success'))
+                    .catch(() => fallbackCopyText(text, successMsg));
+            } else {
+                fallbackCopyText(text, successMsg);
+            }
         }
 
-        function copyFormula(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Rumus berhasil disalin ke clipboard!', 'success');
-            });
+        function fallbackCopyText(text, successMsg) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg, 'success');
+            } catch (e) {
+                showToast('Gagal menyalin otomatis. Silakan salin manual.', 'error');
+            }
+            document.body.removeChild(ta);
         }
 
-        function showToast(message, type = 'success') {
+        function copyFormula(formulaText) {
+            if (!formulaText) return;
+            copyTextToClipboard(formulaText, 'Rumus disalin ke clipboard!');
+        }
+
+        function copyTermSummary(id) {
+            const item = termsData.find(t => t.id === id);
+            if (!item) return;
+            let text = `*${item.term}*${item.fullName ? ` (${item.fullName})` : ''}\nKategori: ${item.category}${item.module ? ` | ${item.module}` : ''}\nPengertian: ${item.definition}`;
+            if (item.formula) text += `\nRumus: ${item.formula}`;
+            if (item.example) text += `\nContoh: ${item.example}`;
+            copyTextToClipboard(text, `Penjelasan "${item.term}" disalin!`);
+        }
+
+        function toggleDataMenu() {
+            const dropdown = document.getElementById('dataMenuDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('dataMenuDropdown');
+            const btn = document.getElementById('dataMenuBtn');
+            if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function exportJSON() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            const dataStr = JSON.stringify({ terms: termsData, articles: articlesData }, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_kamus_artikel_dm_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File backup JSON berhasil diunduh!', 'success');
+        }
+
+        function importJSON(event) {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    const importedTerms = Array.isArray(imported) ? imported : imported.terms;
+                    if (!Array.isArray(importedTerms)) throw new Error('Format tidak valid');
+                    const validItems = importedTerms.filter(item => item.term && item.definition).map((item, idx) => ({
+                        id: item.id || 'imp-' + Date.now() + '-' + idx,
+                        term: String(item.term),
+                        fullName: item.fullName ? String(item.fullName) : '',
+                        category: item.category ? String(item.category) : 'Fundamental & Strategi',
+                        module: item.module ? String(item.module) : 'Umum / Tambahan',
+                        definition: String(item.definition),
+                        formula: item.formula ? String(item.formula) : '',
+                        example: item.example ? String(item.example) : '',
+                        createdAt: item.createdAt || Date.now()
+                    }));
+
+                    if (validItems.length === 0) {
+                        showToast('File JSON tidak berisi data istilah yang valid.', 'error');
+                        return;
+                    }
+
+                    termsData = validItems;
+                    if (imported.articles && Array.isArray(imported.articles) && imported.articles.length > 0) {
+                        articlesData = imported.articles;
+                        saveArticlesToLocal();
+                    }
+                    forceShowAll = true;
+                    saveDataToLocalOnly();
+                    renderModulePills();
+                    renderCategoryPills();
+                    handleSearchAndFilter();
+                    showToast(`Berhasil mengimpor ${validItems.length} istilah!`, 'success');
+                } catch (err) {
+                    showToast('Gagal membaca file JSON. Pastikan format file benar.', 'error');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function mergeNewDefaultTerms() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            const existingIds = new Set(termsData.map(t => t.id));
+            const existingNames = new Set(termsData.map(t => t.term.toLowerCase().trim()));
+            const newDefaults = DEFAULT_TERMS.filter(t => !existingIds.has(t.id) && !existingNames.has(t.term.toLowerCase().trim()));
+
+            if (newDefaults.length === 0) {
+                showToast('Semua istilah bawaan terbaru sudah ada di kamus Anda!', 'info');
+                return;
+            }
+
+            openConfirmModal(
+                'Tambahkan Istilah Bawaan Baru?',
+                `Ditemukan ${newDefaults.length} istilah baru (SEO, E-Commerce, CRM, Social Media & Spreadsheet) yang belum ada di daftar Anda. Tambahkan sekarang tanpa menghapus catatan pribadi Anda?`,
+                async () => {
+                    termsData = [...termsData, ...newDefaults];
+                    forceShowAll = true;
+                    saveDataToLocalOnly();
+                    renderModulePills();
+                    renderCategoryPills();
+                    handleSearchAndFilter();
+                    showToast(`Berhasil menambahkan ${newDefaults.length} istilah baru!`, 'success');
+
+                    if (cloudConfig.sheetUrl) {
+                        setSyncLoadingState(true);
+                        for (const item of newDefaults) {
+                            await postActionToGoogleSheets({ action: 'create', item });
+                        }
+                        setSyncLoadingState(false);
+                    }
+                }
+            );
+        }
+
+        function openResetConfirmModal() {
+            document.getElementById('dataMenuDropdown').classList.add('hidden');
+            openConfirmModal(
+                'Reset ke Data Bawaan?',
+                'Reset seluruh data ke 240 istilah bawaan awal? Istilah tambahan lokal yang belum di-export akan terhapus.',
+                () => {
+                    termsData = [...DEFAULT_TERMS];
+                    articlesData = [...DEFAULT_ARTICLES];
+                    saveDataToLocalOnly();
+                    saveArticlesToLocal();
+                    resetFilters();
+                    showToast('Kamus & artikel berhasil di-reset ke data bawaan.', 'info');
+                }
+            );
+        }
+
+        function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            const colors = {
+            const styles = {
                 success: 'bg-emerald-300 text-slate-900 border-2 border-slate-900',
-                info: 'bg-sky-300 text-slate-900 border-2 border-slate-900',
-                warning: 'bg-amber-300 text-slate-900 border-2 border-slate-900',
-                error: 'bg-rose-400 text-slate-900 border-2 border-slate-900'
+                error: 'bg-rose-400 text-slate-900 border-2 border-slate-900',
+                info: 'bg-amber-300 text-slate-900 border-2 border-slate-900'
             };
             const icons = {
                 success: 'fa-circle-check',
-                info: 'fa-circle-info',
-                warning: 'fa-triangle-exclamation',
-                error: 'fa-circle-exclamation'
+                error: 'fa-circle-exclamation',
+                info: 'fa-circle-info'
             };
-            toast.className = `${colors[type] || colors.success} px-4 py-3 rounded-xl shadow-[3px_3px_0px_#1e293b] text-xs font-bold flex items-center gap-2.5 animate-fade-in pointer-events-auto`;
-            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.success} text-sm"></i><span>${escapeHTML(message)}</span>`;
+            toast.className = `${styles[type] || styles.info} px-4 py-3 rounded-xl shadow-[3px_3px_0px_#1e293b] text-xs font-bold flex items-center gap-2.5 animate-fade-in pointer-events-auto max-w-xs`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-sm"></i><span>${escapeHTML(message)}</span>`;
             container.appendChild(toast);
+
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function escapeAttr(str) {
-            if (!str) return '';
-            return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        }
-
-        function highlightText(escapedText, query) {
-            if (!query) return escapedText;
-            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${safeQuery})`, 'gi');
-            return escapedText.replace(regex, '<mark class="bg-amber-300 text-slate-950 rounded px-0.5 font-bold">$1</mark>');
+                toast.style.transform = 'translateY(6px)';
+                toast.style.transition = 'all 0.2s ease';
+                setTimeout(() => toast.remove(), 220);
+            }, 3200);
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
             setupPWA();
             loadCloudConfig();
             loadData();
+            loadArticlesData();
+            updateTermCountBadge();
             renderModulePills();
             renderCategoryPills();
+            renderArticleCategoryPills();
             handleSearchAndFilter();
-            selectCalcFormulaMenu('all');
-            calculateMetrics();
-            if (cloudConfig.sheetUrl && cloudConfig.sheetUrl.trim() !== '') {
+
+            if (cloudConfig.sheetUrl) {
                 await syncFromGoogleSheets(false);
             }
         });
