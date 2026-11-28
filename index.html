@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-title" content="Kamus DM">
     <title>Kamus & Rumus Digital Marketing</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f59e0b'/%3E%3Crect x='12' y='12' width='40' height='40' rx='6' fill='%23fffdf7' stroke='%231e293b' stroke-width='3'/%3E%3Cpath d='M32 14V50' stroke='%231e293b' stroke-width='3'/%3E%3C/svg%3E">
-    <link id="pwaManifestLink" rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kamus%20%26%20Rumus%20Digital%20Marketing%22%2C%22short_name%22%3A%22Kamus%20DM%22%2C%22start_url%22%3A%22.%2F%22%2C%22scope%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fef9ec%22%2C%22theme_color%22%3A%22%23f59e0b%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520192%2520192%27%253E%253Crect%2520width%3D%27192%27%2520height%3D%27192%27%2520rx%3D%2742%27%2520fill%3D%27%23f59e0b%27%2F%3E%253Crect%2520x%3D%2734%27%2520y%3D%2736%27%2520width%3D%27124%27%2520height%3D%27120%27%2520rx%3D%2716%27%2520fill%3D%27%23fffdf7%27%2520stroke%3D%27%231e293b%27%2520stroke-width%3D%279%27%2F%3E%253Cpath%2520d%3D%27M96%252042V150%27%2520stroke%3D%27%231e293b%27%2520stroke-width%3D%279%27%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+    <link id="pwaManifestLink" rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kamus%20%26%20Rumus%20Digital%20Marketing%22%2C%22short_name%22%3A%22Kamus%20DM%22%2C%22start_url%22%3A%22.%2F%22%2C%22scope%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fef9ec%22%2C%22theme_color%22%3A%22%23f59e0b%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520192%2520192%27%253E%253Crect%2520width%3D%27192%27%2520height%3D%27192%27%2520rx%3D%2742%27%2520fill%3D%27%23f59e0b%27%2F%253E%253Crect%2520x%3D%2734%27%2520y%3D%2736%27%2520width%3D%27124%27%2520height%3D%27120%27%2520rx%3D%2716%27%2520fill%3D%27%23fffdf7%27%2520stroke%3D%27%231e293b%27%2520stroke-width%3D%279%27%2F%253E%253Cpath%2520d%3D%27M96%252042V150%27%2520stroke%3D%27%231e293b%27%2520stroke-width%3D%279%27%2F%253E%253C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
@@ -73,13 +73,6 @@
             transform: translate(2px, 2px);
             box-shadow: 0px 0px 0px #1e293b;
         }
-        .notebook-lines {
-            background-image: repeating-linear-gradient(
-                transparent,
-                transparent 27px,
-                #f1f5f9 28px
-            );
-        }
         @keyframes floatBook {
             0%, 100% { transform: translateY(0px) rotate(-2deg); }
             50% { transform: translateY(-5px) rotate(2deg); }
@@ -107,19 +100,27 @@
         .article-prose h4 {
             font-family: 'Fredoka', sans-serif;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: #0f172a;
-            margin-top: 1.25rem;
-            margin-bottom: 0.5rem;
+            margin-top: 1.4rem;
+            margin-bottom: 0.55rem;
+        }
+        .article-prose h5 {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #92400e;
+            margin-top: 1.1rem;
+            margin-bottom: 0.4rem;
         }
         .article-prose p {
-            margin-bottom: 0.75rem;
-            line-height: 1.7;
+            margin-bottom: 0.8rem;
+            line-height: 1.75;
             color: #334155;
         }
         .article-prose ul, .article-prose ol {
-            margin-bottom: 0.85rem;
-            padding-left: 1.35rem;
+            margin-bottom: 0.9rem;
+            padding-left: 1.4rem;
             color: #334155;
         }
         .article-prose ul {
@@ -129,26 +130,66 @@
             list-style-type: decimal;
         }
         .article-prose li {
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.4rem;
             line-height: 1.65;
         }
         .article-prose code {
             background-color: #fef3c7;
             border: 1px solid #cbd5e1;
-            padding: 0.1rem 0.35rem;
+            padding: 0.12rem 0.4rem;
             border-radius: 0.375rem;
             font-size: 0.8rem;
             color: #92400e;
+            font-weight: 600;
         }
         .article-prose pre {
             background-color: #1e293b;
             color: #f8fafc;
-            padding: 0.85rem 1rem;
+            padding: 0.95rem 1.1rem;
             border-radius: 0.75rem;
             border: 2px solid #0f172a;
             overflow-x: auto;
-            font-size: 0.78rem;
-            margin-bottom: 0.9rem;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .article-prose blockquote {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            border-top: 1.5px solid #1e293b;
+            border-right: 1.5px solid #1e293b;
+            border-bottom: 1.5px solid #1e293b;
+            padding: 0.85rem 1rem;
+            border-radius: 0 0.75rem 0.75rem 0;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+        .article-prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.1rem;
+            font-size: 0.82rem;
+            background-color: #ffffff;
+            border: 2px solid #1e293b;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .article-prose th {
+            background-color: #fde68a;
+            color: #0f172a;
+            font-weight: 800;
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid #1e293b;
+        }
+        .article-prose td {
+            padding: 0.6rem 0.85rem;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+        }
+        .article-prose tr:nth-child(even) td {
+            background-color: #fffdf7;
         }
     </style>
 </head>
@@ -439,7 +480,7 @@
                         </div>
                         <div>
                             <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Artikel & Panduan Digital Marketing</h2>
-                            <p class="text-xs sm:text-sm text-slate-600">Bacaan praktis seputar Spreadsheet, Funnel, Tracking GA4, hingga strategi optimasi iklan.</p>
+                            <p class="text-xs sm:text-sm text-slate-600">Bacaan praktis seputar Spreadsheet, Looker Studio, Funnel, Tracking GA4, hingga strategi optimasi iklan.</p>
                         </div>
                     </div>
                     <button onclick="requireAdmin(() => openArticleEditorModal())" class="px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-500 text-slate-900 text-xs sm:text-sm font-bold cartoon-btn self-start sm:self-auto flex items-center gap-2">
@@ -447,22 +488,19 @@
                     </button>
                 </div>
 
-                <!-- Search & Category Filter Artikel -->
                 <div class="mt-4 flex flex-col md:flex-row gap-3">
                     <div class="relative flex-1">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-700"></i>
                         <input type="text" id="articleSearchInput" oninput="renderArticles()" 
-                            placeholder="Cari judul atau topik artikel (misal: Spreadsheet, ROAS, Funnel, GA4)..." 
+                            placeholder="Cari judul atau topik artikel (misal: Spreadsheet, Looker Studio, ROAS, Funnel, GA4)..." 
                             class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-amber-300 transition">
                     </div>
                     <div id="articleCategoryPills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
                 </div>
             </div>
 
-            <!-- Grid Daftar Artikel -->
             <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 
-            <!-- Detail Reader Artikel -->
             <div id="articleReaderView" class="hidden bg-paper rounded-2xl cartoon-box overflow-hidden animate-fade-in">
                 <div class="bg-amber-200 border-b-2 border-slate-900 px-5 sm:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
                     <button onclick="closeArticleReader()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-amber-50 text-slate-900 text-xs sm:text-sm font-bold cartoon-btn flex items-center gap-2">
@@ -663,8 +701,9 @@
                     <textarea id="inputArticleSummary" required rows="2" placeholder="Ringkasan 1-2 kalimat yang tampil di kartu artikel..." class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Isi Artikel Lengkap (Mendukung Paragraf & Subjudul) *</label>
-                    <textarea id="inputArticleContent" required rows="8" placeholder="Tulis isi panduan lengkap di sini. Gunakan baris kosong untuk memisahkan paragraf..." class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Isi Artikel Lengkap (Mendukung Teks Biasa & Format Markdown) *</label>
+                    <textarea id="inputArticleContent" required rows="8" placeholder="Tempelkan isi artikel atau Markdown di sini. Otomatis merapikan subjudul (##), daftar poin (-), teks tebal (**teks**), tabel, dan kotak rumus (`kode`)..." class="w-full px-3.5 py-2.5 bg-white border-2 border-slate-900 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+                    <p class="text-[11px] text-slate-600 mt-1">Mendukung tempel langsung dari file Markdown (<code class="bg-amber-100 px-1 rounded">## Judul</code>, <code class="bg-amber-100 px-1 rounded">**tebal**</code>, <code class="bg-amber-100 px-1 rounded">`rumus`</code>, tabel, dan list).</p>
                 </div>
                 <div class="pt-3 border-t-2 border-slate-200 flex items-center justify-end gap-3">
                     <button type="button" onclick="closeArticleEditorModal()" class="px-4 py-2.5 rounded-xl bg-white text-slate-700 text-sm font-bold cartoon-btn">
@@ -1126,7 +1165,7 @@
             { id: 'ss-7', term: 'TRIM & LOWER', fullName: 'Data Cleaning Functions (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Pasangan fungsi pembersih data teks di spreadsheet: TRIM menghapus spasi berlebih yang tidak sengaja terketik di awal/akhir kata, sedangkan LOWER menyeragamkan huruf menjadi huruf kecil semua agar kategori tidak terpecah saat di-Pivot.', formula: '=TRIM(LOWER(B2))', example: 'Menyamakan penulisan "Meta Ads ", "meta ads", dan "META ADS" agar terbaca sebagai satu kategori utuh.' },
             { id: 'ss-8', term: 'Conditional Formatting', fullName: 'Visual Rule Highlighting (Spreadsheet)', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Fitur spreadsheet yang otomatis mewarnai sel atau baris berdasarkan nilai angkanya sehingga kampanye yang menang maupun boncos langsung terlihat sekilas mata.', formula: 'Aturan: Sel ≥ 3.0 (Hijau) | Sel < 1.5 (Merah)', example: 'Mewarnai sel ROAS ≥ 3 dengan latar hijau dan sel ROAS < 1.5 dengan warna merah pada tabel laporan harian.' },
             { id: 'ss-9', term: 'Ads Tracker Table Structure', fullName: 'Struktur Tabel Laporan Kampanye Standar', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Aturan penyusunan tabel database iklan di spreadsheet dengan prinsip "1 Baris = 1 Data Harian per Kampanye" (Date, Channel, Campaign, Spend, Impressions, Clicks, Conversions, Revenue) agar siap diolah ke Pivot Table dan Looker Studio.', formula: 'Input Mentah: Spend, Impr, Clicks, Conv, Rev → Rumus Otomatis: CTR, CPC, CVR, CPA, ROAS', example: 'Menyusun kolom A–H sebagai data mentah platform iklan dan kolom I–M sebagai metrik turunan berumus IFERROR.' },
-            { id: 'ss-10', term: 'Weighted Average Metric (Total CTR / ROAS)', fullName: 'Aturan Perhitungan Baris Total Metrik Rasio', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Prinsip krusial dalam laporan spreadsheet bahwa metrik rasio (CTR, CVR, ROAS, CPA) pada baris Total tidak boleh dihitung dengan =AVERAGE(), melainkan wajib dihitung ulang dari pembagian total pembilang dan penyebutnya.', formula: 'Total ROAS = SUM(Revenue) ÷ SUM(Ad Spend) | Total CTR = SUM(Clicks) ÷ SUM(Impressions)', example: 'Menghindari kesalahan fatal laporan bulanan akibat merata-ratakan persentase harian yang volume kliknya berbeda jauh.' }
+            { id: 'ss-10', term: 'Weighted Average Metric (Total CTR / ROAS)', fullName: 'Aturan Perhitungan Baris Total Metrik Rasio', category: 'Data Analysis & Reporting', module: 'Modul 4 - Data & Reporting', definition: 'Prinsip krucial dalam laporan spreadsheet bahwa metrik rasio (CTR, CVR, ROAS, CPA) pada baris Total tidak boleh dihitung dengan =AVERAGE(), melainkan wajib dihitung ulang dari pembagian total pembilang dan penyebutnya.', formula: 'Total ROAS = SUM(Revenue) ÷ SUM(Ad Spend) | Total CTR = SUM(Clicks) ÷ SUM(Impressions)', example: 'Menghindari kesalahan fatal laporan bulanan akibat merata-ratakan persentase harian yang volume kliknya berbeda jauh.' }
         ];
 
         const DEFAULT_ARTICLES = [
@@ -1157,6 +1196,41 @@
 
 <h4>3. Tips Krusial Baris Total</h4>
 <p>Jangan pernah menghitung rata-rata <strong>CTR</strong>, <strong>CVR</strong>, atau <strong>ROAS</strong> di baris Total menggunakan <code>=AVERAGE()</code>! Selalu hitung ulang dari pembagian totalnya: <code>Total ROAS = SUM(Revenue) / SUM(Ad Spend)</code> dan <code>Total CTR = SUM(Clicks) / SUM(Impressions)</code>.</p>`
+            },
+            {
+                id: 'art-5',
+                title: 'Panduan Lengkap Google Data Studio (Looker Studio) di Digital Marketing',
+                category: 'Spreadsheet & Data',
+                readTime: '6 menit baca',
+                summary: 'Ubah ribuan baris data mentah dari GA4, Google Ads, dan Google Sheets menjadi dashboard laporan interaktif otomatis dengan rumus Calculated Field.',
+                content: `<h4>1. Mengapa Digital Marketer Wajib Menguasai Looker Studio?</h4>
+<ol>
+<li><strong>Menggabungkan Semua Channel dalam Satu Layar:</strong> Tidak perlu lagi membuka 5 tab berbeda (GA4, Google Ads, Meta Ads, TikTok Ads, Search Console) setiap pagi—semuanya tampil terpusat dalam satu link dashboard.</li>
+<li><strong>Otomatisasi Laporan (Automated Reporting):</strong> Begitu dashboard selesai dibuat dan dihubungkan ke sumber data (Data Source), angka dan grafik akan diperbarui secara otomatis setiap hari tanpa copy-paste manual.</li>
+<li><strong>Interaktif untuk Klien & Atasan:</strong> Pembaca laporan bisa langsung memfilter data berdasarkan rentang tanggal (Date Range Control), platform iklan, atau nama kampanye hanya dengan satu klik.</li>
+</ol>
+
+<h4>2. Jenis Konektor Sumber Data (Data Connectors)</h4>
+<ul>
+<li><strong>Google Connectors (Gratis):</strong> Google Analytics 4 (GA4), Google Ads, Google Search Console (GSC), YouTube Analytics, dan <strong>Google Sheets</strong> (sebagai jembatan data Meta Ads, TikTok Ads, atau omzet kasir).</li>
+<li><strong>Partner / 3rd-Party Connectors (Berbayar):</strong> Supermetrics, Porter Metrics, Windsor.ai, atau Funnel.io untuk menarik data langsung dari Meta Ads dan TikTok Ads secara otomatis.</li>
+</ul>
+
+<h4>3. Rumus Calculated Field yang Wajib Dibuat di Looker Studio</h4>
+<p>Gunakan menu <strong>Add a Field</strong> lalu masukkan rumus berikut:</p>
+<table>
+<thead><tr><th>Nama Metrik</th><th>Rumus Calculated Field</th><th>Format Tampilan</th></tr></thead>
+<tbody>
+<tr><td><strong>CTR</strong></td><td><code>SUM(Clicks) / SUM(Impressions)</code></td><td>Percent (0.00%)</td></tr>
+<tr><td><strong>CPC</strong></td><td><code>SUM(Ad Spend) / SUM(Clicks)</code></td><td>Currency (IDR)</td></tr>
+<tr><td><strong>CPM</strong></td><td><code>(SUM(Ad Spend) / SUM(Impressions)) * 1000</code></td><td>Currency (IDR)</td></tr>
+<tr><td><strong>CVR</strong></td><td><code>SUM(Conversions) / SUM(Clicks)</code></td><td>Percent (0.00%)</td></tr>
+<tr><td><strong>CPA / CPO</strong></td><td><code>SUM(Ad Spend) / SUM(Conversions)</code></td><td>Currency (IDR)</td></tr>
+<tr><td><strong>ROAS</strong></td><td><code>SUM(Revenue) / SUM(Ad Spend)</code></td><td>Number (0.00)</td></tr>
+<tr><td><strong>AOV</strong></td><td><code>SUM(Revenue) / SUM(Orders)</code></td><td>Currency (IDR)</td></tr>
+</tbody>
+</table>
+<blockquote><strong>Penting:</strong> Selalu gunakan fungsi agregasi <code>SUM(...)</code> di dalam rumus Calculated Field (contoh: <code>SUM(Revenue) / SUM(Ad Spend)</code>). Jika ditulis tanpa <code>SUM</code>, Looker Studio akan menghitung rasio per baris terlebih dahulu lalu menjumlahkannya sehingga hasilnya salah besar!</blockquote>`
             },
             {
                 id: 'art-2',
@@ -1220,7 +1294,7 @@
         const DEFAULT_ADMIN_PIN = '05050201';
 
         const STORAGE_KEY = 'kamus_digital_marketing_data_v2_revou';
-        const ARTICLES_STORAGE_KEY = 'kamus_dm_articles_v1';
+        const ARTICLES_STORAGE_KEY = 'kamus_dm_articles_v2';
         const CONFIG_KEY = 'kamus_dm_cloud_config_v1';
         const ADMIN_SESSION_KEY = 'kamus_dm_admin_unlocked';
 
@@ -1841,10 +1915,17 @@
                 document.getElementById('inputArticleCategory').value = art.category;
                 document.getElementById('inputArticleReadTime').value = art.readTime || '5 menit baca';
                 document.getElementById('inputArticleSummary').value = art.summary;
-                // Convert simple HTML tags back to plain lines for easy editing
                 const plainText = art.content
                     .replace(/<h4>/g, '\n## ')
                     .replace(/<\/h4>/g, '\n')
+                    .replace(/<h5>/g, '\n### ')
+                    .replace(/<\/h5>/g, '\n')
+                    .replace(/<pre>/g, '\n```\n')
+                    .replace(/<\/pre>/g, '\n```\n')
+                    .replace(/<code>/g, '`')
+                    .replace(/<\/code>/g, '`')
+                    .replace(/<strong>/g, '**')
+                    .replace(/<\/strong>/g, '**')
                     .replace(/<p>/g, '')
                     .replace(/<\/p>/g, '\n\n')
                     .replace(/<li>/g, '- ')
@@ -1868,28 +1949,115 @@
             document.getElementById('articleModal').classList.add('hidden');
         }
 
+        function formatInlineMarkdown(rawStr) {
+            let s = escapeHTML(rawStr);
+            s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+            s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            return s;
+        }
+
         function formatPlainTextToArticleHTML(rawText) {
             const lines = rawText.split('\n');
             let html = '';
             let inList = false;
-            for (let line of lines) {
-                const trimmed = line.trim();
-                if (!trimmed) {
-                    if (inList) { html += '</ul>'; inList = false; }
+            let inOrderedList = false;
+            let inCodeBlock = false;
+            let codeBuffer = [];
+            let inTable = false;
+            let tableRows = [];
+
+            function closeLists() {
+                if (inList) { html += '</ul>'; inList = false; }
+                if (inOrderedList) { html += '</ol>'; inOrderedList = false; }
+            }
+
+            function flushTable() {
+                if (!inTable || tableRows.length === 0) return;
+                let tHtml = '<div class="overflow-x-auto"><table>';
+                tableRows.forEach((rowCells, rIdx) => {
+                    if (rIdx === 0) {
+                        tHtml += '<thead><tr>' + rowCells.map(c => `<th>${formatInlineMarkdown(c)}</th>`).join('') + '</tr></thead><tbody>';
+                    } else {
+                        tHtml += '<tr>' + rowCells.map(c => `<td>${formatInlineMarkdown(c)}</td>`).join('') + '</tr>';
+                    }
+                });
+                tHtml += '</tbody></table></div>';
+                html += tHtml;
+                inTable = false;
+                tableRows = [];
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                const rawLine = lines[i];
+                const trimmed = rawLine.trim();
+
+                if (trimmed.startsWith('```')) {
+                    closeLists();
+                    flushTable();
+                    if (!inCodeBlock) {
+                        inCodeBlock = true;
+                        codeBuffer = [];
+                    } else {
+                        html += `<pre>${escapeHTML(codeBuffer.join('\n'))}</pre>`;
+                        inCodeBlock = false;
+                    }
                     continue;
                 }
-                if (trimmed.startsWith('## ')) {
-                    if (inList) { html += '</ul>'; inList = false; }
-                    html += `<h4>${escapeHTML(trimmed.replace(/^##\s+/, ''))}</h4>`;
-                } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+
+                if (inCodeBlock) {
+                    codeBuffer.push(rawLine);
+                    continue;
+                }
+
+                if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+                    closeLists();
+                    const cells = trimmed.slice(1, -1).split('|').map(c => c.trim());
+                    const isSeparator = cells.every(c => /^[-:\s]+$/.test(c));
+                    if (!isSeparator) {
+                        inTable = true;
+                        tableRows.push(cells);
+                    }
+                    continue;
+                } else if (inTable) {
+                    flushTable();
+                }
+
+                if (!trimmed) {
+                    closeLists();
+                    continue;
+                }
+
+                if (trimmed.startsWith('# ')) {
+                    continue;
+                } else if (trimmed.startsWith('## ')) {
+                    closeLists();
+                    html += `<h4>${formatInlineMarkdown(trimmed.replace(/^##\s+/, ''))}</h4>`;
+                } else if (trimmed.startsWith('### ')) {
+                    closeLists();
+                    html += `<h5>${formatInlineMarkdown(trimmed.replace(/^###\s+/, ''))}</h5>`;
+                } else if (trimmed.startsWith('> ')) {
+                    closeLists();
+                    html += `<blockquote>${formatInlineMarkdown(trimmed.replace(/^>\s+/, ''))}</blockquote>`;
+                } else if (/^[-*]\s+/.test(trimmed)) {
+                    if (inOrderedList) { html += '</ol>'; inOrderedList = false; }
                     if (!inList) { html += '<ul>'; inList = true; }
-                    html += `<li>${escapeHTML(trimmed.replace(/^[-*]\s+/, ''))}</li>`;
-                } else {
+                    html += `<li>${formatInlineMarkdown(trimmed.replace(/^[-*]\s+/, ''))}</li>`;
+                } else if (/^\d+\.\s+/.test(trimmed)) {
                     if (inList) { html += '</ul>'; inList = false; }
-                    html += `<p>${escapeHTML(trimmed)}</p>`;
+                    if (!inOrderedList) { html += '<ol>'; inOrderedList = true; }
+                    html += `<li>${formatInlineMarkdown(trimmed.replace(/^\d+\.\s+/, ''))}</li>`;
+                } else {
+                    closeLists();
+                    html += `<p>${formatInlineMarkdown(trimmed)}</p>`;
                 }
             }
-            if (inList) html += '</ul>';
+
+            if (inCodeBlock && codeBuffer.length > 0) {
+                html += `<pre>${escapeHTML(codeBuffer.join('\n'))}</pre>`;
+            }
+            closeLists();
+            flushTable();
             return html;
         }
 
